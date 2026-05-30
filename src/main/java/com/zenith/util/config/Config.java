@@ -41,7 +41,7 @@ public final class Config {
         public String email = "not@set.com";
         public String password = "abc123";
         // updated on successful login
-        public String username = "Unknown";
+        public static String username = "Unknown";
         public boolean prio = false;
         public boolean authTokenRefresh = true;
         public int msaLoginAttemptsBeforeCacheWipe = 2;

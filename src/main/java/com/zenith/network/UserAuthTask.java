@@ -28,6 +28,10 @@ public class UserAuthTask implements Runnable {
         if (CONFIG.authentication.accountType == Config.Authentication.AccountType.OFFLINE) {
             UUID offlineUUID = Config.Authentication.generateOfflineUUID(session.getUsername());
             String displayName = session.getUsername();
+            if (displayName!=Config.Authentication.username) {
+                this.session.disconnect("Failed to verify username.");
+                return;
+            }
             profile = new GameProfile(offlineUUID, displayName);
             System.out.println("[ZenithProxy] 離線模式登入成功 - Username: " + displayName + " | UUID: " + offlineUUID);
         } 
