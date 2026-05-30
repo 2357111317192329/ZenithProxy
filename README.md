@@ -114,7 +114,7 @@ Most useful gradle tasks:
 * `nativeCompile` - Builds a GraalVM native image to `build/native/nativeCompile/ZenithProxy` (requires GraalVM JDK)
 
 # Special Thanks
-
+* [aquariusnetwork9](https://github.com/aquariusnetwork9/ZenithProxy)    (離線模式登入的代碼大部分是基於此人的fork)
 * [odpay](https://github.com/odpay/)
 * [DaPorkchop_'s Pork2b2tBot](https://github.com/PorkStudios/Pork2b2tBot)
 * [MCProtocolLib](https://github.com/GeyserMC/MCProtocolLib)
