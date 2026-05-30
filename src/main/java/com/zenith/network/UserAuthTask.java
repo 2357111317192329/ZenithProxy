@@ -25,16 +25,21 @@ public class UserAuthTask implements Runnable {
     @Override
     public void run() {
         GameProfile profile;
+        String expectedUsername = CONFIG.authentication.username;
         if (CONFIG.authentication.accountType == Config.Authentication.AccountType.OFFLINE) {
-            UUID offlineUUID = Config.Authentication.generateOfflineUUID(session.getUsername());
-            String displayName = session.getUsername();
-            if (displayName!=Config.Authentication.username) {
+            if (!session.getUsername().equals(expectedUsername)) {
                 this.session.disconnect("Failed to verify username.");
+                System.out.println("[ZenithProxy] 登入失敗：名稱不匹配！預期: " + expectedUsername + "，收到: " + session.getUsername());
                 return;
             }
+
+            UUID offlineUUID = Config.Authentication.generateOfflineUUID(session.getUsername());
+            String displayName = session.getUsername();
+
             profile = new GameProfile(offlineUUID, displayName);
-            System.out.println("[ZenithProxy] 離線模式登入成功 - Username: " + displayName + " | UUID: " + offlineUUID);
-        } 
+
+            System.out.println("[ZenithProxy] 離線模式登入成功 - Username: " + displayName);
+        }  
         else if (this.key != null) {
             final Optional<GameProfile> response = SessionServerApi.INSTANCE.hasJoined(
                 session.getUsername(),
