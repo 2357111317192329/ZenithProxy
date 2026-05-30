@@ -14,6 +14,7 @@ public class ModuleManager {
     private final Reference2ObjectMap<Class<? extends Module>, Module> moduleClassMap = new Reference2ObjectOpenHashMap<>();
 
     public void init() {
+        //MODULE_LOG.info("init Modules");
         asList(
             new ActionLimiter(),
             new ActiveHours(),
@@ -39,6 +40,7 @@ public class ModuleManager {
             new QueueWarning(),
             new ReplayMod(),
             new Requeue(),
+            new ServerLogin(),
             new SessionTimeLimit(),
             new Spammer(),
             new Spook(),
@@ -64,6 +66,7 @@ public class ModuleManager {
     }
 
     public void registerModule(Module module) {
+        //MODULE_LOG.info("module class registered: {}", module.getClass().getSimpleName());
         if (moduleClassMap.containsKey(module.getClass())) {
             MODULE_LOG.warn("Duplicate module class being registered: {}", module.getClass().getSimpleName(), new RuntimeException());
         }

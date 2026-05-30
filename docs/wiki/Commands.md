@@ -188,6 +188,20 @@ If authentication fails, try logging into the account on the vanilla MC launcher
 
 If this still fails, try one of the alternate auth types.
 
+
+
+For cracked/offline servers (like 3C3U):
+
+1. `auth type offline`
+
+2. `auth username YourBotName`
+
+3. `auth serverPassword YourPassword`
+
+4. `auth serverLoginRequired on`
+
+Then use `connect` to join.
+
 **Usage**
 
   ```auth clear```
@@ -196,11 +210,17 @@ If this still fails, try one of the alternate auth types.
 
   ```auth alwaysRefreshOnLogin on/off```
 
-  ```auth type <deviceCode/emailAndPassword/prism>```
+  ```auth type <deviceCode/emailAndPassword/prism/offline>```
 
   ```auth email <email>```
 
   ```auth password <password>```
+
+  ```auth username <name>```
+
+  ```auth serverPassword <password>```
+
+  ```auth serverLoginRequired on/off```
 
   ```auth mention on/off```
 

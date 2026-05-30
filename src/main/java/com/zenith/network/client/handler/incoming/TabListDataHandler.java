@@ -5,6 +5,7 @@ import com.zenith.event.client.ClientOnlineEvent;
 import com.zenith.event.client.PrioStatusEvent;
 import com.zenith.event.queue.QueueCompleteEvent;
 import com.zenith.event.queue.QueueStartEvent;
+import com.zenith.module.impl.ServerLogin;
 import com.zenith.network.client.ClientSession;
 import com.zenith.network.codec.ClientEventLoopPacketHandler;
 import com.zenith.util.ComponentSerializer;
@@ -36,9 +37,11 @@ public class TabListDataHandler implements ClientEventLoopPacketHandler<Clientbo
 //                parse2bPing(packet, session);
             }
         } else {
-            if (!session.isOnline()) {
-                session.setOnline(true);
-                EVENT_BUS.post(new ClientOnlineEvent());
+            if (!ServerLogin.staticenabledSetting() || ServerLogin.isAuthComplete()) {
+                if (!session.isOnline()) {
+                    session.setOnline(true);
+                    EVENT_BUS.post(new ClientOnlineEvent());
+                }
             }
         }
         return true;

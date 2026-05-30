@@ -4,6 +4,7 @@ import com.zenith.Proxy;
 import com.zenith.cache.CacheResetType;
 import com.zenith.event.client.ClientOnlineEvent;
 import com.zenith.network.client.ClientSession;
+import com.zenith.module.impl.ServerLogin;
 import com.zenith.network.codec.PacketHandler;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundLoginPacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.serverbound.ServerboundChatSessionUpdatePacket;
@@ -73,9 +74,11 @@ public class LoginHandler implements PacketHandler<ClientboundLoginPacket, Clien
         }
 
         if (!Proxy.getInstance().isOn2b2t()) {
-            if (!session.isOnline()) {
-                session.setOnline(true);
-                EVENT_BUS.post(new ClientOnlineEvent());
+            if (!ServerLogin.staticenabledSetting() || ServerLogin.isAuthComplete()) {
+                if (!session.isOnline()) {
+                    session.setOnline(true);
+                    EVENT_BUS.post(new ClientOnlineEvent());
+                }
             }
         }
         return packet;

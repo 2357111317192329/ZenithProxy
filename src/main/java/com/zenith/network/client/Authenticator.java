@@ -3,6 +3,7 @@ package com.zenith.network.client;
 import com.google.gson.JsonObject;
 import com.zenith.event.client.MsaDeviceCodeLoginEvent;
 import com.zenith.util.WebBrowserHelper;
+import com.zenith.util.config.Config;
 import lombok.Getter;
 import lombok.Locked;
 import lombok.SneakyThrows;
@@ -33,7 +34,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-
 import static com.zenith.Globals.*;
 import static com.zenith.util.config.Config.Authentication.AccountType.OFFLINE;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -57,8 +57,8 @@ public class Authenticator {
 
     public MinecraftProtocol login()  {
         if (CONFIG.authentication.accountType == OFFLINE) {
-            AUTH_LOG.warn("Using offline account: '{}'. Offline accounts will not receive user support.", CONFIG.authentication.username);
-            return createMinecraftProtocol(new MinecraftProfile(UUID.randomUUID(), CONFIG.authentication.username), null, null);
+        AUTH_LOG.warn("Using offline account '{}' with UUID '{}' . Offline accounts will not receive user support.", CONFIG.authentication.username,CONFIG.authentication.generateOfflineUUID(CONFIG.authentication.username).toString());
+            return createMinecraftProtocol(new MinecraftProfile(CONFIG.authentication.generateOfflineUUID(CONFIG.authentication.username), CONFIG.authentication.username), null, null);
         }
         var authSession = loadAuthCache()
             // todo: validate JavaAuthManager from cache matches configured auth type?

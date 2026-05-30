@@ -38,7 +38,7 @@ public class SystemChatHandler implements ClientEventLoopPacketHandler<Clientbou
             logSystemChat(packet);
             final Component component = packet.getContent();
             String messageString = ComponentSerializer.serializePlain(component);
-
+            //CHAT_LOG.info("messageString="+messageString);
             if (Proxy.getInstance().isOn2b2t()) {
                 if ("Reconnecting to server 2b2t.".equals(messageString)
                     && NamedTextColor.GOLD.equals(component.style().color())) {
@@ -52,12 +52,15 @@ public class SystemChatHandler implements ClientEventLoopPacketHandler<Clientbou
                 }
             }
             var chatParseResult = ChatSchemaParser.parse(messageString);
+            //CHAT_LOG.info("chatParseResult ="+chatParseResult.toString());
             if (chatParseResult != null) {
                 switch (chatParseResult.type()) {
                     case PUBLIC_CHAT -> {
+                        //CHAT_LOG.info("PUBLIC_CHAT get ="+component.toString()+" , "+messageString);
                         EVENT_BUS.postAsync(new PublicChatEvent(chatParseResult.sender(), component, chatParseResult.messageContent()));
                     }
                     case WHISPER_INBOUND -> {
+                        //CHAT_LOG.info("WHISPER_INBOUND get ="+component.toString()+" , "+messageString);
                         EVENT_BUS.postAsync(new WhisperChatEvent(
                             false,
                             chatParseResult.sender(),
@@ -67,6 +70,7 @@ public class SystemChatHandler implements ClientEventLoopPacketHandler<Clientbou
                         ));
                     }
                     case WHISPER_OUTBOUND -> {
+                        //CHAT_LOG.info("WHISPER_OUTBOUND get ="+component.toString()+" , "+messageString);
                         EVENT_BUS.postAsync(new WhisperChatEvent(
                             true,
                             chatParseResult.sender(),
@@ -75,10 +79,15 @@ public class SystemChatHandler implements ClientEventLoopPacketHandler<Clientbou
                             chatParseResult.messageContent()
                         ));
                     }
+                    default -> {
+                        //CHAT_LOG.info("SystemChat get ="+component.toString()+" , "+messageString);
+                        EVENT_BUS.postAsync(new SystemChatEvent(component, messageString));
+                    }
                 }
-            } else {
+            }else{
+                //CHAT_LOG.info("SystemChat get ="+component.toString()+" , "+messageString);
                 EVENT_BUS.postAsync(new SystemChatEvent(component, messageString));
-            }
+            } 
         } catch (final Exception e) {
             CLIENT_LOG.error("Caught exception in ChatHandler. Packet: {}", packet, e);
         }

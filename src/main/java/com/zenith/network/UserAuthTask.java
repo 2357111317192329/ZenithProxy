@@ -5,6 +5,7 @@ import com.zenith.network.server.ServerSession;
 import org.geysermc.mcprotocollib.auth.GameProfile;
 import org.geysermc.mcprotocollib.protocol.packet.login.clientbound.ClientboundLoginCompressionPacket;
 import org.geysermc.mcprotocollib.protocol.packet.login.clientbound.ClientboundLoginFinishedPacket;
+import com.zenith.util.config.Config;
 
 import javax.crypto.SecretKey;
 import java.util.Optional;
@@ -24,7 +25,13 @@ public class UserAuthTask implements Runnable {
     @Override
     public void run() {
         GameProfile profile;
-        if (this.key != null) {
+        if (CONFIG.authentication.accountType == Config.Authentication.AccountType.OFFLINE) {
+            UUID offlineUUID = Config.Authentication.generateOfflineUUID(session.getUsername());
+            String displayName = session.getUsername();
+            profile = new GameProfile(offlineUUID, displayName);
+            System.out.println("[ZenithProxy] 離線模式登入成功 - Username: " + displayName + " | UUID: " + offlineUUID);
+        } 
+        else if (this.key != null) {
             final Optional<GameProfile> response = SessionServerApi.INSTANCE.hasJoined(
                 session.getUsername(),
                 SessionServerApi.INSTANCE.getSharedSecret(
@@ -36,18 +43,19 @@ public class UserAuthTask implements Runnable {
                 return;
             }
             profile = response.get();
-        } else {
+        } 
+        else {
             if (CONFIG.server.verifyUsers) {
                 this.session.disconnect("No encryption key!");
                 return;
             }
-            // blindly trusting the player's requested UUID if present
+
             final var uuid = session.getLoginProfileUUID() == session.getDefaultUUID()
                 ? UUID.nameUUIDFromBytes(("OfflinePlayer:" + session.getUsername()).getBytes())
                 : session.getLoginProfileUUID();
+
             profile = new GameProfile(uuid, session.getUsername());
         }
-
         session.getProfileCache().setProfile(profile);
 
         final var threshold = CONFIG.server.compressionThreshold;
