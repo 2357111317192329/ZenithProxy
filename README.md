@@ -70,9 +70,9 @@ https://wiki.2b2t.vc/Setup/
 ## 離線模式使用
 auth type offline  (使用離線模式，正常模式為deviceCode)
 
-auth username <username>    (玩家名稱，需注意此指令也會更改正常模式的玩家名稱)
+auth username \<username\>    (玩家名稱，需注意此指令也會更改正常模式的玩家名稱)
 
-auth serverPassword <password>   (離線模式所用的密碼，會在進服後自動使用/login <password> 來登入)
+auth serverPassword \<password\>   (離線模式所用的密碼，會在進服後自動使用/login <password> 來登入)
 
 auth serverLoginRequired on   (離線模式需要開啟這個，但正常模式時可以保持這個為on沒關係，程式會自己限制只在離線模式時啟用)
 
