@@ -82,6 +82,8 @@ autoUpdate off    (關閉自動更新以避免ZenithProxy.jar被覆蓋)
 
 autoUpdate launcher off    (關閉自動更新以避免ZenithProxy.jar被覆蓋)
 
+clientConnection hideusername on    (開啟後服務器說明欄將不顯示使用者名稱，預設就是on，但若發現被設為off的話可用這條指令重新開啟)
+
 另外需自行注意公網ip和防火牆的問題，如果本地ip和公網ip不同，則需要設置端口轉發才能使他人連線(如果只是自己用則用localhost連線即可)。
 
 # Features
