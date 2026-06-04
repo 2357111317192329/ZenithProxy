@@ -3,6 +3,7 @@ package com.zenith.network.server;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.zenith.Proxy;
+import com.zenith.util.config.Config;
 import com.zenith.event.client.ClientConnectEvent;
 import com.zenith.event.client.ClientDisconnectEvent;
 import com.zenith.event.client.ClientOnlineEvent;
@@ -29,6 +30,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.github.rfresh2.EventConsumer.of;
 import static com.zenith.Globals.*;
+import static com.zenith.Globals.CONFIG;
 
 public class ZenithServerInfoBuilder {
     public static final ZenithServerInfoBuilder INSTANCE = new ZenithServerInfoBuilder();
@@ -158,9 +160,10 @@ public class ZenithServerInfoBuilder {
         var prio = Proxy.getInstance().isPrio();
         var qPos = Proxy.getInstance().getQueuePosition();
         var qUndefined = qPos == Integer.MAX_VALUE;
+        boolean hideusername = CONFIG.client.hideusername;
         return ComponentSerializer.minimessage(
             motdMM,
-            Placeholder.unparsed("username", CONFIG.authentication.username),
+            Placeholder.parsed("username", hideusername ? "Someone" : CONFIG.authentication.username),
             Placeholder.parsed("motd_body", Proxy.getInstance().isConnected() ? motdConnectedBody : motdDisconnectedBody),
             Placeholder.parsed("motd_status", Proxy.getInstance().isInQueue() ? motdStatusInQueue : motdStatusInGame),
             Placeholder.unparsed("online_time", Proxy.getInstance().getOnlineTimeString()),

@@ -368,6 +368,8 @@ Manages the connection configuration from ZenithProxy to the destination MC serv
 
   ```clientConnection autoConnect on/off```
 
+  ```clientConnection hideusername on/off```
+
   ```clientConnection proxy on/off```
 
   ```clientConnection proxy type <type>```

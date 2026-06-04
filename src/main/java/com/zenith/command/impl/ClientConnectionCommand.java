@@ -33,6 +33,7 @@ public class ClientConnectionCommand extends Command {
             """)
             .usageLines(
                 "autoConnect on/off",
+                "hideusername on/off",
                 "proxy on/off",
                 "proxy type <type>",
                 "proxy host <host>",
@@ -58,6 +59,13 @@ public class ClientConnectionCommand extends Command {
                     CONFIG.client.autoConnect = getToggle(c, "toggle");
                     c.getSource().getEmbed()
                         .title("Auto Connect " + toggleStrCaps(CONFIG.client.autoConnect));
+                    return OK;
+                })))
+            .then(literal("hideusername")
+                .then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.hideusername = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("Hide Username " + toggleStrCaps(CONFIG.client.hideusername));
                     return OK;
                 })))
             .then(literal("proxy")
@@ -184,6 +192,7 @@ public class ClientConnectionCommand extends Command {
         embed
             .primaryColor()
             .addField("Auto Connect", toggleStr(CONFIG.client.autoConnect))
+            .addField("Hide Username", toggleStr(CONFIG.client.hideusername))
             .addField("Proxy", toggleStr(CONFIG.client.connectionProxy.enabled))
             .addField("Proxy Type", CONFIG.client.connectionProxy.type.toString())
             .addField("Proxy Host", CONFIG.client.connectionProxy.host)

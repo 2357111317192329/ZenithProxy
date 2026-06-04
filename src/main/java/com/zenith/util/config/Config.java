@@ -108,6 +108,7 @@ public final class Config {
         public final ClientViaVersion viaversion = new ClientViaVersion();
         public String bindAddress = "0.0.0.0";
         public boolean maxPlaytimeReconnect = false;
+        public boolean hideusername = true;
         public long maxPlaytimeReconnectMins = 1440;
         public int defaultClientRenderDistance = 25;
         public final ClientTimeout timeout = new ClientTimeout();
