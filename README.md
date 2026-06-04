@@ -78,6 +78,10 @@ auth serverLoginRequired on   (離線模式需要開啟這個，但正常模式�
 
 unsupported whitelist off     (必須將白名單模式關閉才能使客戶端能夠正常接管)
 
+autoUpdate off    (關閉自動更新以避免ZenithProxy.jar被覆蓋)
+
+autoUpdate launcher off    (關閉自動更新以避免ZenithProxy.jar被覆蓋)
+
 另外需自行注意公網ip和防火牆的問題，如果本地ip和公網ip不同，則需要設置端口轉發才能使他人連線(如果只是自己用則用localhost連線即可)。
 
 # Features
