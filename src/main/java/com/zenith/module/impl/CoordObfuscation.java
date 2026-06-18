@@ -277,7 +277,7 @@ public class CoordObfuscation extends Module {
                     return;
                 }
                 if (client.isInQueue() || !client.isOnline()) {
-                    disconnect(session, "Queueing");
+                    //disconnect(session, "Queueing");
                     return;
                 }
                 if (CACHE.getPlayerCache().isRespawning()) {

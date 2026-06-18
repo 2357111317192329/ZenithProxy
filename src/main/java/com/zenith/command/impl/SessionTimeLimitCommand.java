@@ -30,6 +30,7 @@ public class SessionTimeLimitCommand extends Command {
             .usageLines(
                 "on/off",
                 "refresh",
+                "dynamic2b2tSessionTimeLimit on/off",
                 "ingame list",
                 "ingame add <minutes>",
                 "ingame del <minutes>",
@@ -59,6 +60,13 @@ public class SessionTimeLimitCommand extends Command {
                     .title("Session Time Limit Refreshed");
                 return OK;
             }))
+            .then(literal("dynamic2b2tSessionTimeLimit")
+                      .then(argument("toggle", toggle()).executes(c -> {
+                          CONFIG.client.extra.sessionTimeLimit.dynamic2b2tSessionTimeLimit = getToggle(c, "toggle");
+                          c.getSource().getEmbed()
+                              .title("dynamic2b2tSessionTimeLimit " + toggleStrCaps(CONFIG.client.extra.sessionTimeLimit.dynamic2b2tSessionTimeLimit));
+                          return OK;
+                      })))
             .then(literal("ingame")
                 .then(literal("list").executes(c -> {
                     c.getSource().getEmbed()
@@ -121,6 +129,7 @@ public class SessionTimeLimitCommand extends Command {
     public void defaultEmbed(Embed embed) {
         embed
             .addField("Session Time Limit", toggleStr(CONFIG.client.extra.sessionTimeLimit.enabled))
+            .addField("dynamic2b2tSessionTimeLimit", toggleStr(CONFIG.client.extra.sessionTimeLimit.dynamic2b2tSessionTimeLimit))
             .addField("Limit", formatDuration(MODULE.get(SessionTimeLimit.class).getSessionTimeLimit()))
             .addField("In Game Notifications",
                 CONFIG.client.extra.sessionTimeLimit.ingameNotificationPositions.isEmpty()

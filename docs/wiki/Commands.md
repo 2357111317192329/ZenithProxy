@@ -2185,6 +2185,8 @@ Sends an in-game warning before you are kicked for reaching the 2b2t session tim
 
   ```sessionTimeLimit refresh```
 
+  ```sessionTimeLimit dynamic2b2tSessionTimeLimit on/off```
+
   ```sessionTimeLimit ingame list```
 
   ```sessionTimeLimit ingame add <minutes>```

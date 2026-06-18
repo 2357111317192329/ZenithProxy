@@ -216,6 +216,7 @@ public class ClientSession extends TcpClientSession {
         setDisconnected(true);
         String reasonStr;
         try {
+            //reasonStr =reason.toString();
             reasonStr = ComponentSerializer.serializePlain(reason);
         } catch (final Exception e) {
             CLIENT_LOG.warn("Unable to parse disconnect reason: {}", reason, e);
