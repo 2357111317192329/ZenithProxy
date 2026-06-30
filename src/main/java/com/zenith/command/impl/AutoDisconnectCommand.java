@@ -33,6 +33,7 @@ public class AutoDisconnectCommand extends Command {
               * Thunder: Disconnects during thunderstorms (i.e. avoid lightning burning down bases)
               * Unknown Player: Disconnects when a player not on the friends list, whitelist, or spectator whitelist is in visual range
               * TotemPop: Disconnects when your totem is popped
+              * LowY: Disconnects when your Y coordinate is at or below a configured threshold
             Multiple modes can be enabled, they are non-exclusive
             
             Settings non-exclusive to modes:
@@ -48,6 +49,9 @@ public class AutoDisconnectCommand extends Command {
                 "unknownPlayer on/off",
                 "totemPop on/off",
                 "totemPop minTotemsRemaining <count>",
+                "lowY on/off",
+                "lowY threshold <y>",
+                "lowY endOnly on/off",
                 "whilePlayerConnected on/off",
                 "autoClientDisconnect on/off",
                 "cancelAutoReconnect on/off"
@@ -118,6 +122,22 @@ public class AutoDisconnectCommand extends Command {
                     CONFIG.client.extra.utility.actions.autoDisconnect.minTotemsRemaining = getInteger(c, "count");
                     c.getSource().getEmbed()
                         .title("Min Totems Remaining Set");
+                }))))
+            .then(literal("lowY")
+                .then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("AutoDisconnect Low Y " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect));
+                }))
+                .then(literal("threshold").then(argument("y", integer()).executes(c -> {
+                    CONFIG.client.extra.utility.actions.autoDisconnect.lowYThreshold = getInteger(c, "y");
+                    c.getSource().getEmbed()
+                        .title("AutoDisconnect Low Y Threshold Updated!");
+                })))
+                .then(literal("endOnly").then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.extra.utility.actions.autoDisconnect.lowYEndOnly = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("AutoDisconnect Low Y End Only " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.lowYEndOnly));
                 }))));
     }
 
@@ -131,6 +151,9 @@ public class AutoDisconnectCommand extends Command {
             .addField("Unknown Player", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange))
             .addField("Totem Pop", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.onTotemPop))
             .addField("Min Totems Remaining", CONFIG.client.extra.utility.actions.autoDisconnect.minTotemsRemaining)
+            .addField("Low Y", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect))
+            .addField("Low Y Threshold", CONFIG.client.extra.utility.actions.autoDisconnect.lowYThreshold)
+            .addField("Low Y End Only", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.lowYEndOnly))
             .addField("While Player Connected", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.whilePlayerConnected))
             .addField("Auto Client Disconnect", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.autoClientDisconnect))
             .addField("Cancel AutoReconnect", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.cancelAutoReconnect))

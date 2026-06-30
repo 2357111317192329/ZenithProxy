@@ -3,8 +3,11 @@ package com.zenith.module.impl;
 import com.github.rfresh2.EventConsumer;
 import com.zenith.Proxy;
 import com.zenith.cache.data.inventory.Container;
+import com.zenith.event.client.ClientTickEvent;
 import com.zenith.event.module.*;
 import com.zenith.event.player.PlayerDisconnectedEvent;
+import com.zenith.feature.player.World;
+import com.zenith.mc.dimension.DimensionRegistry;
 import com.zenith.mc.item.ItemRegistry;
 import com.zenith.module.api.Module;
 import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
@@ -29,7 +32,8 @@ public class AutoDisconnect extends Module {
             of(WeatherChangeEvent.class, this::handleWeatherChangeEvent),
             of(PlayerDisconnectedEvent.class, this::handleProxyClientDisconnectedEvent),
             of(ServerPlayerInVisualRangeEvent.class, this::handleNewPlayerInVisualRangeEvent),
-            of(TotemPopEvent.class, this::handleTotemPopEvent)
+            of(TotemPopEvent.class, this::handleTotemPopEvent),
+            of(ClientTickEvent.class, this::handleClientTickEvent)
         );
     }
 
@@ -90,6 +94,21 @@ public class AutoDisconnect extends Module {
                     doDisconnect("Totem Pop - " + totemCount + " remaining");
                 }
             }, 1, TimeUnit.SECONDS);
+        }
+    }
+
+    private void handleClientTickEvent(ClientTickEvent event) {
+        if (!CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect) return;
+        if (CONFIG.client.extra.utility.actions.autoDisconnect.lowYEndOnly
+            && World.getCurrentDimension() != DimensionRegistry.THE_END.get()) return;
+        var playerCache = CACHE.getPlayerCache();
+        var x = playerCache.getX();
+        var y = playerCache.getY();
+        var z = playerCache.getZ();
+        if (x == 0.0d && y == 0.0d && z == 0.0d) return;
+        if (y <= CONFIG.client.extra.utility.actions.autoDisconnect.lowYThreshold && playerConnectedCheck()) {
+            info("Low Y disconnect: {} <= {}", y, CONFIG.client.extra.utility.actions.autoDisconnect.lowYThreshold);
+            doDisconnect("Low Y: " + y + " <= " + CONFIG.client.extra.utility.actions.autoDisconnect.lowYThreshold);
         }
     }
 

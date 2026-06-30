@@ -584,6 +584,9 @@ public final class Config {
                     public boolean mentionOnDisconnect = false;
                     public boolean onTotemPop = false;
                     public int minTotemsRemaining = 50;
+                    public boolean lowYDisconnect = false;
+                    public int lowYThreshold = 40;
+                    public boolean lowYEndOnly = true;
                 }
 
                 public static final class ActiveHours {

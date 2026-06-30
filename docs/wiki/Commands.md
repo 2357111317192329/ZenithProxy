@@ -1414,6 +1414,8 @@ Modes:
 
   * TotemPop: Disconnects when your totem is popped
 
+  * LowY: Disconnects when your Y coordinate is at or below a configured threshold
+
 Multiple modes can be enabled, they are non-exclusive
 
 
@@ -1443,6 +1445,12 @@ Settings non-exclusive to modes:
   ```autoDisconnect totemPop on/off```
 
   ```autoDisconnect totemPop minTotemsRemaining <count>```
+
+  ```autoDisconnect lowY on/off```
+
+  ```autoDisconnect lowY threshold <y>```
+
+  ```autoDisconnect lowY endOnly on/off```
 
   ```autoDisconnect whilePlayerConnected on/off```
 
