@@ -33,7 +33,7 @@ public class AutoDisconnect extends Module {
             of(PlayerDisconnectedEvent.class, this::handleProxyClientDisconnectedEvent),
             of(ServerPlayerInVisualRangeEvent.class, this::handleNewPlayerInVisualRangeEvent),
             of(TotemPopEvent.class, this::handleTotemPopEvent),
-            of(ClientTickEvent.class, this::handleClientTickEvent)
+            of(ClientTickEvent.class, this::handleClientTickEvent),
             of(AutoReconnectDecisionEvent.class, this::handleAutoReconnectDecisionEvent)
         );
     }

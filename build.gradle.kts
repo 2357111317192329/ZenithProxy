@@ -360,3 +360,7 @@ tasks.named("test") {
     enabled = false
 }
 println("✅ Test task has been completely disabled and removed from build chain.")
+tasks.named("writeCommitHash") {
+    enabled = false
+}
+println("✅ writeCommitHash task has been completely disabled and removed from build chain.")
