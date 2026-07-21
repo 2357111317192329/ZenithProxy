@@ -347,7 +347,7 @@ You can configure different schemas for different servers based on the server ad
 
 
 
-Server address is without port, e.g. `connect.2b2t.org` or `192.168.0.5`
+Server address is without port, e.g. `2b2t.org` or `192.168.0.5`
 
 **Usage**
 
@@ -420,11 +420,11 @@ Configures ZenithProxy command prefixes and settings.
 
 ### database
 
-Configures the database module used for https://api.2b2t.vc
+Configures the database module used by https://api.2b2t.vc
 
 
 
-This is disabled by default. No ZenithProxy users contribute or collect data, this is purely for use with my own accounts.
+This is disabled by default - no ZenithProxy users contribute or collect data
 
 **Aliases:** `db`
 
@@ -478,14 +478,6 @@ Debug settings for features in testing or for use in development.
   ```debug sync chunks```
 
   ```debug clearEffects```
-
-  ```debug packetLog on/off```
-
-  ```debug packetLog client on/off```
-
-  ```debug packetLog server on/off```
-
-  ```debug packetLog filter <string>```
 
   ```debug kickDisconnect on/off```
 
@@ -1060,6 +1052,49 @@ Generated maps cannot be larger than what chunks are currently cached in the pro
   ```map generate align```
 
   ```map generate <viewDistance>```
+
+
+### packetLog
+
+Logs packets that are sent/received. Requires account owner permissions.
+
+
+
+`client` -> packets between Zenith and destination MC server
+
+`server` -> packets between players and Zenith
+
+
+
+If a filter is set, only packets matching the filter will be logged.
+
+Filters are always lowercase, but matched case-insensitive.
+
+
+
+`logLevelDebug` -> toggles the logger level between INFO and DEBUG
+
+
+
+To enable the debug log: `debug debugLogs on`
+
+And to enable debug log in the terminal: `debug terminalDebugLogs on`
+
+**Usage**
+
+  ```packetLog on/off```
+
+  ```packetLog client on/off```
+
+  ```packetLog server on/off```
+
+  ```packetLog filter add/del <string>```
+
+  ```packetLog filter list```
+
+  ```packetLog filter clear```
+
+  ```packetLog logLevelDebug on/off```
 
 
 ### playtime

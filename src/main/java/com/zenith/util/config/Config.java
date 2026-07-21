@@ -34,6 +34,7 @@ public final class Config {
     public final Discord discord = new Discord();
     public final Database database = new Database();
     public final AutoUpdater autoUpdater = new AutoUpdater();
+    public boolean deprecationWarning_26_1_2 = true;
 
     public static final class Authentication {
         public AccountType accountType = AccountType.DEVICE_CODE;
@@ -287,6 +288,8 @@ public final class Config {
                     ItemRegistry.OAK_PLANKS.name()
                 });
                 public final Set<String> allowBreakAnyway = new ObjectArraySet<>();
+                public final Set<String> blocksToDisallowBreaking = new ObjectArraySet<>();
+                public final Set<String> blocksToAvoid = new ObjectArraySet<>();
             }
 
             public static class SessionTimeLimit {
@@ -689,7 +692,7 @@ public final class Config {
         }
 
         public static final class Server {
-            public String address = "connect.2b2t.org";
+            public String address = "2b2t.org";
             public int port = 25565;
         }
 
@@ -741,8 +744,7 @@ public final class Config {
             public boolean logLevelDebug = true;
             public PacketLogConfig clientPacketLog = new PacketLogConfig();
             public PacketLogConfig serverPacketLog = new PacketLogConfig();
-            // todo: could be more flexible, but this can cover the most basic use cases
-            public String packetFilter = "";
+            public ArrayList<String> packetFilterList = new ArrayList<>();
 
             public static final class PacketLogConfig {
                 public boolean received = false;

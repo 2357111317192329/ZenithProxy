@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  UV_PYTHON: '3.14.4'
-  pyinstaller_version: "6.20.0"
+  UV_PYTHON: '3.14.6'
+  pyinstaller_version: "6.21.0"
 
 jobs:
   backup-existing:
@@ -55,7 +55,7 @@ jobs:
             sha1-command: 'shasum dist/launch | cut -d" " -f 1'
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -142,7 +142,7 @@ jobs:
         run: apk add zip bash build-base ca-certificates curl gcc git libc-dev libffi-dev libgcc make musl-dev openssl openssl-dev zlib-dev
 
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -195,7 +195,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -233,7 +233,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -267,6 +267,7 @@ jobs:
 
   release-artifacts:
     needs:
+      - backup-existing
       - build-pyinstaller
       - build-alpine
       - package-python
@@ -278,9 +279,10 @@ jobs:
         with:
           merge-multiple: true
           path: artifacts/
+          skip-decompress: true
 
       - name: Remove old launcher assets
-        run: rm artifacts/launcher-assets.zip
+        run: rm -f artifacts/launcher-assets.zip
 
       - name: Compile Hashes
         run: |

@@ -36,16 +36,16 @@ import dev.omega24.upnp4j.util.Protocol;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import net.kyori.adventure.key.Key;
 import net.raphimc.minecraftauth.bedrock.exception.MinecraftRequestException;
 import org.geysermc.mcprotocollib.auth.GameProfile;
-import org.geysermc.mcprotocollib.network.BuiltinFlags;
 import org.geysermc.mcprotocollib.network.ProxyInfo;
 import org.geysermc.mcprotocollib.network.tcp.TcpConnectionManager;
 import org.geysermc.mcprotocollib.network.tcp.TcpServer;
 import org.geysermc.mcprotocollib.protocol.MinecraftConstants;
 import org.geysermc.mcprotocollib.protocol.MinecraftProtocol;
+import org.geysermc.mcprotocollib.protocol.packet.common.clientbound.ServerboundCookieResponsePacket;
 import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundTabListPacket;
-import org.geysermc.mcprotocollib.protocol.packet.ingame.serverbound.player.ServerboundSetCarriedItemPacket;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.LoggerFactory;
@@ -160,8 +160,18 @@ public class Proxy {
             MODULE.init();
             this.tcpManager = new TcpConnectionManager();
             if (CONFIG.database.enabled) {
-                DATABASE.start();
-                DEFAULT_LOG.info("Started Databases");
+                try {
+                    EXECUTOR.submit(() -> {
+                        try {
+                            DATABASE.start();
+                            DATABASE_LOG.info("Started Databases");
+                        } catch (final Exception e) {
+                            DATABASE_LOG.error("Failed starting database", e);
+                        }
+                    }).get(10L, TimeUnit.SECONDS);
+                } catch (final Exception e) {
+                    DATABASE_LOG.error("Database start timeout", e);
+                }
             }
             if (CONFIG.discord.enable) {
                 try {
@@ -188,6 +198,7 @@ public class Proxy {
             EXECUTOR.scheduleAtFixedRate(this::serverHealthCheck, 1L, 5L, TimeUnit.MINUTES);
             EXECUTOR.scheduleAtFixedRate(this::tablistUpdate, 20L, 3L, TimeUnit.SECONDS);
             EXECUTOR.scheduleAtFixedRate(this::maxPlaytimeTick, CONFIG.client.maxPlaytimeReconnectMins, 1L, TimeUnit.MINUTES);
+            EXECUTOR.scheduleAtFixedRate(this::deprecationWarningTick, 0L, 72L, TimeUnit.HOURS);
             EXECUTOR.schedule(this::serverConnectionTest, 10L, TimeUnit.SECONDS);
             boolean connected = false;
             if (CONFIG.client.autoConnect && !isConnected()) {
@@ -360,6 +371,26 @@ public class Proxy {
         }
     }
 
+    private void deprecationWarningTick() {
+        if (!CONFIG.deprecationWarning_26_1_2) return;
+        String platform = ImageInfo.inImageCode() ? "linux" : "java";
+        DISCORD.sendEmbedMessage(NotificationEventListener.notificationMention(), Embed.builder()
+            .title("26.1.2 Deprecation")
+                .description("""
+                  Update to ZenithProxy for 26.2.0 (or 1.21.4) with this command:
+
+                  `channel set %s 26.2.0`
+
+                  ZenithProxy for 26.1.2 has been deprecated and will no longer receive updates and support.
+
+                  You can continue using 26.1.2 clients on the `26.2.0` channel, ZenithProxy has built-in ViaVersion.
+
+                  To disable this notification: `deprecationWarning off`
+                  """.formatted(platform))
+            .errorColor()
+        );
+    }
+
     private void tablistUpdate() {
         var playerConnection = currentPlayer.get();
         if (!this.isConnected() || playerConnection == null) return;
@@ -422,9 +453,8 @@ public class Proxy {
     public void kickDisconnect(final String reason, final Throwable cause) {
         if (!isConnected()) return;
         var client = this.client;
-
         try {
-            client.send(new ServerboundSetCarriedItemPacket(10)).get();
+            client.send(new ServerboundCookieResponsePacket(Key.key("minecraft", "pls_kick"), null)).get();
         } catch (final Exception e) {
             CLIENT_LOG.error("Error performing kick disconnect", e);
         }
@@ -467,8 +497,6 @@ public class Proxy {
         }
         CLIENT_LOG.info("Connecting to {}:{}...", address, port);
         this.client = new ClientSession(address, port, CONFIG.client.bindAddress, minecraftProtocol, getClientProxyInfo(), tcpManager);
-        if (Objects.equals(address, "connect.2b2t.org"))
-            this.client.setFlag(BuiltinFlags.ATTEMPT_SRV_RESOLVE, false);
         this.client.setReadTimeout(CONFIG.client.timeout.enable ? CONFIG.client.timeout.seconds : 0);
         this.client.setFlag(MinecraftConstants.CLIENT_CHANNEL_INITIALIZER, ZenithClientChannelInitializer.FACTORY);
         this.client.connect(true);

@@ -316,9 +316,11 @@ public final class Bot extends ModuleUtils {
 
         updateInWaterStateAndDoFluidPushing();
 
-        if (Math.abs(velocity.getX()) < 0.003) velocity.setX(0);
+        if (velocity.horizontalLengthSquared() < 9.0E-6) {
+            velocity.setX(0);
+            velocity.setZ(0);
+        }
         if (Math.abs(velocity.getY()) < 0.003) velocity.setY(0);
-        if (Math.abs(velocity.getZ()) < 0.003) velocity.setZ(0);
 
         if (CACHE.getPlayerCache().getThePlayer().isInVehicle()) {
             velocity.set(0, 0, 0);
@@ -662,7 +664,7 @@ public final class Bot extends ModuleUtils {
 
     public void handlePlayerPosRotate(final int teleportId) {
         syncFromCache(true);
-        CLIENT_LOG.info("Server teleport {} to: {}, {}, {}d", teleportId, this.x, this.y, this.z);
+        CLIENT_LOG.info("Server teleport {} to: {}, {}, {}", teleportId, String.format("%.8f", this.x), String.format("%.8f", this.y), String.format("%.8f", this.z));
         sendClientPacketAwait(new ServerboundAcceptTeleportationPacket(teleportId));
         sendClientPacketAwait(new ServerboundMovePlayerPosRotPacket(false, false, this.x, this.y, this.z, this.yaw, this.pitch));
         CLIENT_LOG.debug("Accepted teleport: {}", teleportId);
@@ -798,8 +800,8 @@ public final class Bot extends ModuleUtils {
 
     private void travelInAir(MutableVec3d movementInputVec) {
         final Block floorBlock = World.getBlock(getVelocityAffectingPos());
-        float floorSlipperiness = floorBlock.friction();
-        float friction = this.onGround ? floorSlipperiness * 0.91f : 0.91F;
+        float floorSlipperiness = this.onGround ? floorBlock.friction() : 1.0f;
+        float friction = floorSlipperiness * 0.91f;
         applyMovementInput(movementInputVec, floorSlipperiness);
         if (!isFlying) velocity.setY(velocity.getY() - gravity);
         velocity.multiply(friction, 0.9800000190734863, friction);
@@ -1285,7 +1287,15 @@ public final class Bot extends ModuleUtils {
     }
 
     private float getMovementSpeed(float slipperiness) {
-        return this.onGround ? this.speed * (0.21600002f / (slipperiness * slipperiness * slipperiness)) : 0.02f;
+        return this.onGround ? this.speed * (0.21600002f / (slipperiness * slipperiness * slipperiness)) : getPlayerFlyingSpeed();
+    }
+
+    private float getPlayerFlyingSpeed() {
+        if (isFlying && !CACHE.getPlayerCache().getThePlayer().isInVehicle()) {
+            return isSprinting() ? this.flyingSpeed * 2.0f : this.flyingSpeed;
+        } else {
+            return this.isSprinting() ? 0.025999999F : 0.02F;
+        }
     }
 
     private float getBlockSpeedFactor() {

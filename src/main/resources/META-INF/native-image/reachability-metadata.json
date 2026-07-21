@@ -1226,6 +1226,15 @@
       ]
     },
     {
+      "type": "com.viaversion.viaversion.libs.gson.internal.bind.JavaTimeTypeAdapters",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
       "type": "com.viaversion.viaversion.libs.opennbt.tag.builtin.CompoundTag",
       "allDeclaredFields": true,
       "methods": [
@@ -1693,6 +1702,21 @@
             "boolean",
             "java.lang.String",
             "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "com.zenith.feature.api.mcprofile.model.MCProfileJavaResponse",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": [
+            "java.lang.String",
+            "java.util.UUID",
+            "java.lang.String",
+            "java.lang.String",
+            "boolean"
           ]
         }
       ]
@@ -8825,6 +8849,9 @@
     },
     {
       "type": "javax.management.remote.rmi.RMIServerImpl_Stub"
+    },
+    {
+      "type": "org.junit.platform.engine.UniqueId$SerializedForm"
     }
   ],
   "foreign": {
