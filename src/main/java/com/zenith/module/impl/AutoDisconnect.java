@@ -11,6 +11,7 @@ import com.zenith.mc.dimension.DimensionRegistry;
 import com.zenith.mc.item.ItemRegistry;
 import com.zenith.module.api.Module;
 import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.player.GameMode;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -73,6 +74,11 @@ public class AutoDisconnect extends Module {
 
     public void handleNewPlayerInVisualRangeEvent(ServerPlayerInVisualRangeEvent event) {
         if (!CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange) return;
+        if (CONFIG.client.extra.utility.actions.autoDisconnect.disablein3C3Ulobby){
+            if(CACHE.getPlayerCache().getGameMode() != GameMode.SURVIVAL){
+                return;
+            }
+        }
         var playerUUID = event.playerEntity().getUuid();
         if (CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode) {
             if (!PLAYER_LISTS.getEnemyList().contains(playerUUID) || !playerConnectedCheck()) return;

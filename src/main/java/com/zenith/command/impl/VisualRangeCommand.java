@@ -56,6 +56,7 @@ public class VisualRangeCommand extends Command {
                 "leave on/off",
                 "logout on/off",
                 "ignoreFriends on/off",
+                "disablein3C3Ulobby on/off",
                 "enemyListMode on/off",
                 "replayRecording on/off",
                 "replayRecording mode <enemy/all>",
@@ -152,6 +153,13 @@ public class VisualRangeCommand extends Command {
                     CONFIG.client.extra.visualRange.ignoreFriends = getToggle(c, "toggle");
                     c.getSource().getEmbed()
                         .title("Ignore Friends " + toggleStrCaps(CONFIG.client.extra.visualRange.ignoreFriends));
+                    return OK;
+                })))
+            .then(literal("disablein3C3Ulobby")
+                .then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.extra.visualRange.disablein3C3Ulobby = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("Disable in 3C3U lobby " + toggleStrCaps(CONFIG.client.extra.visualRange.disablein3C3Ulobby));
                     return OK;
                 })))
             .then(literal("enemyListMode")

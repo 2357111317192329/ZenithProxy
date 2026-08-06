@@ -48,6 +48,7 @@ public class AutoDisconnectCommand extends Command {
                 "thunder on/off",
                 "unknownPlayer on/off",
                 "unknownPlayer enemyListMode on/off",
+                "unknownPlayer disablein3C3Ulobby on/off",
                 "totemPop on/off",
                 "totemPop minTotemsRemaining <count>",
                 "lowY on/off",
@@ -111,6 +112,11 @@ public class AutoDisconnectCommand extends Command {
                     CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode = getToggle(c, "toggle");
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Unknown Player Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode));
+                })))
+                .then(literal("disablein3C3Ulobby").then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.extra.utility.actions.autoDisconnect.disablein3C3Ulobby = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("AutoDisconnect Unknown Player Disable in 3C3U lobby " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.disablein3C3Ulobby));
                 }))))
             .then(literal("whilePlayerConnected")
                 .then(argument("toggle", toggle()).executes(c -> {

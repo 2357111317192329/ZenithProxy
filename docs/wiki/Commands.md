@@ -574,6 +574,25 @@ Friends change behavior for various modules like VisualRange, KillAura, and Auto
   ```friend clear```
 
 
+### enemy
+
+Manage the enemy list.
+
+Enemies change behavior for various modules like VisualRange, KillAura, and AutoDisconnect
+
+**Aliases:** `e`
+
+**Usage**
+
+  ```enemy add/del <player>```
+
+  ```enemy addAll <player 1>,<player 2>...```
+
+  ```enemy list```
+
+  ```enemy clear```
+
+
 ### jvmArgs
 
 Configures ZenithProxy's JVM arguments used by the launcher.
@@ -1486,6 +1505,10 @@ Settings non-exclusive to modes:
 
   ```autoDisconnect unknownPlayer on/off```
 
+  ```autoDisconnect unknownPlayer enemyListMode on/off```
+
+  ```autoDisconnect unknownPlayer disablein3C3Ulobby on/off```
+
   ```autoDisconnect totemPop on/off```
 
   ```autoDisconnect totemPop minTotemsRemaining <count>```
@@ -1900,6 +1923,8 @@ Aggressive mobs are mobs that are actively targeting and attacking the player.
   ```killAura tpsSync on/off```
 
   ```killAura targetPlayers on/off```
+
+  ```killAura enemyListMode on/off```
 
   ```killAura targetHostileMobs on/off```
 
@@ -2520,6 +2545,10 @@ To add players to the friends list see the `friends` command.
   ```visualRange logout on/off```
 
   ```visualRange ignoreFriends on/off```
+
+  ```visualRange disablein3C3Ulobby on/off```
+
+  ```visualRange enemyListMode on/off```
 
   ```visualRange replayRecording on/off```
 

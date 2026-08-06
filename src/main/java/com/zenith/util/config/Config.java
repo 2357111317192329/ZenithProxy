@@ -363,6 +363,7 @@ public final class Config {
             public static class VisualRange {
                 public boolean enabled = true;
                 public boolean ignoreFriends = false;
+                public boolean disablein3C3Ulobby = true;
                 public boolean enemyListMode = false;
                 public boolean enterAlert = true;
                 public boolean enterAlertMention = true;
@@ -588,6 +589,7 @@ public final class Config {
                     // checks friends list, whitelist, and spectator whitelist
                     public boolean onUnknownPlayerInVisualRange = false;
                     public boolean enemyListMode = false;
+                    public boolean disablein3C3Ulobby = true;
                     public boolean mentionOnDisconnect = false;
                     public boolean onTotemPop = false;
                     public int minTotemsRemaining = 50;

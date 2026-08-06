@@ -6,6 +6,7 @@ import com.zenith.cache.data.entity.EntityPlayer;
 import com.zenith.event.module.*;
 import com.zenith.module.api.Module;
 import com.zenith.util.ChatUtil;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.player.GameMode;
 
 import java.time.Instant;
 import java.util.List;
@@ -33,6 +34,11 @@ public class VisualRange extends Module {
     }
 
     public void handleNewPlayerInVisualRangeEvent(ServerPlayerInVisualRangeEvent event) {
+        if (CONFIG.client.extra.visualRange.disablein3C3Ulobby){
+            if(CACHE.getPlayerCache().getGameMode() != GameMode.SURVIVAL){
+                return;
+            }
+        }
         var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
         var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
         if (CONFIG.client.extra.visualRange.replayRecording) {
@@ -58,6 +64,11 @@ public class VisualRange extends Module {
     }
 
     public void enterWhisperHandler(VisualRangeEnterEvent event) {
+        if (CONFIG.client.extra.visualRange.disablein3C3Ulobby){
+            if(CACHE.getPlayerCache().getGameMode() != GameMode.SURVIVAL){
+                return;
+            }
+        }
         if (!CONFIG.client.extra.visualRange.enterWhisper) return;
         if (!CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected && Proxy.getInstance().hasActivePlayer()) return;
         if (Instant.now().minusSeconds(CONFIG.client.extra.visualRange.enterWhisperCooldownSeconds).isBefore(lastWhisper)) return;
@@ -66,6 +77,11 @@ public class VisualRange extends Module {
     }
 
     public void handlePlayerLeftVisualRangeEvent(final ServerPlayerLeftVisualRangeEvent event) {
+        if (CONFIG.client.extra.visualRange.disablein3C3Ulobby){
+            if(CACHE.getPlayerCache().getGameMode() != GameMode.SURVIVAL){
+                return;
+            }
+        }
         var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
         var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
         if (CONFIG.client.extra.visualRange.replayRecording) {
@@ -109,6 +125,11 @@ public class VisualRange extends Module {
     }
 
     private void startReplayRecording() {
+        if (CONFIG.client.extra.visualRange.disablein3C3Ulobby){
+            if(CACHE.getPlayerCache().getGameMode() != GameMode.SURVIVAL){
+                return;
+            }
+        }
         if (!MODULE.get(ReplayMod.class).isEnabled()) {
             info("Starting replay recording");
             MODULE.get(ReplayMod.class).enable();
@@ -136,6 +157,11 @@ public class VisualRange extends Module {
     }
 
     public void handlePlayerLogoutInVisualRangeEvent(final ServerPlayerLogoutInVisualRangeEvent event) {
+        if (CONFIG.client.extra.visualRange.disablein3C3Ulobby){
+            if(CACHE.getPlayerCache().getGameMode() != GameMode.SURVIVAL){
+                return;
+            }
+        }
         if (!CONFIG.client.extra.visualRange.logoutAlert) return;
         var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
         var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
