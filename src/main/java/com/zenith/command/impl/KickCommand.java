@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Globals.CONFIG;
+import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.discord.DiscordBot.escape;
 
 public class KickCommand extends Command {
@@ -48,7 +49,7 @@ public class KickCommand extends Command {
                     .addField("Players", kickedPlayers.stream().map(DiscordBot::escape).collect(Collectors.joining(", ")), false);
                 return OK;
             })
-            .then(argument("player", string()).executes(c -> {
+            .then(argument("player", wordWithChars()).executes(c -> {
                 final String playerName = StringArgumentType.getString(c, "player");
                 var connections = Proxy.getInstance().getActiveConnections().getArray();
                 for (int i = 0; i < connections.length; i++) {

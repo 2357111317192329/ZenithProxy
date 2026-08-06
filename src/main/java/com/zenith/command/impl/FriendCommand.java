@@ -14,6 +14,7 @@ import java.util.List;
 import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
+import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.discord.DiscordBot.escape;
 
 public class FriendCommand extends Command {
@@ -39,7 +40,7 @@ public class FriendCommand extends Command {
     @Override
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("friend")
-            .then(literal("add").then(argument("player", string()).executes(c -> {
+            .then(literal("add").then(argument("player", wordWithChars()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getFriendsList().add(player)
                     .ifPresentOrElse(e ->
@@ -72,7 +73,7 @@ public class FriendCommand extends Command {
                 }
                 return OK;
             })))
-            .then(literal("del").then(argument("player", string()).executes(c -> {
+            .then(literal("del").then(argument("player", wordWithChars()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getFriendsList().remove(player);
                 c.getSource().getEmbed()

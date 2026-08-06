@@ -13,6 +13,7 @@ import java.util.List;
 import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
+import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.discord.DiscordBot.escape;
 
 public class IgnoreCommand extends Command {
@@ -36,7 +37,7 @@ public class IgnoreCommand extends Command {
     @Override
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("ignore")
-            .then(literal("add").then(argument("player", string()).executes(c -> {
+            .then(literal("add").then(argument("player", wordWithChars()).executes(c -> {
                 String player = c.getArgument("player", String.class);
                 PLAYER_LISTS.getIgnoreList().add(player).ifPresentOrElse(
                     ignored -> c.getSource().getEmbed()
@@ -70,7 +71,7 @@ public class IgnoreCommand extends Command {
                 }
                 return OK;
             })))
-            .then(literal("del").then(argument("player", string()).executes(c -> {
+            .then(literal("del").then(argument("player", wordWithChars()).executes(c -> {
                 String player = c.getArgument("player", String.class);
                 PLAYER_LISTS.getIgnoreList().remove(player);
                 c.getSource().getEmbed()

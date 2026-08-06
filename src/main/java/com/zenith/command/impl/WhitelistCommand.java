@@ -16,6 +16,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
+import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
@@ -51,7 +52,7 @@ public class WhitelistCommand extends Command {
     @Override
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("whitelist")
-            .then(literal("add").requires(Command::validateAccountOwner).then(argument("player", string()).executes(c -> {
+            .then(literal("add").requires(Command::validateAccountOwner).then(argument("player", wordWithChars()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getWhitelist().add(player).ifPresentOrElse(e ->
                         c.getSource().getEmbed()
@@ -83,7 +84,7 @@ public class WhitelistCommand extends Command {
                 }
                 return OK;
             })))
-            .then(literal("del").requires(Command::validateAccountOwner).then(argument("player", string()).executes(c -> {
+            .then(literal("del").requires(Command::validateAccountOwner).then(argument("player", wordWithChars()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getWhitelist().remove(player);
                 c.getSource().getEmbed()
@@ -107,7 +108,7 @@ public class WhitelistCommand extends Command {
                         .title("Auto Add Zenith Account " + toggleStrCaps(CONFIG.server.extra.whitelist.autoAddClient));
                 })))
             .then(literal("blacklist").requires(Command::validateAccountOwner)
-                .then(literal("add").then(argument("player", string()).executes(c -> {
+                .then(literal("add").then(argument("player", wordWithChars()).executes(c -> {
                     final String player = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getBlacklist().add(player).ifPresentOrElse(e ->
                             c.getSource().getEmbed()
@@ -115,7 +116,7 @@ public class WhitelistCommand extends Command {
                         () -> c.getSource().getEmbed()
                             .title("Failed to add user: " + escape(player) + " to blacklist. Unable to lookup profile."));
                 })))
-                .then(literal("del").then(argument("player", string()).executes(c -> {
+                .then(literal("del").then(argument("player", wordWithChars()).executes(c -> {
                     final String player = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getBlacklist().remove(player);
                     c.getSource().getEmbed()

@@ -6,6 +6,7 @@ import com.zenith.feature.api.mcprofile.MCProfileApi;
 import com.zenith.feature.api.mojang.MojangApi;
 import com.zenith.feature.api.sessionserver.SessionServerApi;
 import com.zenith.util.Wait;
+import com.zenith.util.config.Config;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -73,6 +74,10 @@ public class PlayerListsManager {
             .collect(Collectors.toMap(PlayerEntry::getUuid, Function.identity(), (existing, replacement) -> existing));
 
         for (var entry : uniquePlayers.entrySet()) {
+            if (isOfflineAccount(entry.getValue().getUsername()) || isOfflineAccount(entry.getValue().getUuid())) {
+                entry.getValue().setLastRefreshed(Instant.now().getEpochSecond());
+                continue;
+            }
             Wait.waitMs(250); // trying to avoid mojang API rate limiting
             refreshEntry(entry.getValue())
                 .ifPresentOrElse(
@@ -92,17 +97,38 @@ public class PlayerListsManager {
         return createPlayerListEntry(playerEntry.getUuid());
     }
 
+    public static boolean isOfflineAccount(final String username) {
+        return username != null && username.startsWith("||");
+    }
+
+    public static boolean isOfflineAccount(final UUID uuid) {
+        return uuid != null && uuid.version() == 3;
+    }
+
     public static Optional<PlayerEntry> createPlayerListEntry(final String username) {
+        if (isOfflineAccount(username)) {
+            final String stripped = username.substring(2);
+            final UUID uuid = Config.Authentication.generateOfflineUUID(stripped);
+            return Optional.of(new PlayerEntry(username, uuid, Instant.now().getEpochSecond()));
+        }
         return getProfileFromUsername(username)
             .map(profile -> new PlayerEntry(profile.name(), profile.uuid(), Instant.now().getEpochSecond()));
     }
 
     public static Optional<PlayerEntry> createPlayerListEntry(final UUID uuid) {
+        if (isOfflineAccount(uuid)) {
+            return Optional.empty();
+        }
         return getProfileFromUUID(uuid)
             .map(profile -> new PlayerEntry(profile.name(), profile.uuid(), Instant.now().getEpochSecond()));
     }
 
     public static Optional<ProfileData> getProfileFromUsername(final String username) {
+        if (isOfflineAccount(username)) {
+            final String stripped = username.substring(2);
+            final UUID uuid = Config.Authentication.generateOfflineUUID(stripped);
+            return Optional.of(new OfflineProfileData(username, uuid));
+        }
         if (isBedrock(username)) {
             return MCProfileApi.INSTANCE.getBedrockProfile(username.replace(".", "")).map(o -> (ProfileData) o).filter(PlayerListsManager::validProfile);
         }
@@ -112,6 +138,9 @@ public class PlayerListsManager {
     }
 
     public static Optional<ProfileData> getProfileFromUUID(final UUID uuid) {
+        if (isOfflineAccount(uuid)) {
+            return Optional.empty();
+        }
         if (isBedrock(uuid)) {
             return MCProfileApi.INSTANCE.getBedrockProfile(uuid).map(o -> (ProfileData) o).filter(PlayerListsManager::validProfile);
         }
@@ -119,6 +148,8 @@ public class PlayerListsManager {
             .or(() -> CraftheadApi.INSTANCE.getProfile(uuid).map(o -> (ProfileData) o).filter(PlayerListsManager::validProfile)
                 .or(() -> MCProfileApi.INSTANCE.getJavaProfile(uuid).filter(PlayerListsManager::validProfile)));
     }
+
+    private record OfflineProfileData(String name, UUID uuid) implements ProfileData {}
 
     private static boolean validProfile(final ProfileData profile) {
         return profile != null && profile.uuid() != null && profile.name() != null;

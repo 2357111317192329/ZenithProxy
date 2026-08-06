@@ -19,6 +19,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
+import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
@@ -71,7 +72,7 @@ public class SpectatorCommand extends Command {
                     .description(spectatorWhitelist());
             }))
             .then(literal("whitelist")
-                .then(literal("add").then(argument("player", string()).executes(c -> {
+                .then(literal("add").then(argument("player", wordWithChars()).executes(c -> {
                     final String playerName = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getSpectatorWhitelist().add(playerName)
                         .ifPresentOrElse(e ->
@@ -108,7 +109,7 @@ public class SpectatorCommand extends Command {
                     }
                     return OK;
                 })))
-                .then(literal("del").then(argument("player", string()).executes(c -> {
+                .then(literal("del").then(argument("player", wordWithChars()).executes(c -> {
                     final String playerName = StringArgumentType.getString(c, "player");
                     PLAYER_LISTS.getSpectatorWhitelist().remove(playerName);
                     c.getSource().getEmbed()

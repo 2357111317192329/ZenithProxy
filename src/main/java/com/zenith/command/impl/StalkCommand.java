@@ -12,6 +12,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.PLAYER_LISTS;
 import static com.zenith.command.api.CommandOutputHelper.playerListToString;
+import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 import static com.zenith.command.brigadier.ToggleArgumentType.getToggle;
 import static com.zenith.command.brigadier.ToggleArgumentType.toggle;
 import static com.zenith.discord.DiscordBot.escape;
@@ -46,7 +47,7 @@ public class StalkCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Stalk List");
             }))
-            .then(literal("add").then(argument("player", string()).executes(c -> {
+            .then(literal("add").then(argument("player", wordWithChars()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getStalkList().add(player).ifPresentOrElse(e ->
                     c.getSource().getEmbed()
@@ -55,7 +56,7 @@ public class StalkCommand extends Command {
                             .title("Failed to add player: " + escape(player) + " to stalk list. Unable to lookup profile."));
                 return OK;
             })))
-            .then(literal("del").then(argument("player", string()).executes(c -> {
+            .then(literal("del").then(argument("player", wordWithChars()).executes(c -> {
                 final String player = StringArgumentType.getString(c, "player");
                 PLAYER_LISTS.getStalkList().remove(player);
                 c.getSource().getEmbed()
