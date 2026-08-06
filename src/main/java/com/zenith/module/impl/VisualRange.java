@@ -34,15 +34,20 @@ public class VisualRange extends Module {
 
     public void handleNewPlayerInVisualRangeEvent(ServerPlayerInVisualRangeEvent event) {
         var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
+        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
         if (CONFIG.client.extra.visualRange.replayRecording) {
             switch (CONFIG.client.extra.visualRange.replayRecordingMode) {
                 case ALL -> startReplayRecording();
                 case ENEMY -> {
-                    if (!isFriend) startReplayRecording();
+                    if (CONFIG.client.extra.visualRange.enemyListMode) {
+                        if (isEnemy) startReplayRecording();
+                    } else if (!isFriend) startReplayRecording();
                 }
             }
         }
-        if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {
+        if (CONFIG.client.extra.visualRange.enemyListMode) {
+            if (!isEnemy) return;
+        } else if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {
             debug("Ignoring enter alert for friend: {}", event.playerEntry().getName());
             return;
         }
@@ -62,6 +67,7 @@ public class VisualRange extends Module {
 
     public void handlePlayerLeftVisualRangeEvent(final ServerPlayerLeftVisualRangeEvent event) {
         var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
+        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
         if (CONFIG.client.extra.visualRange.replayRecording) {
             switch (CONFIG.client.extra.visualRange.replayRecordingMode) {
                 case ALL -> {
@@ -73,7 +79,14 @@ public class VisualRange extends Module {
                     }
                 }
                 case ENEMY -> {
-                    if (noEnemyInVisualRange()) {
+                    if (CONFIG.client.extra.visualRange.enemyListMode) {
+                        if (noEnemyListEnemyInVisualRange()) {
+                            MODULE.get(ReplayMod.class).startDelayedRecordingStop(
+                                CONFIG.client.extra.visualRange.replayRecordingCooldownMins,
+                                this::noEnemyListEnemyInVisualRange
+                            );
+                        }
+                    } else if (noEnemyInVisualRange()) {
                         MODULE.get(ReplayMod.class).startDelayedRecordingStop(
                             CONFIG.client.extra.visualRange.replayRecordingCooldownMins,
                             this::noEnemyInVisualRange
@@ -83,7 +96,9 @@ public class VisualRange extends Module {
             }
         }
 
-        if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {
+        if (CONFIG.client.extra.visualRange.enemyListMode) {
+            if (!isEnemy) return;
+        } else if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {
             debug("Ignoring leave alert for friend: {}", event.playerEntry().getName());
             return;
         }
@@ -107,6 +122,13 @@ public class VisualRange extends Module {
             .allMatch(entityPlayer -> PLAYER_LISTS.getFriendsList().contains(entityPlayer.getUuid()));
     }
 
+    private boolean noEnemyListEnemyInVisualRange() {
+        return CACHE.getEntityCache().getEntities().values().stream()
+            .filter(entity -> entity instanceof EntityPlayer)
+            .filter(entity -> !entity.equals(CACHE.getPlayerCache().getThePlayer()))
+            .noneMatch(entityPlayer -> PLAYER_LISTS.getEnemyList().contains(entityPlayer.getUuid()));
+    }
+
     private boolean noPlayerInVisualRange() {
         return CACHE.getEntityCache().getEntities().values().stream()
             .filter(entity -> entity instanceof EntityPlayer)
@@ -116,7 +138,10 @@ public class VisualRange extends Module {
     public void handlePlayerLogoutInVisualRangeEvent(final ServerPlayerLogoutInVisualRangeEvent event) {
         if (!CONFIG.client.extra.visualRange.logoutAlert) return;
         var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
-        if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {
+        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
+        if (CONFIG.client.extra.visualRange.enemyListMode) {
+            if (!isEnemy) return;
+        } else if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {
             debug("Ignoring logout alert for friend: {}", event.playerEntry().getName());
             return;
         }

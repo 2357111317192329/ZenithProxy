@@ -74,11 +74,15 @@ public class AutoDisconnect extends Module {
     public void handleNewPlayerInVisualRangeEvent(ServerPlayerInVisualRangeEvent event) {
         if (!CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange) return;
         var playerUUID = event.playerEntity().getUuid();
-        if (PLAYER_LISTS.getFriendsList().contains(playerUUID)
-            || PLAYER_LISTS.getWhitelist().contains(playerUUID)
-            || PLAYER_LISTS.getSpectatorWhitelist().contains(playerUUID)
-            || !playerConnectedCheck()
-        ) return;
+        if (CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode) {
+            if (!PLAYER_LISTS.getEnemyList().contains(playerUUID) || !playerConnectedCheck()) return;
+        } else {
+            if (PLAYER_LISTS.getFriendsList().contains(playerUUID)
+                || PLAYER_LISTS.getWhitelist().contains(playerUUID)
+                || PLAYER_LISTS.getSpectatorWhitelist().contains(playerUUID)
+                || !playerConnectedCheck()
+            ) return;
+        }
         info("Unknown Player: {} [{}]", event.playerEntry().getProfile());
         doDisconnect("Unknown Player: " + event.playerEntry().getProfile().getName());
     }

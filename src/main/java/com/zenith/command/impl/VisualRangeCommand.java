@@ -56,6 +56,7 @@ public class VisualRangeCommand extends Command {
                 "leave on/off",
                 "logout on/off",
                 "ignoreFriends on/off",
+                "enemyListMode on/off",
                 "replayRecording on/off",
                 "replayRecording mode <enemy/all>",
                 "replayRecording cooldown <minutes>"
@@ -153,6 +154,13 @@ public class VisualRangeCommand extends Command {
                         .title("Ignore Friends " + toggleStrCaps(CONFIG.client.extra.visualRange.ignoreFriends));
                     return OK;
                 })))
+            .then(literal("enemyListMode")
+                .then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.extra.visualRange.enemyListMode = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.visualRange.enemyListMode));
+                    return OK;
+                })))
             .then(literal("leave")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.visualRange.leaveAlert = getToggle(c, "toggle");
@@ -211,6 +219,7 @@ public class VisualRangeCommand extends Command {
             .addField("Enter Whisper Cooldown", CONFIG.client.extra.visualRange.enterWhisperCooldownSeconds + "s")
             .addField("Enter Whisper While Player Connected", toggleStr(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected))
             .addField("Ignore Friends", toggleStr(CONFIG.client.extra.visualRange.ignoreFriends))
+            .addField("Enemy List Mode", toggleStr(CONFIG.client.extra.visualRange.enemyListMode))
             .addField("Leave Alerts", toggleStr(CONFIG.client.extra.visualRange.leaveAlert))
             .addField("Logout Alerts", toggleStr(CONFIG.client.extra.visualRange.logoutAlert))
             .addField("Replay Recording", toggleStr(CONFIG.client.extra.visualRange.replayRecording))

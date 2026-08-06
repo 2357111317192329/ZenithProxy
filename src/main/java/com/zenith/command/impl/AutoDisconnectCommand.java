@@ -47,6 +47,7 @@ public class AutoDisconnectCommand extends Command {
                 "health <integer>",
                 "thunder on/off",
                 "unknownPlayer on/off",
+                "unknownPlayer enemyListMode on/off",
                 "totemPop on/off",
                 "totemPop minTotemsRemaining <count>",
                 "lowY on/off",
@@ -105,7 +106,12 @@ public class AutoDisconnectCommand extends Command {
                     CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange = getToggle(c, "toggle");
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Unknown Player " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange));
-                })))
+                }))
+                .then(literal("enemyListMode").then(argument("toggle", toggle()).executes(c -> {
+                    CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode = getToggle(c, "toggle");
+                    c.getSource().getEmbed()
+                        .title("AutoDisconnect Unknown Player Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode));
+                }))))
             .then(literal("whilePlayerConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
                     CONFIG.client.extra.utility.actions.autoDisconnect.whilePlayerConnected = getToggle(c, "toggle");
@@ -149,6 +155,7 @@ public class AutoDisconnectCommand extends Command {
             .addField("Health Level", CONFIG.client.extra.utility.actions.autoDisconnect.health)
             .addField("Thunder", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.thunder))
             .addField("Unknown Player", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange))
+            .addField("Unknown Player Enemy List Mode", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode))
             .addField("Totem Pop", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.onTotemPop))
             .addField("Min Totems Remaining", CONFIG.client.extra.utility.actions.autoDisconnect.minTotemsRemaining)
             .addField("Low Y", toggleStr(CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect))

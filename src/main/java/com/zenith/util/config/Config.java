@@ -180,6 +180,7 @@ public final class Config {
             public final AntiKick antiKick = new AntiKick();
             public final ReplayMod replayMod = new ReplayMod();
             public final ArrayList<PlayerEntry> friendsList = new ArrayList<>();
+            public final ArrayList<PlayerEntry> enemyList = new ArrayList<>();
             public boolean autoConnectOnLogin = true;
             public boolean prioStatusChangeMention = true;
             public boolean killMessage = true;
@@ -362,6 +363,7 @@ public final class Config {
             public static class VisualRange {
                 public boolean enabled = true;
                 public boolean ignoreFriends = false;
+                public boolean enemyListMode = false;
                 public boolean enterAlert = true;
                 public boolean enterAlertMention = true;
                 public boolean leaveAlert = true;
@@ -431,6 +433,7 @@ public final class Config {
                 public @Nullable Integer actionPriority = null;
                 public boolean enabled = false;
                 public boolean targetPlayers = false;
+                public boolean enemyListMode = false;
                 public boolean targetHostileMobs = true;
                 public boolean targetNeutralMobs = false;
                 public boolean targetCustom = false;
@@ -584,6 +587,7 @@ public final class Config {
                     public boolean cancelAutoReconnect = true;
                     // checks friends list, whitelist, and spectator whitelist
                     public boolean onUnknownPlayerInVisualRange = false;
+                    public boolean enemyListMode = false;
                     public boolean mentionOnDisconnect = false;
                     public boolean onTotemPop = false;
                     public int minTotemsRemaining = 50;

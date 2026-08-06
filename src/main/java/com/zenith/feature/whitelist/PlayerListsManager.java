@@ -27,6 +27,7 @@ public class PlayerListsManager {
     private PlayerList blacklist;
     private PlayerList spectatorWhitelist;
     private PlayerList friendsList;
+    private PlayerList enemyList;
     private PlayerList ignoreList;
     private PlayerList stalkList;
     private PlayerList spawnPatrolIgnoreList;
@@ -37,6 +38,7 @@ public class PlayerListsManager {
         blacklist = register(new PlayerList("blacklist", CONFIG.server.extra.whitelist.blacklist));
         spectatorWhitelist = register(new PlayerList("spectatorWhitelist", CONFIG.server.spectator.whitelist));
         friendsList = register(new PlayerList("friendsList", CONFIG.client.extra.friendsList));
+        enemyList = register(new PlayerList("enemyList", CONFIG.client.extra.enemyList));
         ignoreList = register(new PlayerList("ignoreList", CONFIG.client.extra.chat.ignoreList));
         stalkList = register(new PlayerList("stalkList", CONFIG.client.extra.stalk.stalking));
         spawnPatrolIgnoreList = register(new PlayerList("spawnPatrolIgnoreList", CONFIG.client.extra.spawnPatrol.ignoreList));

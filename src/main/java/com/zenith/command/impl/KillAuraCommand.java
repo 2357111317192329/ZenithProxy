@@ -40,6 +40,7 @@ public class KillAuraCommand extends Command {
                 "attackDelay <ticks>",
                 "tpsSync on/off",
                 "targetPlayers on/off",
+                "enemyListMode on/off",
                 "targetHostileMobs on/off",
                 "targetHostileMobs onlyAggressive on/off",
                 "targetNeutralMobs on/off",
@@ -79,6 +80,11 @@ public class KillAuraCommand extends Command {
                 CONFIG.client.extra.killAura.targetPlayers = getToggle(c, "toggle");
                 c.getSource().getEmbed()
                     .title("Target Players " + toggleStrCaps(CONFIG.client.extra.killAura.targetPlayers));
+            })))
+            .then(literal("enemyListMode").then(argument("toggle", toggle()).executes(c -> {
+                CONFIG.client.extra.killAura.enemyListMode = getToggle(c, "toggle");
+                c.getSource().getEmbed()
+                    .title("Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.killAura.enemyListMode));
             })))
             .then(literal("targetHostileMobs")
                 .then(literal("onlyAggressive").then(argument("toggle", toggle()).executes(c -> {
@@ -162,6 +168,7 @@ public class KillAuraCommand extends Command {
         builder
             .addField("KillAura", toggleStr(CONFIG.client.extra.killAura.enabled))
             .addField("Target Players", toggleStr(CONFIG.client.extra.killAura.targetPlayers))
+            .addField("Enemy List Mode", toggleStr(CONFIG.client.extra.killAura.enemyListMode))
             .addField("Target Hostile Mobs", toggleStr(CONFIG.client.extra.killAura.targetHostileMobs) + " [onlyAggressive: " + toggleStr(CONFIG.client.extra.killAura.onlyHostileAggressive) + "]")
             .addField("Target Neutral Mobs", toggleStr(CONFIG.client.extra.killAura.targetNeutralMobs) + " [onlyAggressive: " + toggleStr(CONFIG.client.extra.killAura.onlyNeutralAggressive) + "]")
             .addField("Target Custom", toggleStr(CONFIG.client.extra.killAura.targetCustom))

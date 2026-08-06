@@ -65,6 +65,7 @@ public class CommandManager {
         new DisplayCoordsCommand(),
         new ExtraChatCommand(),
         new FriendCommand(),
+        new EnemyCommand(),
         new HelpCommand(),
         new IgnoreCommand(),
         new InventoryCommand(),
