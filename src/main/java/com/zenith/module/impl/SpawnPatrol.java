@@ -221,7 +221,7 @@ public class SpawnPatrol extends Module {
                 }
             }
         }
-        if (PLAYER_LISTS.getSpawnPatrolIgnoreList().contains(newTarget.getUuid())) return;
+        if (PLAYER_LISTS.getSpawnPatrolIgnoreList().contains(newTarget)) return;
         targetEntityId = newTarget.getEntityId();
         var targetPlayerListEntry = CACHE.getTabListCache().get(newTarget.getUuid());
         if (targetPlayerListEntry.isEmpty()) {
@@ -249,8 +249,8 @@ public class SpawnPatrol extends Module {
     private boolean targetFilter(EntityLiving e) {
         if (!(e instanceof EntityPlayer player)) return false;
         if (player.isSelfPlayer()) return false;
-        if (PLAYER_LISTS.getSpawnPatrolIgnoreList().contains(player.getUuid())) return false;
-        if (CONFIG.client.extra.spawnPatrol.ignoreFriends && PLAYER_LISTS.getFriendsList().contains(player.getUuid())) return false;
+        if (PLAYER_LISTS.getSpawnPatrolIgnoreList().contains(player)) return false;
+        if (CONFIG.client.extra.spawnPatrol.ignoreFriends && PLAYER_LISTS.getFriendsList().contains(player)) return false;
         if (CONFIG.client.extra.spawnPatrol.targetOnlyBedrock) {
             var tablistEntry = CACHE.getTabListCache().get(e.getUuid());
             if (tablistEntry.isPresent()) {

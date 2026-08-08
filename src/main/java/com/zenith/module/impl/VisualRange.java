@@ -39,8 +39,8 @@ public class VisualRange extends Module {
                 return;
             }
         }
-        var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
-        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
+        var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntry());
+        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntry());
         if (CONFIG.client.extra.visualRange.replayRecording) {
             switch (CONFIG.client.extra.visualRange.replayRecordingMode) {
                 case ALL -> startReplayRecording();
@@ -82,8 +82,8 @@ public class VisualRange extends Module {
                 return;
             }
         }
-        var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
-        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
+        var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntry());
+        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntry());
         if (CONFIG.client.extra.visualRange.replayRecording) {
             switch (CONFIG.client.extra.visualRange.replayRecordingMode) {
                 case ALL -> {
@@ -140,14 +140,14 @@ public class VisualRange extends Module {
         return CACHE.getEntityCache().getEntities().values().stream()
             .filter(entity -> entity instanceof EntityPlayer)
             .filter(entity -> !entity.equals(CACHE.getPlayerCache().getThePlayer()))
-            .allMatch(entityPlayer -> PLAYER_LISTS.getFriendsList().contains(entityPlayer.getUuid()));
+            .allMatch(entityPlayer -> PLAYER_LISTS.getFriendsList().contains((EntityPlayer) entityPlayer));
     }
 
     private boolean noEnemyListEnemyInVisualRange() {
         return CACHE.getEntityCache().getEntities().values().stream()
             .filter(entity -> entity instanceof EntityPlayer)
             .filter(entity -> !entity.equals(CACHE.getPlayerCache().getThePlayer()))
-            .noneMatch(entityPlayer -> PLAYER_LISTS.getEnemyList().contains(entityPlayer.getUuid()));
+            .noneMatch(entityPlayer -> PLAYER_LISTS.getEnemyList().contains((EntityPlayer) entityPlayer));
     }
 
     private boolean noPlayerInVisualRange() {
@@ -163,8 +163,8 @@ public class VisualRange extends Module {
             }
         }
         if (!CONFIG.client.extra.visualRange.logoutAlert) return;
-        var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntity().getUuid());
-        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntity().getUuid());
+        var isFriend = PLAYER_LISTS.getFriendsList().contains(event.playerEntry());
+        var isEnemy = PLAYER_LISTS.getEnemyList().contains(event.playerEntry());
         if (CONFIG.client.extra.visualRange.enemyListMode) {
             if (!isEnemy) return;
         } else if (isFriend && CONFIG.client.extra.visualRange.ignoreFriends) {

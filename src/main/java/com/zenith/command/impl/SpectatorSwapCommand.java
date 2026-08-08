@@ -64,7 +64,7 @@ public class SpectatorSwapCommand extends Command {
             var spectatorProfile = session.getProfileCache().getProfile();
             c.getSource().setNoOutput(true);
             if (spectatorProfile == null) return;
-            if (!PLAYER_LISTS.getWhitelist().contains(spectatorProfile.getId())) {
+            if (!PLAYER_LISTS.getWhitelist().contains(spectatorProfile)) {
                 session.sendAsyncMessage(minimessage("<red>You are not whitelisted!"));
                 return;
             }

@@ -36,7 +36,7 @@ public class PlayerCommandSource implements CommandSource {
         if (playerUUID == null) return false;
         boolean allowed;
         if (CONFIG.inGameCommands.allowWhitelistedToUseAccountOwnerCommands) {
-            allowed = PLAYER_LISTS.getWhitelist().contains(playerUUID);
+            allowed = PLAYER_LISTS.getWhitelist().contains(playerProfile);
         } else {
             final GameProfile proxyProfile = CACHE.getProfileCache().getProfile();
             if (proxyProfile == null) return false;

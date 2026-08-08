@@ -79,13 +79,12 @@ public class AutoDisconnect extends Module {
                 return;
             }
         }
-        var playerUUID = event.playerEntity().getUuid();
         if (CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode) {
-            if (!PLAYER_LISTS.getEnemyList().contains(playerUUID) || !playerConnectedCheck()) return;
+            if (!PLAYER_LISTS.getEnemyList().contains(event.playerEntry()) || !playerConnectedCheck()) return;
         } else {
-            if (PLAYER_LISTS.getFriendsList().contains(playerUUID)
-                || PLAYER_LISTS.getWhitelist().contains(playerUUID)
-                || PLAYER_LISTS.getSpectatorWhitelist().contains(playerUUID)
+            if (PLAYER_LISTS.getFriendsList().contains(event.playerEntry())
+                || PLAYER_LISTS.getWhitelist().contains(event.playerEntry())
+                || PLAYER_LISTS.getSpectatorWhitelist().contains(event.playerEntry())
                 || !playerConnectedCheck()
             ) return;
         }
