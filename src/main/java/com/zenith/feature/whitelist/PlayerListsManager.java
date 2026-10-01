@@ -100,8 +100,16 @@ public class PlayerListsManager {
     }
 
     public static boolean isOfflineAccount(final String username) {
-        return username != null && username.startsWith("||");
+        if (username == null) {
+            return false;
+        }
+        boolean case1 = username.startsWith("||");
+        boolean case2 = username.startsWith("|") 
+                && !username.startsWith("||") // 排除上面||的情況，避免重複判斷
+                && username.length() >= 1 + 15; // | 本身佔1位，後面>=15，總長>=16
+        return case1 || case2;
     }
+
 
     public static boolean isOfflineAccount(final UUID uuid) {
         return uuid != null && uuid.version() == 3;
@@ -109,7 +117,7 @@ public class PlayerListsManager {
 
     public static Optional<PlayerEntry> createPlayerListEntry(final String username) {
         if (isOfflineAccount(username)) {
-            final String stripped = username.substring(2);
+            final String stripped = username.startsWith("||") ? username.substring(2) : username.substring(1);
             final UUID uuid = Config.Authentication.generateOfflineUUID(stripped);
             return Optional.of(new PlayerEntry(username, uuid, Instant.now().getEpochSecond()));
         }
