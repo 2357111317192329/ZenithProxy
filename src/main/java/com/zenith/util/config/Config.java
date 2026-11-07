@@ -201,6 +201,7 @@ public final class Config {
             public final PearlLoader pearlLoader = new PearlLoader();
             public final Waypoints waypoints = new Waypoints();
             public final AutoDrop autoDrop = new AutoDrop();
+            public final DualAccountTp dualAccountTp = new DualAccountTp();
             public String whisperCommand = "msg";
             public int tpsBufferSize = 20;
             public final Tasks tasks = new Tasks();
@@ -225,6 +226,59 @@ public final class Config {
                  * @param x  the position of the block we need to interact with to load the pearl
                  */
                 public record Pearl(String id, int x, int y, int z) { }
+            }
+
+            public static final class DualAccountTp {
+                public @Nullable Integer priority = null;
+                public boolean enabled = false;
+                public Mode mode = Mode.CLIENT;
+
+                // communication
+                public String peerName = ""; // client mode: name of the account guarding the pearl chambers
+                public String triggerPrefix = "!tpme";
+                public String secretKey = "";
+                public boolean requireKey = true;
+                public String ackPrefix = "!tpdone";
+                public String failPrefix = "!tpfail";
+                public boolean sendAck = true;
+                public boolean replyOnFailure = false;
+                public int cooldownSeconds = 30;
+
+                // client mode triggers (mirrors AutoDisconnect)
+                public boolean whilePlayerConnected = true;
+                public boolean healthTrigger = true;
+                public int healthThreshold = 5;
+                public boolean thunderTrigger = false;
+                public boolean onUnknownPlayerInVisualRange = false;
+                public boolean enemyListMode = false;
+                public boolean disablein3C3Ulobby = true;
+                public boolean onTotemPop = false;
+                public int minTotemsRemaining = 50;
+                public boolean lowYTrigger = false;
+                public int lowYThreshold = 40;
+                public boolean lowYEndOnly = true;
+
+                // server mode
+                public MovementMode movementMode = MovementMode.STAND;
+                public int chamberScanChunkRadius = 2;
+                public int chamberIndexTtlSeconds = 5;
+                public TargetState targetState = TargetState.CLOSE;
+
+                public enum Mode {
+                    CLIENT,
+                    SERVER
+                }
+
+                public enum MovementMode {
+                    STAND,
+                    WALK
+                }
+
+                public enum TargetState {
+                    TOGGLE,
+                    CLOSE,
+                    OPEN
+                }
             }
 
             public static final class Pathfinder {

@@ -63,6 +63,7 @@ public class CommandManager {
         new DiscordManageCommand(),
         new DiscordNotificationsCommand(),
         new DisplayCoordsCommand(),
+        new DualAccountTpCommand(),
         new ExtraChatCommand(),
         new FriendCommand(),
         new EnemyCommand(),
