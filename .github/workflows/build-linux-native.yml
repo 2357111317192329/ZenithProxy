@@ -9,7 +9,7 @@ on:
         default: "26.1.2+linux.26.1.2"
   push:
     tags:
-      - "*+linux.*"
+      - "*linux*"
 
 permissions:
   contents: write
