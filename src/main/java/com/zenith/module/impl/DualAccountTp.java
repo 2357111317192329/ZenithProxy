@@ -71,6 +71,7 @@ public class DualAccountTp extends Module {
     private volatile List<ChamberInfo> chambersCache = List.of();
     private volatile long chambersBuiltAtMs = 0L;
     private final ConcurrentHashMap<String, Instant> lastServerRequest = new ConcurrentHashMap<>();
+    private @Nullable PendingClick pendingClick;
 
     public DualAccountTp() {
         super();
@@ -103,6 +104,9 @@ public class DualAccountTp extends Module {
             if (cfg.peerName.isBlank()) warn("peerName is not set, TP requests cannot be sent");
             if (cfg.requireKey && cfg.secretKey.isBlank()) warn("secretKey is not set, TP requests will be rejected");
         }
+        if (cfg.mode == Mode.SERVER && CONFIG.client.extra.antiafk.enabled) {
+            warn("AntiAFK is enabled on this SERVER instance; it can interfere with trapdoor clicks. Retries are enabled, but disabling AntiAFK is recommended.");
+        }
         info("Enabled in {} mode", cfg.mode);
     }
 
@@ -120,6 +124,7 @@ public class DualAccountTp extends Module {
         chambersCache = List.of();
         chambersBuiltAtMs = 0L;
         lastServerRequest.clear();
+        pendingClick = null;
     }
 
     private void handleOnline(ClientOnlineEvent event) {
@@ -136,7 +141,11 @@ public class DualAccountTp extends Module {
 
     private void handleClientTick(ClientTickEvent event) {
         var cfg = CONFIG.client.extra.dualAccountTp;
-        if (cfg.mode != Mode.CLIENT || !cfg.lowYTrigger) return;
+        if (cfg.mode == Mode.SERVER) {
+            tickPendingClick();
+            return;
+        }
+        if (!cfg.lowYTrigger) return;
         if (cfg.lowYEndOnly && World.getCurrentDimension() != DimensionRegistry.THE_END.get()) return;
 
         var playerCache = CACHE.getPlayerCache();
@@ -191,22 +200,23 @@ public class DualAccountTp extends Module {
         }, 1, TimeUnit.SECONDS);
     }
 
-    private void requestTp(String reason) {
-        requestTp(reason, false);
+    private boolean requestTp(String reason) {
+        return requestTp(reason, false);
     }
 
-    private void requestTp(String reason, boolean force) {
+    private boolean requestTp(String reason, boolean force) {
         var cfg = CONFIG.client.extra.dualAccountTp;
-        if (!force && !isEnabled()) return;
-        if (cfg.mode != Mode.CLIENT || !online() || onClientCooldown()) return;
-        if (!cfg.whilePlayerConnected && Proxy.getInstance().hasActivePlayer()) return;
-        if (cfg.peerName.isBlank()) return;
-        if (cfg.requireKey && cfg.secretKey.isBlank()) return;
+        if (!force && !isEnabled()) return false;
+        if (cfg.mode != Mode.CLIENT || !online() || onClientCooldown()) return false;
+        if (!cfg.whilePlayerConnected && Proxy.getInstance().hasActivePlayer()) return false;
+        if (cfg.peerName.isBlank()) return false;
+        if (cfg.requireKey && cfg.secretKey.isBlank()) return false;
 
         lastClientTrigger = Instant.now();
         var message = cfg.triggerPrefix + (cfg.requireKey ? " " + cfg.secretKey : "");
         sendClientPacketAsync(ChatUtil.getWhisperChatPacket(cfg.peerName, message));
         info("Sent TP request to {} ({})", cfg.peerName, reason);
+        return true;
     }
 
     private boolean onClientCooldown() {
@@ -223,10 +233,12 @@ public class DualAccountTp extends Module {
         if (event.outgoing()) return;
 
         if (cfg.mode == Mode.CLIENT) {
-            if (!cfg.peerName.isBlank()
-                && event.sender().getName().equalsIgnoreCase(cfg.peerName)
-                && event.message().startsWith(cfg.ackPrefix)) {
-                info("TP request acknowledged: {}", event.message());
+            if (!cfg.peerName.isBlank() && event.sender().getName().equalsIgnoreCase(cfg.peerName)) {
+                if (event.message().startsWith(cfg.ackPrefix)) {
+                    info("TP request acknowledged: {}", event.message());
+                } else if (event.message().startsWith(cfg.failPrefix)) {
+                    warn("TP request failed: {}", event.message());
+                }
             }
             return;
         }
@@ -296,7 +308,18 @@ public class DualAccountTp extends Module {
             .orElseThrow();
         var trapdoor = chamber.trapdoorPos();
 
-        if (!shouldInteract(trapdoor)) {
+        Boolean open = World.getBlockStateProperty(World.getBlockStateId(trapdoor), BlockStateProperties.OPEN);
+        if (open == null) {
+            info("Block for {} at {} is not a trapdoor", playerName, trapdoor);
+            replyFailure(sender, "not-trapdoor");
+            return;
+        }
+        boolean expectedOpen = switch (cfg.targetState) {
+            case TOGGLE -> !open;
+            case CLOSE -> false;
+            case OPEN -> true;
+        };
+        if (open == expectedOpen) {
             info("Trapdoor for {} is already in the requested state: {}", playerName, trapdoor);
             replyFailure(sender, "wrong-state");
             return;
@@ -317,36 +340,73 @@ public class DualAccountTp extends Module {
             return;
         }
 
-        if (!interactDirect(trapdoor)) {
-            warn("Trapdoor for {} at {} is out of reach or not visible", playerName, trapdoor);
-            replyFailure(sender, "out-of-reach");
+        if (pendingClick != null) {
+            info("Another trapdoor click is already in progress");
+            replyFailure(sender, "busy");
             return;
         }
 
-        info("Pulling trapdoor for {} at {}", playerName, trapdoor);
-        replySuccess(sender);
+        pendingClick = new PendingClick(playerName, sender, trapdoor, expectedOpen);
+        info("Starting trapdoor click for {} at {} (target open={}, retries={})",
+             playerName, trapdoor, expectedOpen, cfg.clickRetries);
     }
 
-    private boolean shouldInteract(BlockPos pos) {
+    private void tickPendingClick() {
         var cfg = CONFIG.client.extra.dualAccountTp;
-        if (cfg.targetState == TargetState.TOGGLE) return true;
+        var pending = pendingClick;
+        if (pending == null) return;
 
-        Boolean open = World.getBlockStateProperty(World.getBlockStateId(pos), BlockStateProperties.OPEN);
-        if (open == null) return false;
-        return cfg.targetState == TargetState.CLOSE ? open : !open;
+        if (pending.waitTicks > 0) {
+            pending.waitTicks--;
+            return;
+        }
+
+        Boolean open = World.getBlockStateProperty(World.getBlockStateId(pending.trapdoor), BlockStateProperties.OPEN);
+        if (open != null && open == pending.expectedOpen) {
+            info("Trapdoor for {} at {} reached the requested state after {} attempt(s)",
+                 pending.playerName, pending.trapdoor, Math.max(1, pending.attempts));
+            replySuccess(pending.sender);
+            pendingClick = null;
+            return;
+        }
+
+        if (pending.attempts >= cfg.clickRetries) {
+            var reason = pending.lastFailure != null ? pending.lastFailure : "state-unchanged";
+            warn("Failed to pull trapdoor for {} at {} after {} attempt(s): {}",
+                 pending.playerName, pending.trapdoor, pending.attempts, reason);
+            replyFailure(pending.sender, reason);
+            pendingClick = null;
+            return;
+        }
+
+        pending.attempts++;
+        var result = interactDirect(pending.trapdoor);
+        if (result.submitted()) {
+            info("Trapdoor click attempt {}/{} for {} at {} submitted; verifying in {} ticks",
+                 pending.attempts, cfg.clickRetries, pending.playerName, pending.trapdoor, cfg.clickVerifyDelayTicks);
+            pending.lastFailure = "state-unchanged";
+            pending.waitTicks = cfg.clickVerifyDelayTicks;
+        } else {
+            pending.lastFailure = result.failureReason();
+            warn("Trapdoor click attempt {}/{} for {} at {} failed: {}",
+                 pending.attempts, cfg.clickRetries, pending.playerName, pending.trapdoor, result.failureReason());
+            pending.waitTicks = cfg.clickRetryDelayTicks;
+        }
     }
 
-    private boolean interactDirect(BlockPos pos) {
+    private ClickAttempt interactDirect(BlockPos pos) {
         var center = World.blockInteractionCenter(pos.x(), pos.y(), pos.z());
         Vector2f rotation = RotationHelper.rotationTo(center.x(), center.y(), center.z());
 
         var ray = RaycastHelper.playerEyeRaycastThroughToBlockTarget(
             pos.x(), pos.y(), pos.z(),
             rotation.getX(), rotation.getY(), BOT.getBlockReachDistance());
-        if (!ray.hit() || ray.x() != pos.x() || ray.y() != pos.y() || ray.z() != pos.z()) {
-            return false;
+        if (!ray.hit()) return new ClickAttempt(false, "out-of-reach");
+        if (ray.x() != pos.x() || ray.y() != pos.y() || ray.z() != pos.z()) {
+            return new ClickAttempt(false, "blocked");
         }
 
+        var cfg = CONFIG.client.extra.dualAccountTp;
         var future = INPUTS.submit(InputRequest.builder()
                 .owner(this)
                 .input(Input.builder()
@@ -357,11 +417,10 @@ public class DualAccountTp extends Module {
                     .build())
                 .yaw(rotation.getX())
                 .pitch(rotation.getY())
-                .priority(getPriority())
+                .priority(Math.max(cfg.clickPriority, getPriority()))
                 .build());
         if (future.isDone() && !future.getNow()) {
-            warn("Trapdoor click at {} was rejected", pos);
-            return false;
+            return new ClickAttempt(false, "input-rejected");
         }
         future.addInputExecutedListener(f -> {
             if (f.getNow()
@@ -372,7 +431,7 @@ public class DualAccountTp extends Module {
                 warn("Trapdoor click at {} was not executed", pos);
             }
         });
-        return true;
+        return new ClickAttempt(true, null);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -530,13 +589,13 @@ public class DualAccountTp extends Module {
     //  COMMAND SUPPORT
     // ═══════════════════════════════════════════════════════════
 
-    public void triggerNow() {
+    public boolean triggerNow() {
         var cfg = CONFIG.client.extra.dualAccountTp;
         if (cfg.mode == Mode.CLIENT) {
-            requestTp("manual command", true);
-        } else {
-            info("Server mode: use dualAccountTp test <playerName>");
+            return requestTp("manual command", true);
         }
+        info("Server mode: use dualAccountTp test <playerName>");
+        return false;
     }
 
     public void testChamber(String playerName) {
@@ -602,6 +661,25 @@ public class DualAccountTp extends Module {
         if (playerName == null || playerName.isBlank()) return;
         sendClientPacketAsync(ChatUtil.getWhisperChatPacket(playerName, message));
     }
+
+    private static final class PendingClick {
+        final String playerName;
+        final @Nullable PlayerListEntry sender;
+        final BlockPos trapdoor;
+        final boolean expectedOpen;
+        int attempts;
+        int waitTicks;
+        @Nullable String lastFailure;
+
+        PendingClick(String playerName, @Nullable PlayerListEntry sender, BlockPos trapdoor, boolean expectedOpen) {
+            this.playerName = playerName;
+            this.sender = sender;
+            this.trapdoor = trapdoor;
+            this.expectedOpen = expectedOpen;
+        }
+    }
+
+    private record ClickAttempt(boolean submitted, @Nullable String failureReason) {}
 
     public record ChamberInfo(
         String playerName,
