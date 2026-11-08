@@ -52,6 +52,10 @@ public class DualAccountTpCommand extends Command {
                 "cooldown <seconds>",
                 "movement <stand/walk>",
                 "targetState <toggle/close/open>",
+                "retries <1-10>",
+                "retryDelay <1-50>",
+                "verifyDelay <1-20>",
+                "clickPriority <1-1000000>",
                 "scanRadiusChunks <radius>",
                 "indexTtl <seconds>",
                 "health on/off",
@@ -115,10 +119,17 @@ public class DualAccountTpCommand extends Command {
             .then(literal("trigger").executes(c -> {
                 var cfg = CONFIG.client.extra.dualAccountTp;
                 if (cfg.mode == Mode.CLIENT) {
-                    MODULE.get(DualAccountTp.class).triggerNow();
-                    c.getSource().getEmbed()
-                        .title("TP Request Sent")
-                        .successColor();
+                    boolean sent = MODULE.get(DualAccountTp.class).triggerNow();
+                    if (sent) {
+                        c.getSource().getEmbed()
+                            .title("TP Request Sent")
+                            .successColor();
+                    } else {
+                        c.getSource().getEmbed()
+                            .title("TP Request Not Sent")
+                            .description("Check mode/peerName/secretKey/online/cooldown; see module log.")
+                            .errorColor();
+                    }
                 } else {
                     c.getSource().getEmbed()
                         .title("Server Mode")
@@ -170,6 +181,34 @@ public class DualAccountTpCommand extends Command {
                 c.getSource().getEmbed()
                     .title("Target State Set")
                     .addField("State", state.name().toLowerCase(Locale.ROOT));
+                return OK;
+            })))
+            .then(literal("retries").then(argument("count", integer(1, 10)).executes(c -> {
+                CONFIG.client.extra.dualAccountTp.clickRetries = getInteger(c, "count");
+                c.getSource().getEmbed()
+                    .title("Click Retries Set")
+                    .addField("Retries", CONFIG.client.extra.dualAccountTp.clickRetries);
+                return OK;
+            })))
+            .then(literal("retryDelay").then(argument("ticks", integer(1, 50)).executes(c -> {
+                CONFIG.client.extra.dualAccountTp.clickRetryDelayTicks = getInteger(c, "ticks");
+                c.getSource().getEmbed()
+                    .title("Click Retry Delay Set")
+                    .addField("Ticks", CONFIG.client.extra.dualAccountTp.clickRetryDelayTicks);
+                return OK;
+            })))
+            .then(literal("verifyDelay").then(argument("ticks", integer(1, 20)).executes(c -> {
+                CONFIG.client.extra.dualAccountTp.clickVerifyDelayTicks = getInteger(c, "ticks");
+                c.getSource().getEmbed()
+                    .title("Click Verify Delay Set")
+                    .addField("Ticks", CONFIG.client.extra.dualAccountTp.clickVerifyDelayTicks);
+                return OK;
+            })))
+            .then(literal("clickPriority").then(argument("priority", integer(1, 1000000)).executes(c -> {
+                CONFIG.client.extra.dualAccountTp.clickPriority = getInteger(c, "priority");
+                c.getSource().getEmbed()
+                    .title("Click Priority Set")
+                    .addField("Priority", CONFIG.client.extra.dualAccountTp.clickPriority);
                 return OK;
             })))
             .then(literal("scanRadiusChunks").then(argument("radius", integer(0, 8)).executes(c -> {
@@ -308,6 +347,9 @@ public class DualAccountTpCommand extends Command {
                 .addField("Target State", cfg.targetState.name().toLowerCase(Locale.ROOT), true)
                 .addField("Scan Radius", cfg.chamberScanChunkRadius + " chunks", true)
                 .addField("Index TTL", cfg.chamberIndexTtlSeconds + "s", true)
+                .addField("Click Retries", cfg.clickRetries, true)
+                .addField("Retry Delay", cfg.clickRetryDelayTicks + " ticks", true)
+                .addField("Verify Delay", cfg.clickVerifyDelayTicks + " ticks", true)
                 .addField("Send Ack", toggleStr(cfg.sendAck), true)
                 .addField("Reply On Failure", toggleStr(cfg.replyOnFailure), true);
         }

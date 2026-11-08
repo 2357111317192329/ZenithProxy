@@ -263,6 +263,10 @@ public final class Config {
                 public int chamberScanChunkRadius = 2;
                 public int chamberIndexTtlSeconds = 5;
                 public TargetState targetState = TargetState.CLOSE;
+                public int clickRetries = 3;
+                public int clickRetryDelayTicks = 4;
+                public int clickVerifyDelayTicks = 5;
+                public int clickPriority = 100000;
 
                 public enum Mode {
                     CLIENT,
