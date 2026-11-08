@@ -35,6 +35,7 @@ public class ModuleManager {
             new ChatHistory(),
             new Click(),
             new CoordObfuscation(),
+            new DualAccountTp(),
             new ExtraChat(),
             new KillAura(),
             new QueueWarning(),
