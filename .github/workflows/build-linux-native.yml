@@ -1,0 +1,93 @@
+name: Build Linux Native
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Value written to zenith_release.txt"
+        required: false
+        default: "26.1.2+linux.26.1.2"
+  push:
+    tags:
+      - "*linux*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-linux-native-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-linux-amd64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    env:
+      RELEASE_TAG: ${{ github.event.inputs.release_tag || github.ref_name }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: "25"
+          distribution: "graalvm"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show toolchain versions
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          echo "GRAALVM_HOME=$GRAALVM_HOME"
+          echo "RELEASE_TAG=$RELEASE_TAG"
+          java --version
+          native-image --version
+
+      - name: Install native build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential zlib1g-dev
+
+      - name: Elevate wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Download GraalVM PGO profile
+        run: |
+          wget -q https://cdn.2b2t.vc/profile.iprof
+          echo "GRAALVM_PGO_PATH=$(pwd)/profile.iprof" >> "$GITHUB_ENV"
+          ls -lh profile.iprof
+
+      - name: Build Linux native binary
+        run: |
+          ./gradlew nativeCompile \
+            -x test \
+            -x updateWiki \
+            -Porg.gradle.java.installations.paths="$JAVA_HOME"
+
+      - name: Inspect binary
+        run: |
+          ls -lh build/native/nativeCompile/
+          file build/native/nativeCompile/ZenithProxy
+          ldd build/native/nativeCompile/ZenithProxy || true
+
+      - name: Upload Linux binary
+        uses: actions/upload-artifact@v7
+        with:
+          name: ZenithProxy-linux-amd64-26.1.2
+          path: build/native/nativeCompile/ZenithProxy
+          if-no-files-found: error
+          archive: false
+
+      - name: Attach binary to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/native/nativeCompile/ZenithProxy
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
