@@ -76,17 +76,17 @@ public class QueueStatusCommand extends Command {
                         .successColor();
                 })
                 .then(literal("interval").then(argument("mins", integer(1)).executes(c -> {
-                    CONFIG.server.queueStatusRefreshMinutes = getInteger(c, "mins");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.queueStatusRefreshMinutes = getInteger(c, "mins"));
                     settingsEmbed(c.getSource().getEmbed())
                         .title("Refresh Interval Set");
                 })))
                 .then(literal("eta").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.dynamicQueueEtaEquation = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.dynamicQueueEtaEquation = getToggle(c, "toggle"));
                     settingsEmbed(c.getSource().getEmbed())
                         .title("Refresh ETA Set");
                 })))
                 .then(literal("whileNotOn2b2t").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.queueStatusRefreshWhileNotOn2b2t = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.queueStatusRefreshWhileNotOn2b2t = getToggle(c, "toggle"));
                     settingsEmbed(c.getSource().getEmbed())
                         .title("Refresh While Not On 2b2t Set");
                 }))));

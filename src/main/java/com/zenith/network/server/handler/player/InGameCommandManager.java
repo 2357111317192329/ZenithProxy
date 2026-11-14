@@ -1,5 +1,6 @@
 package com.zenith.network.server.handler.player;
 
+import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandContext;
 import com.zenith.command.api.CommandOutputHelper;
 import com.zenith.command.api.CommandSources;
@@ -45,11 +46,46 @@ public class InGameCommandManager {
     }
 
     private boolean executeInGameCommand(final String command, final ServerSession session, final boolean printUnhandled) {
+        if (session.isTempPasswordAuthenticated()) {
+            final String root = command.split(" ")[0].toLowerCase(java.util.Locale.ROOT);
+            if (com.zenith.feature.passwordlogin.PasswordLoginHelper.isTempPasswordCommandDenied(root)) {
+                // entirely forbidden command for temporary password accounts
+                session.sendAsyncAlert(com.zenith.feature.passwordlogin.PasswordLoginHelper.localize(session,
+                    "<red>Temporary password accounts cannot use this command.",
+                    "<red>臨時密碼帳號無法使用此指令。",
+                    "<red>临时密码账号无法使用此指令。"));
+                return true;
+            }
+        }
         final CommandContext commandContext = CommandContext.createInGamePlayerContext(command, session);
         var parse = COMMAND.parse(commandContext);
         if (!parse.getContext().getSource().getEmbed().isTitlePresent() && !COMMAND.hasCommandNode(parse)) return false;
+        final boolean tempPasswordAccount = session.isTempPasswordAuthenticated();
+        if (tempPasswordAccount) com.zenith.util.config.ConfigManager.setTempAccountContext(session);
+        final String configBefore = tempPasswordAccount ? com.zenith.feature.passwordlogin.PasswordLoginHelper.snapshotConfigJson() : null;
         EXECUTOR.execute(() -> {
-            COMMAND.execute(commandContext, parse);
+            try {
+                COMMAND.execute(commandContext, parse);
+                if (tempPasswordAccount && com.zenith.feature.passwordlogin.PasswordLoginHelper.configChangedSince(configBefore)) {
+                    // fallback guard: a handler with a direct CONFIG write slipped through - roll it back,
+                    // re-sync modules, and suppress the command's success output
+                    com.zenith.feature.passwordlogin.PasswordLoginHelper.restoreConfig(configBefore);
+                    MODULE.getModules().forEach(com.zenith.module.api.Module::syncEnabledFromConfig);
+                    final var blockedEmbed = commandContext.getEmbed();
+                    blockedEmbed.title("Config Change Blocked")
+                        .description(com.zenith.feature.passwordlogin.PasswordLoginHelper.localize(session,
+                            "Temporary password accounts cannot modify settings. Changes were rolled back.",
+                            "臨時密碼帳號無法修改設定，已將變更還原。",
+                            "临时密码账号无法修改设置，已将变更还原。"))
+                        .errorColor();
+                    blockedEmbed.fields().clear();
+                }
+            } catch (final com.zenith.util.config.ConfigManager.ConfigChangeBlockedException e) {
+                // blocked at write time: alert already sent by ConfigManager, suppress any further output
+                commandContext.setNoOutput(true);
+            } finally {
+                if (tempPasswordAccount) com.zenith.util.config.ConfigManager.setTempAccountContext(null);
+            }
             var embed = commandContext.getEmbed();
             CommandOutputHelper.logEmbedOutputToInGame(embed, session);
             CommandOutputHelper.logMultiLineOutputToInGame(commandContext.getMultiLineOutput(), session);

@@ -102,12 +102,12 @@ public class ServerSwitcherCommand extends Command {
                         })))))
             .then(literal("del").then(argument("name", wordWithChars()).executes(c -> {
                 var name = getString(c, "name");
-                CONFIG.server.extra.serverSwitcher.servers.removeIf(s -> s.name().equalsIgnoreCase(name));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.serverSwitcher.servers.removeIf(s -> s.name().equalsIgnoreCase(name)));
                 c.getSource().getEmbed()
                     .title("Server removed");
             })))
             .then(literal("clear").executes(c -> {
-                CONFIG.server.extra.serverSwitcher.servers.clear();
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.serverSwitcher.servers.clear());
                 c.getSource().getEmbed()
                     .title("Servers Cleared");
             }))

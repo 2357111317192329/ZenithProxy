@@ -93,51 +93,51 @@ public class CoordinateObfuscationCommand extends Command {
                         return ERROR;
                     }
                 }
-                CONFIG.client.extra.coordObfuscation.enabled = b;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.enabled = b);
                 MODULE.get(CoordObfuscation.class).syncEnabledFromConfig();
                 return OK;
             }))
             .then(literal("mode")
                       .then(literal("constant").executes(c -> {
-                          CONFIG.client.extra.coordObfuscation.mode = ObfuscationMode.CONSTANT_OFFSET;
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.mode = ObfuscationMode.CONSTANT_OFFSET);
                       }))
                       .then(literal("random").executes(c -> {
-                          CONFIG.client.extra.coordObfuscation.mode = ObfuscationMode.RANDOM_OFFSET;
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.mode = ObfuscationMode.RANDOM_OFFSET);
                       }))
                       .then(literal("atLocation").executes(c -> {
-                          CONFIG.client.extra.coordObfuscation.mode = ObfuscationMode.AT_LOCATION;
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.mode = ObfuscationMode.AT_LOCATION);
                       })))
             .then(literal("regenOnTpMinDistance").then(argument("blocks", integer(64)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.teleportOffsetRegenerateDistanceMin = c.getArgument("blocks", Integer.class);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.teleportOffsetRegenerateDistanceMin = c.getArgument("blocks", Integer.class));
             })))
             .then(literal("randomMinDistanceFromSelf").then(argument("blocks", integer(0, 30_000_000)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.randomMinDistanceFromSelf = getInteger(c, "blocks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.randomMinDistanceFromSelf = getInteger(c, "blocks"));
             })))
             .then(literal("randomMinDistanceFromSpawn").then(argument("blocks", integer(0, 30_000_000)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.randomMinDistanceFromSpawn = getInteger(c, "blocks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.randomMinDistanceFromSpawn = getInteger(c, "blocks"));
             })))
             .then(literal("randomMaxDistanceFromSpawn").then(argument("blocks", integer(0, 30_000_000)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.randomMaxDistanceFromSpawn = getInteger(c, "blocks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.randomMaxDistanceFromSpawn = getInteger(c, "blocks"));
             })))
             .then(literal("constantOffset").then(argument("xOffset", integer(-30000000, 30000000)).then(argument("zOffset", integer(-30000000, 30000000)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.constantOffsetX = c.getArgument("xOffset", Integer.class);
-                CONFIG.client.extra.coordObfuscation.constantOffsetZ = c.getArgument("zOffset", Integer.class);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.constantOffsetX = c.getArgument("xOffset", Integer.class));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.constantOffsetZ = c.getArgument("zOffset", Integer.class));
             }))))
             .then(literal("constantOffsetNetherTranslate").then(argument("toggleArg", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.constantOffsetNetherTranslate = getToggle(c, "toggleArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.constantOffsetNetherTranslate = getToggle(c, "toggleArg"));
             })))
             .then(literal("constantOffsetMinSpawnDistance").then(argument("chunks", integer(0, 30000000)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.constantOffsetMinSpawnDistance = getInteger(c, "chunks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.constantOffsetMinSpawnDistance = getInteger(c, "chunks"));
             })))
             .then(literal("atLocation").then(argument("x", integer(-30000000, 30000000)).then(argument("z", integer(-30000000, 30000000)).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.atLocationX = c.getArgument("x", Integer.class);
-                CONFIG.client.extra.coordObfuscation.atLocationZ = c.getArgument("z", Integer.class);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.atLocationX = c.getArgument("x", Integer.class));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.atLocationZ = c.getArgument("z", Integer.class));
             }))))
             .then(literal("obfuscateBedrock").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.obfuscateBedrock = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.obfuscateBedrock = getToggle(c, "toggle"));
             })))
             .then(literal("obfuscateBiomes").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.obfuscateBiomes = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.obfuscateBiomes = getToggle(c, "toggle"));
             })))
             .then(literal("obfuscateBiomesKey").then(argument("biomeId", wordWithChars()).executes(c -> {
                 String biomeId = getString(c, "biomeId");
@@ -150,23 +150,23 @@ public class CoordinateObfuscationCommand extends Command {
                         return ERROR;
                     }
                 }
-                CONFIG.client.extra.coordObfuscation.obfuscateBiomesKey = biomeId;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.obfuscateBiomesKey = biomeId);
                 return OK;
             })))
             .then(literal("validateSetup").then(argument("toggleArg", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.validateSetup = getToggle(c, "toggleArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.validateSetup = getToggle(c, "toggleArg"));
             })))
             .then(literal("exemptProxyAccount").then(argument("toggleArg", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.exemptProxyAccount = getToggle(c, "toggleArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.exemptProxyAccount = getToggle(c, "toggleArg"));
             })))
             .then(literal("debugPacketLog").then(argument("toggleArg", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.debugPacketLog = getToggle(c, "toggleArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.debugPacketLog = getToggle(c, "toggleArg"));
             })))
             .then(literal("eyeOfEnderDisconnect").then(argument("toggleArg", toggle()).executes(c -> {
-                CONFIG.client.extra.coordObfuscation.disconnectWhileEyeOfEnderPresent = getToggle(c, "toggleArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.disconnectWhileEyeOfEnderPresent = getToggle(c, "toggleArg"));
             })))
             .then(literal("blockOffsetsDisconnect").then(argument("toggleArg", toggle()).executes(c -> {;
-                CONFIG.client.extra.coordObfuscation.disconnectWhileNearOffsetBlocks = getToggle(c, "toggleArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.coordObfuscation.disconnectWhileNearOffsetBlocks = getToggle(c, "toggleArg"));
             })));
     }
 

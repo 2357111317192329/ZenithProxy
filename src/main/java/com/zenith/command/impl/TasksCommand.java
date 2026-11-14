@@ -205,12 +205,12 @@ public class TasksCommand extends Command {
                     .title("Tasks Cleared");
             }))
             .then(literal("logCommandActionOutput").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.tasks.logCommandActionOutput = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.tasks.logCommandActionOutput = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log Command Action Output " + toggleStrCaps(CONFIG.client.extra.tasks.logCommandActionOutput));
             })))
             .then(literal("taskCommandExecutedNotification").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.tasks.taskCommandExecutedNotification = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.tasks.taskCommandExecutedNotification = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Task Command Executed Notification " + toggleStrCaps(CONFIG.client.extra.tasks.taskCommandExecutedNotification));
             })));

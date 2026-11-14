@@ -10,6 +10,7 @@ import org.geysermc.mcprotocollib.protocol.packet.configuration.serverbound.Serv
 
 import java.util.concurrent.TimeUnit;
 
+import static com.zenith.Globals.CONFIG;
 import static com.zenith.Globals.EVENT_BUS;
 
 public class FinishConfigurationHandler implements PacketHandler<ServerboundFinishConfigurationPacket, ServerSession> {
@@ -18,6 +19,11 @@ public class FinishConfigurationHandler implements PacketHandler<ServerboundFini
         session.switchInboundState(ProtocolState.GAME);
         session.setClientLoaded(false);
         if (!session.isConfigured()) {
+            if (com.zenith.feature.passwordlogin.PasswordLoginHelper.passwordLoginActive() && !session.isPasswordAuthenticated()) {
+                // password login pending (pre-1.21.6 client): enter the blank "login lobby" world instead of the real one
+                com.zenith.feature.passwordlogin.PasswordLoginHelper.INSTANCE.finishLobbyLogin(session);
+                return null;
+            }
             ProxyServerLoginHandler.INSTANCE.loggedIn(session);
             session.getEventLoop().scheduleAtFixedRate(new SKeepAliveTask(session), 0, 2, TimeUnit.SECONDS);
             return null;

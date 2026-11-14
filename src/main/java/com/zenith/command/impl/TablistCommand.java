@@ -22,6 +22,7 @@ import static com.zenith.Globals.CACHE;
 import static com.zenith.Globals.DEFAULT_LOG;
 
 public class TablistCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

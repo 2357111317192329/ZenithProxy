@@ -213,7 +213,7 @@ public class PathfinderCommand extends Command {
                 }))
                 .then(literal("radius").then(argument("radius", integer()).executes(c -> {
                     int radius = getInteger(c, "radius");
-                    CONFIG.client.extra.pathfinder.followRadius = radius;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.followRadius = radius);
                     c.getSource().getEmbed()
                         .title("Following")
                         .addField("Radius", radius)
@@ -656,231 +656,231 @@ public class PathfinderCommand extends Command {
                     .primaryColor();
             }))
             .then(literal("allowBreak").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowBreak = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreak = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Break", CONFIG.client.extra.pathfinder.allowBreak)
                     .primaryColor();
             })))
             .then(literal("blockBreakAdditionalCost").then(argument("cost", floatArg()).executes(c -> {
-                CONFIG.client.extra.pathfinder.blockBreakAdditionalCost = getFloat(c, "cost");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blockBreakAdditionalCost = getFloat(c, "cost"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Block Break Additional Cost", CONFIG.client.extra.pathfinder.blockBreakAdditionalCost)
                     .primaryColor();
             })))
             .then(literal("blockPlacementPenalty").then(argument("cost", doubleArg()).executes(c -> {
-                CONFIG.client.extra.pathfinder.blockPlacementPenalty = getDouble(c, "cost");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blockPlacementPenalty = getDouble(c, "cost"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Block Placement Penalty", CONFIG.client.extra.pathfinder.blockPlacementPenalty)
                     .primaryColor();
             })))
             .then(literal("jumpPenalty").then(argument("cost", doubleArg()).executes(c -> {
-                CONFIG.client.extra.pathfinder.jumpPenalty = getDouble(c, "cost");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.jumpPenalty = getDouble(c, "cost"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Jump Penalty", CONFIG.client.extra.pathfinder.jumpPenalty)
                     .primaryColor();
             })))
             .then(literal("allowSprint").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowSprint = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowSprint = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Sprint", CONFIG.client.extra.pathfinder.allowSprint)
                     .primaryColor();
             })))
             .then(literal("allowPlace").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowPlace = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowPlace = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Place", CONFIG.client.extra.pathfinder.allowPlace)
                     .primaryColor();
             })))
             .then(literal("allowInventory").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowInventory = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowInventory = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Inventory", CONFIG.client.extra.pathfinder.allowInventory)
                     .primaryColor();
             })))
             .then(literal("allowDownward").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowDownward = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowDownward = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Downward", CONFIG.client.extra.pathfinder.allowDownward)
                     .primaryColor();
             })))
             .then(literal("allowParkour").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowParkour = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowParkour = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Parkour", CONFIG.client.extra.pathfinder.allowParkour)
                     .primaryColor();
             })))
             .then(literal("allowParkourPlace").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowParkourPlace = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowParkourPlace = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Parkour Place", CONFIG.client.extra.pathfinder.allowParkourPlace)
                     .primaryColor();
             })))
             .then(literal("allowParkourAscend").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowParkourAscend = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowParkourAscend = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Parkour Ascend", CONFIG.client.extra.pathfinder.allowParkourAscend)
                     .primaryColor();
             })))
             .then(literal("allowDiagonalDescend").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowDiagonalDescend = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowDiagonalDescend = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Diagonal Descend", CONFIG.client.extra.pathfinder.allowDiagonalDescend)
                     .primaryColor();
             })))
             .then(literal("allowDiagonalAscend").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowDiagonalAscend = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowDiagonalAscend = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Diagonal Ascend", CONFIG.client.extra.pathfinder.allowDiagonalAscend)
                     .primaryColor();
             })))
             .then(literal("maxFallHeightNoWater").then(argument("fallHeight", integer()).executes(c -> {
-                CONFIG.client.extra.pathfinder.maxFallHeightNoWater = getInteger(c, "fallHeight");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.maxFallHeightNoWater = getInteger(c, "fallHeight"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Max Fall Height No Water", CONFIG.client.extra.pathfinder.maxFallHeightNoWater)
                     .primaryColor();
             })))
             .then(literal("allowLongFall").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.allowLongFall = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowLongFall = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Allow Long Fall", CONFIG.client.extra.pathfinder.allowLongFall)
                     .primaryColor();
             })))
             .then(literal("longFallCostMultiplier").then(argument("multiplier", doubleArg(1.0, 1000.0)).executes(c -> {
-                CONFIG.client.extra.pathfinder.longFallCostLogMultiplier = getDouble(c, "multiplier");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.longFallCostLogMultiplier = getDouble(c, "multiplier"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Long Fall Cost Log Multiplier", CONFIG.client.extra.pathfinder.longFallCostLogMultiplier)
                     .primaryColor();
             })))
             .then(literal("longFallCostAddCost").then(argument("cost", doubleArg(1.0, 10000.0)).executes(c -> {
-                CONFIG.client.extra.pathfinder.longFallCostAddCost = getDouble(c, "cost");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.longFallCostAddCost = getDouble(c, "cost"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Long Fall Cost Add Cost", CONFIG.client.extra.pathfinder.longFallCostAddCost)
                     .primaryColor();
             })))
             .then(literal("primaryTimeoutMs").then(argument("ms", integer(100, 10000)).executes(c -> {
-                CONFIG.client.extra.pathfinder.primaryTimeoutMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.primaryTimeoutMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Primary Timeout", CONFIG.client.extra.pathfinder.primaryTimeoutMs)
                     .primaryColor();
             })))
             .then(literal("failureTimeoutMs").then(argument("ms", integer(100, 10000)).executes(c -> {
-                CONFIG.client.extra.pathfinder.failureTimeoutMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.failureTimeoutMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Failure Timeout", CONFIG.client.extra.pathfinder.failureTimeoutMs)
                     .primaryColor();
             })))
             .then(literal("planAheadPrimaryTimeoutMs").then(argument("ms", integer(100, 10000)).executes(c -> {
-                CONFIG.client.extra.pathfinder.planAheadPrimaryTimeoutMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.planAheadPrimaryTimeoutMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Plan Ahead Primary Timeout", CONFIG.client.extra.pathfinder.planAheadPrimaryTimeoutMs)
                     .primaryColor();
             })))
             .then(literal("planAheadFailureTimeoutMs").then(argument("ms", integer(100, 10000)).executes(c -> {
-                CONFIG.client.extra.pathfinder.planAheadFailureTimeoutMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.planAheadFailureTimeoutMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Plan Ahead Failure Timeout", CONFIG.client.extra.pathfinder.planAheadFailureTimeoutMs)
                     .primaryColor();
             })))
             .then(literal("failedPathSearchCooldownMs").then(argument("ms", integer(100, 10000)).executes(c -> {
-                CONFIG.client.extra.pathfinder.failedPathSearchCooldownMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.failedPathSearchCooldownMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Failed Path Search Cooldown", CONFIG.client.extra.pathfinder.failedPathSearchCooldownMs)
                     .primaryColor();
             })))
             .then(literal("renderPath").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.renderPath = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.renderPath = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Render Path", CONFIG.client.extra.pathfinder.renderPath)
                     .primaryColor();
             })))
             .then(literal("renderPathIntervalTicks").then(argument("ticks", integer(1, 20)).executes(c -> {
-                CONFIG.client.extra.pathfinder.pathRenderIntervalTicks = getInteger(c, "ticks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.pathRenderIntervalTicks = getInteger(c, "ticks"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Render Path Interval", CONFIG.client.extra.pathfinder.pathRenderIntervalTicks)
                     .primaryColor();
             })))
             .then(literal("renderPathDetailed").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.renderPathDetailed = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.renderPathDetailed = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Render Path Detailed", CONFIG.client.extra.pathfinder.renderPathDetailed)
                     .primaryColor();
             })))
             .then(literal("teleportDelay").then(argument("delay", integer(1)).executes(c -> {
-                CONFIG.client.extra.pathfinder.teleportDelayMs = getInteger(c, "delay");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.teleportDelayMs = getInteger(c, "delay"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Teleport Delay", CONFIG.client.extra.pathfinder.teleportDelayMs)
                     .primaryColor();
             })))
             .then(literal("getToBlockExploreForBlocks").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.getToBlockExploreForBlocks = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.getToBlockExploreForBlocks = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Get To Block Explore For Blocks", CONFIG.client.extra.pathfinder.getToBlockExploreForBlocks)
                     .primaryColor();
             })))
             .then(literal("getToBlockBlacklistClosestOnFailure").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.getToBlockBlacklistClosestOnFailure = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.getToBlockBlacklistClosestOnFailure = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Get To Block Blacklist Closest On Failure", CONFIG.client.extra.pathfinder.getToBlockBlacklistClosestOnFailure)
                     .primaryColor();
             })))
             .then(literal("placeBlockVerifyAbleToPlace").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.placeBlockVerifyAbleToPlace = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.placeBlockVerifyAbleToPlace = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Place Block Verify Able To Place", CONFIG.client.extra.pathfinder.placeBlockVerifyAbleToPlace)
                     .primaryColor();
             })))
             .then(literal("placeBlockSneak").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.placeBlockSneak = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.placeBlockSneak = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Place Block Sneak", CONFIG.client.extra.pathfinder.placeBlockSneak)
                     .primaryColor();
             })))
             .then(literal("interactWithProcessMaxPathTries").then(argument("count", integer(1)).executes(c -> {
-                CONFIG.client.extra.pathfinder.interactWithProcessMaxPathTries = getInteger(c, "count");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.interactWithProcessMaxPathTries = getInteger(c, "count"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Interact With Process Max Path Tries", CONFIG.client.extra.pathfinder.interactWithProcessMaxPathTries)
                     .primaryColor();
             })))
             .then(literal("avoidUpdatingFallingBlocks").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.avoidUpdatingFallingBlocks = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.avoidUpdatingFallingBlocks = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Avoid Updating Falling Blocks", CONFIG.client.extra.pathfinder.avoidUpdatingFallingBlocks)
                     .primaryColor();
             })))
             .then(literal("pauseMiningForFallingBlocks").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.pauseMiningForFallingBlocks = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.pauseMiningForFallingBlocks = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Pause Mining For Falling Blocks", CONFIG.client.extra.pathfinder.pauseMiningForFallingBlocks)
@@ -888,7 +888,7 @@ public class PathfinderCommand extends Command {
             })))
             .then(literal("acceptableThrowawayItems")
                 .then(literal("list").executes(c -> {
-                    CONFIG.client.extra.pathfinder.acceptableThrowawayItems.removeIf(itemName -> ItemRegistry.REGISTRY.get(itemName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.acceptableThrowawayItems.removeIf(itemName -> ItemRegistry.REGISTRY.get(itemName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.acceptableThrowawayItems))
@@ -896,8 +896,8 @@ public class PathfinderCommand extends Command {
                 }))
                 .then(literal("add").then(argument("item", item()).executes(c -> {
                     var item = getItem(c, "item");
-                    CONFIG.client.extra.pathfinder.acceptableThrowawayItems.add(item.name());
-                    CONFIG.client.extra.pathfinder.acceptableThrowawayItems.removeIf(itemName -> ItemRegistry.REGISTRY.get(itemName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.acceptableThrowawayItems.add(item.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.acceptableThrowawayItems.removeIf(itemName -> ItemRegistry.REGISTRY.get(itemName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.acceptableThrowawayItems))
@@ -905,15 +905,15 @@ public class PathfinderCommand extends Command {
                 })))
                 .then(literal("del").then(argument("item", item()).executes(c -> {
                     var item = getItem(c, "item");
-                    CONFIG.client.extra.pathfinder.acceptableThrowawayItems.remove(item.name());
-                    CONFIG.client.extra.pathfinder.acceptableThrowawayItems.removeIf(itemName -> ItemRegistry.REGISTRY.get(itemName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.acceptableThrowawayItems.remove(item.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.acceptableThrowawayItems.removeIf(itemName -> ItemRegistry.REGISTRY.get(itemName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.acceptableThrowawayItems))
                         .primaryColor();
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.pathfinder.acceptableThrowawayItems.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.acceptableThrowawayItems.clear());
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description("Acceptable Throwaway Items Cleared")
@@ -921,7 +921,7 @@ public class PathfinderCommand extends Command {
                 })))
             .then(literal("allowBreakAnyway")
                 .then(literal("list").executes(c -> {
-                    CONFIG.client.extra.pathfinder.allowBreakAnyway.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreakAnyway.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.allowBreakAnyway))
@@ -929,8 +929,8 @@ public class PathfinderCommand extends Command {
                 }))
                 .then(literal("add").then(argument("block", block()).executes(c -> {
                     var block = getBlock(c, "block");
-                    CONFIG.client.extra.pathfinder.allowBreakAnyway.add(block.name());
-                    CONFIG.client.extra.pathfinder.allowBreakAnyway.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreakAnyway.add(block.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreakAnyway.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.allowBreakAnyway))
@@ -938,15 +938,15 @@ public class PathfinderCommand extends Command {
                 })))
                 .then(literal("del").then(argument("block", block()).executes(c -> {
                     var block = getBlock(c, "block");
-                    CONFIG.client.extra.pathfinder.allowBreakAnyway.remove(block.name());
-                    CONFIG.client.extra.pathfinder.allowBreakAnyway.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreakAnyway.remove(block.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreakAnyway.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.allowBreakAnyway))
                         .primaryColor();
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.pathfinder.allowBreakAnyway.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.allowBreakAnyway.clear());
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.allowBreakAnyway))
@@ -954,7 +954,7 @@ public class PathfinderCommand extends Command {
                 })))
             .then(literal("blocksToDisallowBreaking")
                 .then(literal("list").executes(c -> {
-                    CONFIG.client.extra.pathfinder.blocksToDisallowBreaking.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToDisallowBreaking.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToDisallowBreaking))
@@ -962,8 +962,8 @@ public class PathfinderCommand extends Command {
                 }))
                 .then(literal("add").then(argument("block", block()).executes(c -> {
                     var block = getBlock(c, "block");
-                    CONFIG.client.extra.pathfinder.blocksToDisallowBreaking.add(block.name());
-                    CONFIG.client.extra.pathfinder.blocksToDisallowBreaking.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToDisallowBreaking.add(block.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToDisallowBreaking.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToDisallowBreaking))
@@ -971,15 +971,15 @@ public class PathfinderCommand extends Command {
                 })))
                 .then(literal("del").then(argument("block", block()).executes(c -> {
                     var block = getBlock(c, "block");
-                    CONFIG.client.extra.pathfinder.blocksToDisallowBreaking.remove(block.name());
-                    CONFIG.client.extra.pathfinder.blocksToDisallowBreaking.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToDisallowBreaking.remove(block.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToDisallowBreaking.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToDisallowBreaking))
                         .primaryColor();
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.pathfinder.blocksToDisallowBreaking.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToDisallowBreaking.clear());
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToDisallowBreaking))
@@ -987,7 +987,7 @@ public class PathfinderCommand extends Command {
                 })))
             .then(literal("blocksToAvoid")
                 .then(literal("list").executes(c -> {
-                    CONFIG.client.extra.pathfinder.blocksToAvoid.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToAvoid.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToAvoid))
@@ -995,8 +995,8 @@ public class PathfinderCommand extends Command {
                 }))
                 .then(literal("add").then(argument("block", block()).executes(c -> {
                     var block = getBlock(c, "block");
-                    CONFIG.client.extra.pathfinder.blocksToAvoid.add(block.name());
-                    CONFIG.client.extra.pathfinder.blocksToAvoid.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToAvoid.add(block.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToAvoid.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToAvoid))
@@ -1004,57 +1004,57 @@ public class PathfinderCommand extends Command {
                 })))
                 .then(literal("del").then(argument("block", block()).executes(c -> {
                     var block = getBlock(c, "block");
-                    CONFIG.client.extra.pathfinder.blocksToAvoid.remove(block.name());
-                    CONFIG.client.extra.pathfinder.blocksToAvoid.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToAvoid.remove(block.name()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToAvoid.removeIf(blockName -> BlockRegistry.REGISTRY.get(blockName) == null));
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToAvoid))
                         .primaryColor();
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.pathfinder.blocksToAvoid.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.blocksToAvoid.clear());
                     c.getSource().getEmbed()
                         .title("Pathfinder")
                         .description(String.join("\n", CONFIG.client.extra.pathfinder.blocksToAvoid))
                         .primaryColor();
                 })))
             .then(literal("autoTool").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.autoTool = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.autoTool = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Auto Tool", CONFIG.client.extra.pathfinder.autoTool)
                     .primaryColor();
             })))
             .then(literal("assumeExternalAutoTool").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.assumeExternalAutoTool = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.assumeExternalAutoTool = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Assume External Auto Tool", CONFIG.client.extra.pathfinder.assumeExternalAutoTool)
                     .primaryColor();
             })))
             .then(literal("itemSaver").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.itemSaver = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.itemSaver = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Item Saver", CONFIG.client.extra.pathfinder.itemSaver)
                     .primaryColor();
             })))
             .then(literal("itemSaverThreshold").then(argument("threshold", integer()).executes(c -> {
-                CONFIG.client.extra.pathfinder.itemSaverThreshold = getInteger(c, "threshold");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.itemSaverThreshold = getInteger(c, "threshold"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Item Saver Threshold", CONFIG.client.extra.pathfinder.itemSaverThreshold)
                     .primaryColor();
             })))
             .then(literal("preferSilkTouch").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pathfinder.preferSilkTouch = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.preferSilkTouch = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Prefer Silk Touch", CONFIG.client.extra.pathfinder.preferSilkTouch)
                     .primaryColor();
             })))
             .then(literal("lavaWalkCost").then(argument("cost", doubleArg()).executes(c -> {
-                CONFIG.client.extra.pathfinder.lavaWalkCost = getDouble(c, "cost");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.lavaWalkCost = getDouble(c, "cost"));
                 c.getSource().getEmbed()
                     .title("Pathfinder")
                     .addField("Lava Walk Cost", CONFIG.client.extra.pathfinder.lavaWalkCost)

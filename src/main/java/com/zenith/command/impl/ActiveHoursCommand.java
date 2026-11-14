@@ -58,7 +58,7 @@ public class ActiveHoursCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("activeHours")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.utility.actions.activeHours.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.enabled = getToggle(c, "toggle"));
                 MODULE.get(ActiveHours.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("Active Hours " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.enabled));
@@ -71,7 +71,7 @@ public class ActiveHoursCommand extends Command {
                         .title("Invalid Timezone")
                         .addField("Help", "Time zone Ids: https://w.wiki/8Yif", false);
                 } else {
-                    CONFIG.client.extra.utility.actions.activeHours.timeZoneId = ZoneId.of(timeZoneId).getId();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.timeZoneId = ZoneId.of(timeZoneId).getId());
                     c.getSource().getEmbed()
                         .title("Set timezone: " + timeZoneId);
                 }
@@ -87,7 +87,7 @@ public class ActiveHoursCommand extends Command {
                 } else {
                     final ActiveTime activeTime = ActiveTime.fromString(time);
                     if (!CONFIG.client.extra.utility.actions.activeHours.activeTimes.contains(activeTime)) {
-                        CONFIG.client.extra.utility.actions.activeHours.activeTimes.add(activeTime);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.activeTimes.add(activeTime));
                     }
                     c.getSource().getEmbed()
                         .title("Added time: " + time);
@@ -103,7 +103,7 @@ public class ActiveHoursCommand extends Command {
                     return ERROR;
                 } else {
                     final ActiveTime activeTime = ActiveTime.fromString(time);
-                    CONFIG.client.extra.utility.actions.activeHours.activeTimes.removeIf(s -> s.equals(activeTime));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.activeTimes.removeIf(s -> s.equals(activeTime)));
                     c.getSource().getEmbed()
                         .title("Removed time: " + time);
                     return OK;
@@ -115,20 +115,20 @@ public class ActiveHoursCommand extends Command {
             }))
             .then(literal("whilePlayerConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.activeHours.forceReconnect = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.forceReconnect = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Force Reconnect Set!");
                     return OK;
                 })))
             .then(literal("queueEtaCalc")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.activeHours.queueEtaCalc = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.queueEtaCalc = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Queue ETA Calc Set!");
                     return OK;
                 })))
             .then(literal("fullSessionUntilNextDisconnect").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Full Session Until Next Disconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.activeHours.fullSessionUntilNextDisconnect));
             })));

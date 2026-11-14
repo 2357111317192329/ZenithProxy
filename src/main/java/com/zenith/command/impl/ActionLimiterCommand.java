@@ -71,57 +71,57 @@ public class ActionLimiterCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("actionLimiter").requires(Command::validateAccountOwner)
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.enabled = getToggle(c, "toggle"));
                 MODULE.get(ActionLimiter.class).syncEnabledFromConfig();
             }))
             .then(literal("allowMovement").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowMovement = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowMovement = getToggle(c, "toggle"));
             })))
             .then(literal("movementDistance").then(argument("distance", integer(0)).executes(c -> {
-                CONFIG.client.extra.actionLimiter.movementDistance = getInteger(c, "distance");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.movementDistance = getInteger(c, "distance"));
             })))
             .then(literal("movementHome").then(argument("x", integer()).then(argument("z", integer()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.movementHomeX = getInteger(c, "x");
-                CONFIG.client.extra.actionLimiter.movementHomeZ = getInteger(c, "z");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.movementHomeX = getInteger(c, "x"));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.movementHomeZ = getInteger(c, "z"));
             }))))
             .then(literal("movementMinY").then(argument("y", integer(-64, 400)).executes(c -> {
-                CONFIG.client.extra.actionLimiter.movementMinY = getInteger(c, "y");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.movementMinY = getInteger(c, "y"));
             })))
             .then(literal("allowInventory").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowInventory = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowInventory = getToggle(c, "toggle"));
             })))
             .then(literal("allowBlockBreaking").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowBlockBreaking = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowBlockBreaking = getToggle(c, "toggle"));
             })))
             .then(literal("allowInteract").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowInteract = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowInteract = getToggle(c, "toggle"));
             })))
             .then(literal("allowEnderChest").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowEnderChest = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowEnderChest = getToggle(c, "toggle"));
             })))
             .then(literal("allowUseItem").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowUseItem = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowUseItem = getToggle(c, "toggle"));
             })))
             .then(literal("allowBookSigning").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowBookSigning = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowBookSigning = getToggle(c, "toggle"));
             })))
             .then(literal("allowChat").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowChat = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowChat = getToggle(c, "toggle"));
             })))
             .then(literal("allowServerCommands").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowServerCommands = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowServerCommands = getToggle(c, "toggle"));
             })))
             .then(literal("allowRespawn").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.actionLimiter.allowRespawn = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.allowRespawn = getToggle(c, "toggle"));
             })))
             .then(literal("itemsBlacklist")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.actionLimiter.itemsBlacklistEnabled = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.itemsBlacklistEnabled = getToggle(c, "toggle"));
                 }))
                 .then(literal("add").then(argument("item", item()).executes(c -> {
                     ItemData itemData = getItem(c, "item");
                     String id = itemData.name();
-                    CONFIG.client.extra.actionLimiter.itemsBlacklist.add(id);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.itemsBlacklist.add(id));
                     c.getSource().getEmbed()
                         .description(id + " added");
                 })))
@@ -139,7 +139,7 @@ public class ActionLimiterCommand extends Command {
                         }
                         ItemData itemData = ItemRegistry.REGISTRY.get(item);
                         if (itemData == null) continue;
-                        CONFIG.client.extra.actionLimiter.itemsBlacklist.add(itemData.name());
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.itemsBlacklist.add(itemData.name()));
                     }
                     c.getSource().getEmbed()
                         .description("Items added");
@@ -147,12 +147,12 @@ public class ActionLimiterCommand extends Command {
                 .then(literal("del").then(argument("item", item()).executes(c -> {
                     ItemData itemData = getItem(c, "item");
                     String id = itemData.name();
-                    CONFIG.client.extra.actionLimiter.itemsBlacklist.remove(id);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.itemsBlacklist.remove(id));
                     c.getSource().getEmbed()
                         .description(id + " removed");
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.actionLimiter.itemsBlacklist.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.actionLimiter.itemsBlacklist.clear());
                     c.getSource().getEmbed()
                         .description("Cleared");
                 }))

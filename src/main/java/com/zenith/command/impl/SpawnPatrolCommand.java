@@ -53,67 +53,67 @@ public class SpawnPatrolCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("spawnPatrol")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.enabled = getToggle(c, "toggle"));
                 MODULE.get(SpawnPatrol.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("SpawnPatrol " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.enabled));
             }))
             .then(literal("goal").then(argument("pos", blockPos()).executes(c -> {
                 var pos = getBlockPos(c, "pos");
-                CONFIG.client.extra.spawnPatrol.goalX = pos.x();
-                CONFIG.client.extra.spawnPatrol.goalY = pos.y();
-                CONFIG.client.extra.spawnPatrol.goalZ = pos.z();
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.goalX = pos.x());
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.goalY = pos.y());
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.goalZ = pos.z());
                 c.getSource().getEmbed()
                     .title("Goal Set");
             })))
             .then(literal("maxPatrolRange").then(argument("blocks", integer(10)).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.maxPatrolRange = getInteger(c, "blocks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.maxPatrolRange = getInteger(c, "blocks"));
                 c.getSource().getEmbed()
                     .title("Max Patrol Range Set");
             })))
             .then(literal("targetOnlyNakeds").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.targetOnlyNakeds = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.targetOnlyNakeds = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Target Only Nakeds " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.targetOnlyNakeds));
             })))
             .then(literal("targetOnlyBedrock").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.targetOnlyBedrock = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.targetOnlyBedrock = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Target Only Bedrock " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.targetOnlyBedrock));
             })))
             .then(literal("stickyTargeting").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.stickyTargeting = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.stickyTargeting = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Sticky Targeting " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.stickyTargeting));
             })))
             .then(literal("targetAttackers").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.targetAttackers = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.targetAttackers = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Target Attackers " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.targetAttackers));
             })))
             .then(literal("nether").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spawnPatrol.nether = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.nether = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Nether " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.nether));
             })))
             .then(literal("stuckKill")
                       .then(argument("toggle", toggle()).executes(c -> {
-                            CONFIG.client.extra.spawnPatrol.stuckKill = getToggle(c, "toggle");
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.stuckKill = getToggle(c, "toggle"));
                             c.getSource().getEmbed()
                                 .title("Stuck /kill " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.stuckKill));
                       }))
                       .then(literal("seconds").then(argument("seconds", integer()).executes(c -> {
-                            CONFIG.client.extra.spawnPatrol.stuckKillSeconds = getInteger(c, "seconds");
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.stuckKillSeconds = getInteger(c, "seconds"));
                             c.getSource().getEmbed()
                                 .title("Stuck /kill Seconds Set");
                       })))
                       .then(literal("minDist").then(argument("blocks", integer()).executes(c -> {
-                          CONFIG.client.extra.spawnPatrol.stuckKillMinDist = getInteger(c, "blocks");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.stuckKillMinDist = getInteger(c, "blocks"));
                           c.getSource().getEmbed()
                               .title("Stuck /kill MinDist Set");
                       })))
                       .then(literal("antiStuck").then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.client.extra.spawnPatrol.stuckKillAntiStuck = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.stuckKillAntiStuck = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("Stuck /kill AntiStuck " + toggleStrCaps(CONFIG.client.extra.spawnPatrol.stuckKillAntiStuck));
                       })))

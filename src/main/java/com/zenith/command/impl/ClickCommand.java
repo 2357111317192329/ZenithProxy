@@ -76,8 +76,8 @@ public class ClickCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("click")
             .then(literal("stop").executes(c -> {
-                CONFIG.client.extra.click.holdLeftClick = false;
-                CONFIG.client.extra.click.holdRightClick = false;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClick = false);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClick = false);
                 c.getSource().getEmbed()
                     .title("Click Hold Off")
                     .primaryColor();
@@ -129,15 +129,15 @@ public class ClickCommand extends Command {
                     return OK;
                 })))
                 .then(literal("hold").executes(c -> {
-                        CONFIG.client.extra.click.holdLeftClick = true;
-                        CONFIG.client.extra.click.holdRightClick = false;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClick = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClick = false);
                         c.getSource().getEmbed()
                             .title("Left Click Hold")
                             .primaryColor();
                         return OK;
                     })
                     .then(literal("interval").then(argument("interval", integer(0, 100)).executes(c -> {
-                        CONFIG.client.extra.click.holdLeftClickInterval = getInteger(c, "interval");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClickInterval = getInteger(c, "interval"));
                         c.getSource().getEmbed()
                             .title("Left Click Hold Interval Set")
                             .primaryColor();
@@ -260,51 +260,51 @@ public class ClickCommand extends Command {
                 })))
                 .then(literal("hold")
                     .executes(c -> {
-                        CONFIG.client.extra.click.holdLeftClick = false;
-                        CONFIG.client.extra.click.holdRightClick = true;
-                        CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.MAIN_HAND;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClick = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClick = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClickMode = HoldRightClickMode.MAIN_HAND);
                         c.getSource().getEmbed()
                             .title("Right Click Hold")
                             .primaryColor();
                     })
                     .then(literal("mainHand").executes(c -> {
-                        CONFIG.client.extra.click.holdLeftClick = false;
-                        CONFIG.client.extra.click.holdRightClick = true;
-                        CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.MAIN_HAND;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClick = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClick = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClickMode = HoldRightClickMode.MAIN_HAND);
                         c.getSource().getEmbed()
                             .title("Right Click Hold (Main Hand)")
                             .primaryColor();
                     }))
                     .then(literal("offHand").executes(c -> {
-                        CONFIG.client.extra.click.holdLeftClick = false;
-                        CONFIG.client.extra.click.holdRightClick = true;
-                        CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.OFF_HAND;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClick = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClick = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClickMode = HoldRightClickMode.OFF_HAND);
                         c.getSource().getEmbed()
                             .title("Right Click Hold (Offhand)")
                             .primaryColor();
                     }))
                     .then(literal("alternate").executes(c -> {
-                        CONFIG.client.extra.click.holdLeftClick = false;
-                        CONFIG.client.extra.click.holdRightClick = true;
-                        CONFIG.client.extra.click.holdRightClickMode = HoldRightClickMode.ALTERNATE_HANDS;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdLeftClick = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClick = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClickMode = HoldRightClickMode.ALTERNATE_HANDS);
                         c.getSource().getEmbed()
                             .title("Right Click Hold (Alternate)")
                             .primaryColor();
                     }))
                     .then(literal("interval").then(argument("ticks", time(0, 100)).executes(c -> {
-                        CONFIG.client.extra.click.holdRightClickInterval = getInteger(c, "ticks");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdRightClickInterval = getInteger(c, "ticks"));
                         c.getSource().getEmbed()
                             .title("Right Click Hold Interval Set")
                             .primaryColor();
                     })))))
             .then(literal("addedBlockReach").then(argument("reach", floatArg(-10, 10)).executes(c -> {
-                CONFIG.client.extra.click.additionalBlockReach = getFloat(c, "reach");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.additionalBlockReach = getFloat(c, "reach"));
                 c.getSource().getEmbed()
                     .title("Additional Block Reach Set")
                     .primaryColor();
             })))
             .then(literal("addedEntityReach").then(argument("reach", floatArg(-10, 10)).executes(c -> {
-                CONFIG.client.extra.click.additionalEntityReach = getFloat(c, "reach");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.additionalEntityReach = getFloat(c, "reach"));
                 c.getSource().getEmbed()
                     .title("Additional Entity Reach Set")
                     .primaryColor();
@@ -312,28 +312,28 @@ public class ClickCommand extends Command {
             .then(literal("hold")
                 .then(literal("forceRotation")
                     .then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.client.extra.click.hasRotation = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.hasRotation = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("Hold Force Rotation Set")
                             .primaryColor();
                     }))
                     .then(argument("yaw", floatArg(-180, 180)).then(argument("pitch", floatArg(-90, 90)).executes(c -> {
-                        CONFIG.client.extra.click.rotationYaw = getFloat(c, "yaw");
-                        CONFIG.client.extra.click.rotationPitch = getFloat(c, "pitch");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.rotationYaw = getFloat(c, "yaw"));
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.rotationPitch = getFloat(c, "pitch"));
                         c.getSource().getEmbed()
                             .title("Hold Force Rotation Set")
                             .primaryColor();
                     })))
                     .then(literal("sync").executes(c -> {
-                        CONFIG.client.extra.click.hasRotation = true;
-                        CONFIG.client.extra.click.rotationYaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw());
-                        CONFIG.client.extra.click.rotationPitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch());
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.hasRotation = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.rotationYaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw()));
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.rotationPitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch()));
                         c.getSource().getEmbed()
                             .title("Hold Force Rotation Set")
                             .primaryColor();
                     })))
                 .then(literal("sneak").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.click.holdSneak = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdSneak = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Hold Sneak Set")
                         .primaryColor();
@@ -341,7 +341,7 @@ public class ClickCommand extends Command {
                 .then(literal("target")
                     .then(argument("targetType", enumStrings(HoldClickTarget.values())).executes(c -> {
                         String targetString = getString(c, "targetType");
-                        CONFIG.client.extra.click.holdClickTarget = HoldClickTarget.valueOf(targetString.toUpperCase());
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.holdClickTarget = HoldClickTarget.valueOf(targetString.toUpperCase()));
                         c.getSource().getEmbed()
                             .title("Hold Target Set")
                             .primaryColor();

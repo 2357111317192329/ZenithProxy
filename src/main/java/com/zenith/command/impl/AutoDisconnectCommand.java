@@ -68,86 +68,86 @@ public class AutoDisconnectCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoDisconnect")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.utility.actions.autoDisconnect.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoDisconnect.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoDisconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.enabled));
             }))
             .then(literal("health")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.healthDisconnect = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.healthDisconnect = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Health Disconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.healthDisconnect));
                 }))
                 .then(argument("healthLevel", integer(1, 19)).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.health = IntegerArgumentType.getInteger(c, "healthLevel");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.health = IntegerArgumentType.getInteger(c, "healthLevel"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Health Level Updated!");
                 })))
             .then(literal("cancelAutoReconnect")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.cancelAutoReconnect = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.cancelAutoReconnect = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Cancel AutoReconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.cancelAutoReconnect));
                 })))
             .then(literal("autoClientDisconnect")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.autoClientDisconnect = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.autoClientDisconnect = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Auto Client Disconnect " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.autoClientDisconnect));
                 })))
             .then(literal("thunder")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.thunder = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.thunder = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Thunder " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.thunder));
                 })))
             .then(literal("unknownPlayer")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Unknown Player " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.onUnknownPlayerInVisualRange));
                 }))
                 .then(literal("enemyListMode").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.enemyListMode = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Unknown Player Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.enemyListMode));
                 })))
                 .then(literal("disablein3C3Ulobby").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.disablein3C3Ulobby = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.disablein3C3Ulobby = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Unknown Player Disable in 3C3U lobby " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.disablein3C3Ulobby));
                 }))))
             .then(literal("whilePlayerConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.whilePlayerConnected = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.whilePlayerConnected = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect While Player Connected " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.whilePlayerConnected));
                 })))
             .then(literal("totemPop")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.onTotemPop = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.onTotemPop = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Totem Pop " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.onTotemPop));
                 }))
                 .then(literal("minTotemsRemaining").then(argument("count", integer(1)).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.minTotemsRemaining = getInteger(c, "count");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.minTotemsRemaining = getInteger(c, "count"));
                     c.getSource().getEmbed()
                         .title("Min Totems Remaining Set");
                 }))))
             .then(literal("lowY")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.lowYDisconnect = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Low Y " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.lowYDisconnect));
                 }))
                 .then(literal("threshold").then(argument("y", integer()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.lowYThreshold = getInteger(c, "y");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.lowYThreshold = getInteger(c, "y"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Low Y Threshold Updated!");
                 })))
                 .then(literal("endOnly").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.utility.actions.autoDisconnect.lowYEndOnly = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.utility.actions.autoDisconnect.lowYEndOnly = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("AutoDisconnect Low Y End Only " + toggleStrCaps(CONFIG.client.extra.utility.actions.autoDisconnect.lowYEndOnly));
                 }))));

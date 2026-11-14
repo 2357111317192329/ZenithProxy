@@ -48,7 +48,7 @@ public class SessionTimeLimitCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("sessionTimeLimit")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.sessionTimeLimit.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.enabled = getToggle(c, "toggle"));
                 MODULE.get(SessionTimeLimit.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("Session Time Limit " + toggleStrCaps(CONFIG.client.extra.sessionTimeLimit.enabled));
@@ -62,7 +62,7 @@ public class SessionTimeLimitCommand extends Command {
             }))
             .then(literal("dynamic2b2tSessionTimeLimit")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.client.extra.sessionTimeLimit.dynamic2b2tSessionTimeLimit = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.dynamic2b2tSessionTimeLimit = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("dynamic2b2tSessionTimeLimit " + toggleStrCaps(CONFIG.client.extra.sessionTimeLimit.dynamic2b2tSessionTimeLimit));
                           return OK;
@@ -74,18 +74,18 @@ public class SessionTimeLimitCommand extends Command {
                 }))
                 .then(literal("add").then(argument("minutes", integer(1)).executes(c -> {
                     var minutes = getInteger(c, "minutes");
-                    CONFIG.client.extra.sessionTimeLimit.ingameNotificationPositions.add(minutes);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.ingameNotificationPositions.add(minutes));
                     c.getSource().getEmbed()
                         .title("In Game Time Added");
                 })))
                 .then(literal("del").then(argument("minutes", integer(1)).executes(c -> {
                     var minutes = getInteger(c, "minutes");
-                    CONFIG.client.extra.sessionTimeLimit.ingameNotificationPositions.remove(minutes);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.ingameNotificationPositions.remove(minutes));
                     c.getSource().getEmbed()
                         .title("In Game Time Removed");
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.sessionTimeLimit.ingameNotificationPositions.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.ingameNotificationPositions.clear());
                     c.getSource().getEmbed()
                         .title("In Game Times Cleared");
                     return OK;
@@ -97,28 +97,28 @@ public class SessionTimeLimitCommand extends Command {
                 }))
                 .then(literal("add").then(argument("minutes", integer(1)).executes(c -> {
                     var minutes = getInteger(c, "minutes");
-                    CONFIG.client.extra.sessionTimeLimit.discordNotificationPositions.add(minutes);
-                    CONFIG.client.extra.sessionTimeLimit.discordMentionPositions.remove(minutes);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordNotificationPositions.add(minutes));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordMentionPositions.remove(minutes));
                     c.getSource().getEmbed()
                         .title("Discord Time Added");
                 })
                     .then(literal("mention").executes(c -> {
                         var minutes = getInteger(c, "minutes");
-                        CONFIG.client.extra.sessionTimeLimit.discordNotificationPositions.add(minutes);
-                        CONFIG.client.extra.sessionTimeLimit.discordMentionPositions.add(minutes);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordNotificationPositions.add(minutes));
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordMentionPositions.add(minutes));
                         c.getSource().getEmbed()
                             .title("Discord Time Added");
                     }))))
                 .then(literal("del").then(argument("minutes", integer(1)).executes(c -> {
                     var minutes = getInteger(c, "minutes");
-                    CONFIG.client.extra.sessionTimeLimit.discordNotificationPositions.remove(minutes);
-                    CONFIG.client.extra.sessionTimeLimit.discordMentionPositions.remove(minutes);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordNotificationPositions.remove(minutes));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordMentionPositions.remove(minutes));
                     c.getSource().getEmbed()
                         .title("Discord Time Removed");
                 })))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.client.extra.sessionTimeLimit.discordNotificationPositions.clear();
-                    CONFIG.client.extra.sessionTimeLimit.discordMentionPositions.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordNotificationPositions.clear());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.sessionTimeLimit.discordMentionPositions.clear());
                     c.getSource().getEmbed()
                         .title("Discord Times Cleared");
                     return OK;

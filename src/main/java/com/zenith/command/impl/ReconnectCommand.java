@@ -13,6 +13,7 @@ import static com.zenith.Globals.MODULE;
 import static com.zenith.util.DisconnectMessages.SYSTEM_DISCONNECT;
 
 public class ReconnectCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

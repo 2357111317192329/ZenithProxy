@@ -13,6 +13,7 @@ import static com.zenith.Globals.BOT;
 import static com.zenith.Globals.CONFIG;
 
 public class RaycastCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

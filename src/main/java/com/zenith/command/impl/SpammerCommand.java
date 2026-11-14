@@ -56,38 +56,38 @@ public class SpammerCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("spammer")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spammer.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.enabled = getToggle(c, "toggle"));
                 MODULE.get(Spammer.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("Spammer " + toggleStrCaps(CONFIG.client.extra.spammer.enabled));
             }))
             .then(literal("whisper")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.spammer.whisper = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.whisper = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Whisper " + toggleStrCaps(CONFIG.client.extra.spammer.whisper));
                 })))
             .then(literal("whilePlayerConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.spammer.whilePlayerConnected = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.whilePlayerConnected = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("While Player Connected " + toggleStrCaps(CONFIG.client.extra.spammer.whilePlayerConnected));
                 })))
             .then(literal("delayTicks")
                 .then(argument("delayTicks", time(1)).executes(c -> {
-                    CONFIG.client.extra.spammer.delayTicks = IntegerArgumentType.getInteger(c, "delayTicks");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.delayTicks = IntegerArgumentType.getInteger(c, "delayTicks"));
                     c.getSource().getEmbed()
                         .title("Delay Updated!");
                 })))
             .then(literal("randomOrder")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.spammer.randomOrder = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.randomOrder = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Random Order " + toggleStrCaps(CONFIG.client.extra.spammer.randomOrder));
                 })))
             .then(literal("appendRandom")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.spammer.appendRandom = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.appendRandom = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Append Random " + toggleStrCaps(CONFIG.client.extra.spammer.appendRandom));
                 })))
@@ -96,14 +96,14 @@ public class SpammerCommand extends Command {
                     .title("Status");
             }))
             .then(literal("clear").executes(c -> {
-                CONFIG.client.extra.spammer.messages.clear();
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.messages.clear());
                 c.getSource().getEmbed()
                     .title("Messages Cleared!");
             }))
             .then(literal("add")
                 .then(argument("message", greedyString()).executes(c -> {
                     final String message = StringArgumentType.getString(c, "message");
-                    CONFIG.client.extra.spammer.messages.add(message);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.messages.add(message));
                     c.getSource().getEmbed()
                         .primaryColor()
                         .title("Message Added!");
@@ -112,7 +112,7 @@ public class SpammerCommand extends Command {
                 final int index = IntegerArgumentType.getInteger(c, "index");
                 final String message = StringArgumentType.getString(c, "message");
                 try {
-                    CONFIG.client.extra.spammer.messages.add(index, message);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.messages.add(index, message));
                     c.getSource().getEmbed()
                         .title("Message Added!");
                     return OK;
@@ -131,7 +131,7 @@ public class SpammerCommand extends Command {
                         .description("Each input message must be delimited by `,,`");
                     return ERROR;
                 }
-                CONFIG.client.extra.spammer.messages.addAll(Arrays.asList(split));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.messages.addAll(Arrays.asList(split)));
                 c.getSource().getEmbed()
                     .title("All Message added!")
                     .addField("Added Message Count", split.length);
@@ -141,7 +141,7 @@ public class SpammerCommand extends Command {
                 .then(argument("index", integer(0)).executes(c -> {
                     final int index = IntegerArgumentType.getInteger(c, "index");
                     try {
-                        CONFIG.client.extra.spammer.messages.remove(index);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spammer.messages.remove(index));
                         addListDescription(c.getSource().getEmbed()
                             .title("Message Removed!"));
                         return OK;

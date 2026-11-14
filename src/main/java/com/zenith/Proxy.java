@@ -199,6 +199,8 @@ public class Proxy {
             EXECUTOR.scheduleAtFixedRate(this::tablistUpdate, 20L, 3L, TimeUnit.SECONDS);
             EXECUTOR.scheduleAtFixedRate(this::maxPlaytimeTick, CONFIG.client.maxPlaytimeReconnectMins, 1L, TimeUnit.MINUTES);
             EXECUTOR.scheduleAtFixedRate(this::deprecationWarningTick, 0L, 72L, TimeUnit.HOURS);
+            // expire temporary passwords and disconnect players bound to them
+            EXECUTOR.scheduleAtFixedRate(com.zenith.feature.passwordlogin.PasswordLoginHelper::sweepTempPasswords, 30L, 30L, TimeUnit.SECONDS);
             EXECUTOR.schedule(this::serverConnectionTest, 10L, TimeUnit.SECONDS);
             boolean connected = false;
             if (CONFIG.client.autoConnect && !isConnected()) {
@@ -221,6 +223,11 @@ public class Proxy {
                 DEFAULT_LOG.info("Started AutoUpdater");
             }
             DEFAULT_LOG.info("ZenithProxy started!");
+            if (CONFIG.server.passwordLogin.enabled
+                && !CONFIG.server.extra.whitelist.enable
+                && CONFIG.server.passwordLogin.passwordHash.isEmpty()) {
+                DEFAULT_LOG.warn("Password login is enabled and the whitelist is disabled, but no password has been set. All client connections will be rejected until you set one: `clientConnection passwordLogin set <password>`");
+            }
             if (LAUNCH_CONFIG.release_channel.endsWith(".pre")) {
                 DISCORD.sendEmbedMessage(
                     Embed.builder()

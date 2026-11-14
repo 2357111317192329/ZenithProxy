@@ -31,6 +31,12 @@ public class SLoginFinishedOutgoingHandler implements PacketHandler<ClientboundL
         try {
             // finishLogin will send a second ClientboundLoginFinishedPacket, just return it as is
             if (session.isWhitelistChecked()) return packet;
+            if (com.zenith.feature.passwordlogin.PasswordLoginHelper.passwordLoginActive() && !session.isPasswordAuthenticated()) {
+                // password login pending: let the client's own profile LoginFinished pass through untouched.
+                // the whitelist/controller flow is skipped; the client goes to configuration where the
+                // password dialog (1.21.6+) or login lobby (<1.21.6) takes over.
+                return packet;
+            }
             final GameProfile clientGameProfile = session.getProfileCache().getProfile();
             if (clientGameProfile == null) {
                 session.disconnect("Failed to Login");

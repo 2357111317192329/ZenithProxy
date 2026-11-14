@@ -67,12 +67,12 @@ public class ServerConnectionCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("serverConnection").requires(Command::validateAccountOwner)
             .then(literal("proxyIP").then(argument("ip", wordWithChars()).executes(c -> {
-                CONFIG.server.proxyIP = getString(c, "ip");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.proxyIP = getString(c, "ip"));
                 c.getSource().getEmbed()
                     .title("Proxy IP Set");
             })))
             .then(literal("port").then(argument("port", integer(1, 65535)).executes(context -> {
-                CONFIG.server.bind.port = getInteger(context, "port");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.bind.port = getInteger(context, "port"));
                 context.getSource().getEmbed()
                     .title("Port Set")
                     .description("Restarting server...");
@@ -82,7 +82,7 @@ public class ServerConnectionCommand extends Command {
                 });
             })))
             .then(literal("upnp").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.upnp = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.upnp = getToggle(c, "toggle"));
                 if (CONFIG.server.upnp) {
                     Proxy.getInstance().openUpnp();
                 } else {
@@ -93,84 +93,84 @@ public class ServerConnectionCommand extends Command {
             })))
             .then(literal("ping")
                 .then(argument("pingToggle", toggle()).executes(context -> {
-                    CONFIG.server.ping.enabled = getToggle(context, "pingToggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.ping.enabled = getToggle(context, "pingToggle"));
                     context.getSource().getEmbed()
                         .title("Ping Set!");
                 }))
                 .then(literal("onlinePlayers")
                     .then(argument("onlinePlayersToggle", toggle()).executes(context -> {
-                        CONFIG.server.ping.onlinePlayers = getToggle(context, "onlinePlayersToggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.ping.onlinePlayers = getToggle(context, "onlinePlayersToggle"));
                         context.getSource().getEmbed()
                             .title("Ping Reports Online Players Set!");
                     })))
                 .then(literal("onlinePlayerCount")
                     .then(argument("onlinePlayerCountToggle", toggle()).executes(context -> {
-                        CONFIG.server.ping.onlinePlayerCount = getToggle(context, "onlinePlayerCountToggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.ping.onlinePlayerCount = getToggle(context, "onlinePlayerCountToggle"));
                         context.getSource().getEmbed()
                             .title("Ping Online Player Count Set!");
                     })))
                 .then(literal("maxPlayers").then(argument("maxPlayers", integer(0)).executes(context -> {
-                    CONFIG.server.ping.maxPlayers = getInteger(context, "maxPlayers");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.ping.maxPlayers = getInteger(context, "maxPlayers"));
                     context.getSource().getEmbed()
                         .title("Ping Max Players Set!");
                 })))
                 .then(literal("lanBroadcast")
                     .then(argument("lanBroadcastToggle", toggle()).executes(context -> {
-                        CONFIG.server.ping.lanBroadcast = getToggle(context, "lanBroadcastToggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.ping.lanBroadcast = getToggle(context, "lanBroadcastToggle"));
                         context.getSource().getEmbed()
                             .title("Ping LAN Broadcast Set!");
                     })))
                 .then(literal("log")
                     .then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.server.ping.logPings = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.ping.logPings = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("Ping Log " + toggleStrCaps(CONFIG.server.ping.logPings));
                     }))))
             .then(literal("enforceMatchingConnectingAddress").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.enforceMatchingConnectingAddress = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.enforceMatchingConnectingAddress = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Enforce Connecting Address " + toggleStrCaps(CONFIG.server.enforceMatchingConnectingAddress));
             })))
             .then(literal("timeout")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.extra.timeout.enable = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.timeout.enable = getToggle(c, "toggle"));
                     syncTimeout();
                     c.getSource().getEmbed()
                         .title("Server Timeout " + toggleStrCaps(CONFIG.server.extra.timeout.enable));
                 }))
                 .then(argument("timeout", integer(1, 120)).executes(c -> {
-                    CONFIG.server.extra.timeout.seconds = getInteger(c, "timeout");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.timeout.seconds = getInteger(c, "timeout"));
                     syncTimeout();
                     c.getSource().getEmbed()
                         .title("Server Timeout Set");
                 })))
             .then(literal("autoConnectOnLogin").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoConnectOnLogin = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoConnectOnLogin = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Auto Connect On Login " + toggleStrCaps(CONFIG.client.extra.autoConnectOnLogin));
             })))
             .then(literal("injectTablistFooter").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.injectTablistFooter = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.injectTablistFooter = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Inject Tablist Footer "  + toggleStrCaps(CONFIG.server.injectTablistFooter));
             })))
             .then(literal("welcomeMessages").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.welcomeMessages = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.welcomeMessages = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Welcome Messages " + toggleStrCaps(CONFIG.server.welcomeMessages));
             })))
             .then(literal("updateServerIcon").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.updateServerIcon = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.updateServerIcon = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Update Server Icon " + toggleStrCaps(CONFIG.server.updateServerIcon));
             })))
             .then(literal("chatSigning").then(literal("mode").then(argument("mode", enumStrings(Config.Server.ChatSigning.ChatSigningMode.values())).executes(c -> {
-                CONFIG.server.chatSigning.mode = Config.Server.ChatSigning.ChatSigningMode.valueOf(getString(c, "mode").toUpperCase());
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.chatSigning.mode = Config.Server.ChatSigning.ChatSigningMode.valueOf(getString(c, "mode").toUpperCase()));
                 c.getSource().getEmbed()
                     .title("Chat Signing Mode Set");
             }))))
             .then(literal("preferLoginAsController").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.preferLoginAsController = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.preferLoginAsController = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Prefer Login As Controller " + toggleStrCaps(CONFIG.server.preferLoginAsController));
             })));

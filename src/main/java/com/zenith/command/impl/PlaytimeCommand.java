@@ -15,6 +15,7 @@ import static com.zenith.command.brigadier.CustomStringArgumentType.getString;
 import static com.zenith.command.brigadier.CustomStringArgumentType.wordWithChars;
 
 public class PlaytimeCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

@@ -29,7 +29,7 @@ public class PrioCommand extends Command {
         return command("prio")
             .then(literal("mentions")
                       .then(argument("toggle", toggle()).executes(c -> {
-                            CONFIG.discord.mentionRoleOnPrioUpdate = getToggle(c, "toggle");
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnPrioUpdate = getToggle(c, "toggle"));
                             c.getSource().getEmbed()
                                 .title("Prio Mentions " + toggleStrCaps(CONFIG.discord.mentionRoleOnPrioUpdate));
                             return OK;

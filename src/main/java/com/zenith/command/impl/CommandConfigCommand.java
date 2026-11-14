@@ -50,7 +50,7 @@ public class CommandConfigCommand extends Command {
                             .description("Prefix must be at least one character");
                         return OK;
                     }
-                    CONFIG.discord.prefix = newPrefix;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.prefix = newPrefix);
                     c.getSource().getEmbed()
                         .title("Command Config")
                         .description("Set discord prefix to " + CONFIG.discord.prefix);
@@ -58,24 +58,24 @@ public class CommandConfigCommand extends Command {
                 }))))
             .then(literal("ingame")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.inGameCommands.enable = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.inGameCommands.enable = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("In Game Commands " + toggleStrCaps(CONFIG.inGameCommands.enable));
                 }))
                 .then(literal("slashCommands").then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.inGameCommands.slashCommands = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.inGameCommands.slashCommands = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("In Game Slash Commands " + toggleStrCaps(CONFIG.inGameCommands.slashCommands));
                         syncSlashCommandsToCurrentPlayer();
                     }))
                     .then(literal("replaceServerCommands").then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.inGameCommands.slashCommandsReplacesServerCommands = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.inGameCommands.slashCommandsReplacesServerCommands = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("Replace Server Commands " + toggleStrCaps(CONFIG.inGameCommands.slashCommandsReplacesServerCommands));
                         syncSlashCommandsToCurrentPlayer();
                     })))
                     .then(literal("suggestions").then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.inGameCommands.slashCommands = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.inGameCommands.slashCommands = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("In Game Slash Commands Suggestions " + toggleStrCaps(CONFIG.inGameCommands.slashCommands));
                     }))))
@@ -87,7 +87,7 @@ public class CommandConfigCommand extends Command {
                             .description("Prefix must be at least one character");
                         return ERROR;
                     } else {
-                        CONFIG.inGameCommands.prefix = newPrefix;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.inGameCommands.prefix = newPrefix);
                         c.getSource().getEmbed()
                             .title("Command Config")
                             .description("Set ingame prefix to " + CONFIG.inGameCommands.prefix);
@@ -95,7 +95,7 @@ public class CommandConfigCommand extends Command {
                     }
                 })))
                 .then(literal("allowWhitelistedToUseAccountOwnerCommands").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.inGameCommands.allowWhitelistedToUseAccountOwnerCommands = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.inGameCommands.allowWhitelistedToUseAccountOwnerCommands = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Allow Whitelisted Use Account Owner Commands " + toggleStrCaps(CONFIG.inGameCommands.allowWhitelistedToUseAccountOwnerCommands));
                 }))));

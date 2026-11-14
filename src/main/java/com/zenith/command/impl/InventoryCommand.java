@@ -353,23 +353,23 @@ public class InventoryCommand extends Command {
                 return OK;
             })))
             .then(literal("actionDelayTicks").then(argument("ticks", time(0, 100)).executes(c -> {
-                CONFIG.client.inventory.actionDelayTicks = getInteger(c, "ticks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.inventory.actionDelayTicks = getInteger(c, "ticks"));
                 settingsEmbed(c.getSource().getEmbed()
                     .title("Action Delay Ticks Set"));
             })))
             .then(literal("ncpStrict").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.inventory.ncpStrict = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.inventory.ncpStrict = getToggle(c, "toggle"));
                 settingsEmbed(c.getSource().getEmbed()
                     .title("NCP Strict " + toggleStrCaps(CONFIG.client.inventory.ncpStrict)));
             })))
             .then(literal("autoCloseOpenContainers")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.inventory.autoCloseOpenContainers = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.inventory.autoCloseOpenContainers = getToggle(c, "toggle"));
                     settingsEmbed(c.getSource().getEmbed()
                         .title("Auto Close " + toggleStrCaps(CONFIG.client.inventory.autoCloseOpenContainers)));
                 }))
                 .then(literal("delaySeconds").then(argument("seconds", integer(1, 1000)).executes(c -> {
-                    CONFIG.client.inventory.autoCloseOpenContainerAfterSeconds = getInteger(c, "seconds");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.inventory.autoCloseOpenContainerAfterSeconds = getInteger(c, "seconds"));
                     settingsEmbed(c.getSource().getEmbed()
                         .title("Auto Close Delay Set"));
                 }))));

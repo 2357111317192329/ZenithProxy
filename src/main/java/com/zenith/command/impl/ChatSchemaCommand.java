@@ -54,13 +54,13 @@ public class ChatSchemaCommand extends Command {
             .then(literal("del")
                 .executes(c -> {
                     var serverAddress = CONFIG.client.server.address;
-                    CONFIG.client.chatSchemas.serverSchemas.remove(serverAddress);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.remove(serverAddress));
                     c.getSource().getEmbed()
                         .title("Server Removed");
                 })
                 .then(argument("serverAddress", wordWithChars()).executes(c -> {
                     var serverAddress = getString(c, "serverAddress");
-                    CONFIG.client.chatSchemas.serverSchemas.remove(serverAddress);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.remove(serverAddress));
                     c.getSource().getEmbed()
                         .title("Server Removed");
                 })))
@@ -70,7 +70,7 @@ public class ChatSchemaCommand extends Command {
                     var schemaArg = getString(c, "schema");
                     var originalSchema = CONFIG.client.chatSchemas.serverSchemas.getOrDefault(serverAddress, ChatSchema.DEFAULT_SCHEMA);
                     var newSchema = new ChatSchema(schemaArg, originalSchema.whisperInbound(), originalSchema.whisperOutbound());
-                    CONFIG.client.chatSchemas.serverSchemas.put(serverAddress, newSchema);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.put(serverAddress, newSchema));
                     c.getSource().getEmbed()
                         .title("Public Chat Schema Set");
                 }))))
@@ -79,7 +79,7 @@ public class ChatSchemaCommand extends Command {
                     var schemaArg = getString(c, "schema");
                     var originalSchema = CONFIG.client.chatSchemas.serverSchemas.getOrDefault(serverAddress, ChatSchema.DEFAULT_SCHEMA);
                     var newSchema = new ChatSchema(originalSchema.publicChat(), schemaArg, originalSchema.whisperOutbound());
-                    CONFIG.client.chatSchemas.serverSchemas.put(serverAddress, newSchema);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.put(serverAddress, newSchema));
                     c.getSource().getEmbed()
                         .title("Inbound Whisper Schema Set");
                 }))))
@@ -88,7 +88,7 @@ public class ChatSchemaCommand extends Command {
                     var schemaArg = getString(c, "schema");
                     var originalSchema = CONFIG.client.chatSchemas.serverSchemas.getOrDefault(serverAddress, ChatSchema.DEFAULT_SCHEMA);
                     var newSchema = new ChatSchema(originalSchema.publicChat(), originalSchema.whisperInbound(), schemaArg);
-                    CONFIG.client.chatSchemas.serverSchemas.put(serverAddress, newSchema);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.put(serverAddress, newSchema));
                     c.getSource().getEmbed()
                         .title("Outbound Whisper Schema Set");
                 })))))
@@ -100,7 +100,7 @@ public class ChatSchemaCommand extends Command {
                         "$s whispers: $m",
                         "to $r: $m"
                     );
-                    CONFIG.client.chatSchemas.serverSchemas.put(serverAddress, schema2b2t);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.put(serverAddress, schema2b2t));
                     c.getSource().getEmbed()
                         .title("2b2t Schema Set");
                 }))
@@ -111,7 +111,7 @@ public class ChatSchemaCommand extends Command {
                         "[$s -> me] $m",
                         "[me -> $r] $m"
                     );
-                    CONFIG.client.chatSchemas.serverSchemas.put(serverAddress, schemaEssentials);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSchemas.serverSchemas.put(serverAddress, schemaEssentials));
                     c.getSource().getEmbed()
                         .title("Essentials Schema Set");
                 }))))

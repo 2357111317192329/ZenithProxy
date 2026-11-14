@@ -64,13 +64,13 @@ public class ChatRelayCommand extends Command {
         return command("chatRelay")
             .requires(c -> Command.validateCommandSource(c, asList(CommandSources.DISCORD, CommandSources.TERMINAL)))
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.chatRelay.enable = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.enable = getToggle(c, "toggle"));
                 if (CONFIG.discord.chatRelay.enable && CONFIG.discord.chatRelay.channelId.isEmpty()) {
                     c.getSource().getEmbed()
                         .title("Error")
                         .description("Chat Relay channel must be set: `chatRelay channel <channelId>`")
                         .errorColor();
-                    CONFIG.discord.chatRelay.enable = false;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.enable = false);
                     return OK;
                 }
                 EXECUTOR.execute(this::restartDiscordBot);
@@ -82,6 +82,7 @@ public class ChatRelayCommand extends Command {
                 String channelId = getString(c, "channelId");
                 if (CHANNEL_ID_PATTERN.matcher(channelId).matches())
                     channelId = channelId.substring(2, channelId.length() - 1);
+                final String trimmedChannelId = channelId;
                 try {
                     Long.parseUnsignedLong(channelId);
                 } catch (final Exception e) {
@@ -99,7 +100,7 @@ public class ChatRelayCommand extends Command {
                         .errorColor();
                     return OK;
                 }
-                CONFIG.discord.chatRelay.channelId = channelId;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.channelId = trimmedChannelId);
                 c.getSource().getEmbed()
                     .title("Channel set!")
                     .primaryColor()
@@ -110,61 +111,61 @@ public class ChatRelayCommand extends Command {
             })))
             .then(literal("connectionMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.connectionMessages = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.connectionMessages = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Connection Messages " + toggleStrCaps(CONFIG.discord.chatRelay.connectionMessages));
                 })))
             .then(literal("whispers")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.whispers = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.whispers = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Whispers " + toggleStrCaps(CONFIG.discord.chatRelay.whispers));
                 })))
             .then(literal("publicChat")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.publicChats = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.publicChats = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Public Chat " + toggleStrCaps(CONFIG.discord.chatRelay.publicChats));
                 })))
             .then(literal("deathMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.deathMessages = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.deathMessages = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Death Messages " + toggleStrCaps(CONFIG.discord.chatRelay.deathMessages));
                 })))
             .then(literal("serverMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.serverMessages = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.serverMessages = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Server Messages " + toggleStrCaps(CONFIG.discord.chatRelay.serverMessages));
                 })))
             .then(literal("whisperMentions")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.mentionRoleOnWhisper = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.mentionRoleOnWhisper = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Whisper Mentions " + toggleStrCaps(CONFIG.discord.chatRelay.mentionRoleOnWhisper));
                 })))
             .then(literal("nameMentions")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.mentionRoleOnNameMention = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.mentionRoleOnNameMention = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Name Mentions " + toggleStrCaps(CONFIG.discord.chatRelay.mentionRoleOnNameMention));
                 })))
             .then(literal("mentionsWhileConnected")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.mentionWhileConnected = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.mentionWhileConnected = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Mentions While Connected " + toggleStrCaps(CONFIG.discord.chatRelay.mentionWhileConnected));
                 })))
             .then(literal("ignoreQueue")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.ignoreQueue = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.ignoreQueue = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Ignore Queue " + toggleStrCaps(CONFIG.discord.chatRelay.ignoreQueue));
                 })))
             .then(literal("sendMessages")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.chatRelay.sendMessages = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.sendMessages = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Send Messages " + toggleStrCaps(CONFIG.discord.chatRelay.sendMessages));
                 })))
@@ -180,7 +181,7 @@ public class ChatRelayCommand extends Command {
                             .description(e.toString());
                         return ERROR;
                     }
-                    CONFIG.discord.chatRelay.ignoreRegex.add(regexInput);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.ignoreRegex.add(regexInput));
                     c.getSource().getEmbed()
                         .title("Regex Added");
                     return OK;
@@ -194,14 +195,14 @@ public class ChatRelayCommand extends Command {
                             .description("Index out of bounds");
                         return ERROR;
                     }
-                    CONFIG.discord.chatRelay.ignoreRegex.remove(index);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.ignoreRegex.remove(index));
                     c.getSource().getEmbed()
                         .title("Regex Removed");
                     return OK;
                 })))
                 .then(literal("clear").executes(c -> {
                     c.getSource().getData().put("noDefaultEmbed", true);
-                    CONFIG.discord.chatRelay.ignoreRegex.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.ignoreRegex.clear());
                     c.getSource().getEmbed()
                         .title("Ignore Regex Cleared");
                 }))

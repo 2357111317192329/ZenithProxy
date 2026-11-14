@@ -38,7 +38,7 @@ public class ChatHistoryCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("chatHistory")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.extra.chatHistory.enable = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.chatHistory.enable = getToggle(c, "toggle"));
                 MODULE.get(ChatHistory.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("Chat History " + toggleStrCaps(CONFIG.server.extra.chatHistory.enable));
@@ -46,14 +46,14 @@ public class ChatHistoryCommand extends Command {
             }))
             .then(literal("seconds")
                       .then(argument("seconds", integer(5, 300)).executes(c -> {
-                          CONFIG.server.extra.chatHistory.seconds = getInteger(c, "seconds");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.chatHistory.seconds = getInteger(c, "seconds"));
                           c.getSource().getEmbed()
                               .title("Chat History Seconds Set");
                           return OK;
                       })))
             .then(literal("maxCount")
                       .then(argument("maxCount", integer(1, 50)).executes(c -> {
-                          CONFIG.server.extra.chatHistory.maxCount = getInteger(c, "maxCount");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.chatHistory.maxCount = getInteger(c, "maxCount"));
                           MODULE.get(ChatHistory.class).syncMaxCountFromConfig();
                           c.getSource().getEmbed()
                               .title("Chat History Max Count Set");
@@ -61,7 +61,7 @@ public class ChatHistoryCommand extends Command {
                       })))
             .then(literal("spectators")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.server.extra.chatHistory.spectators = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.chatHistory.spectators = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("Chat History Spectators " + toggleStrCaps(CONFIG.server.extra.chatHistory.spectators));
                           return OK;

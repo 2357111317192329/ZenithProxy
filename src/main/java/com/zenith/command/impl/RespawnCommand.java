@@ -15,6 +15,7 @@ import static com.zenith.Globals.CACHE;
 import static java.util.Objects.nonNull;
 
 public class RespawnCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

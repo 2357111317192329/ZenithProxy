@@ -63,14 +63,14 @@ public class AutoDropCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoDrop")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoDrop.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.enabled = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoDrop " + toggleStrCaps(CONFIG.client.extra.autoDrop.enabled));
                 MODULE.get(AutoDrop.class).syncEnabledFromConfig();
             }))
             .then(literal("mode").then(argument("mode", enumStrings(Config.Client.AutoDrop.Mode.values())).executes(c -> {
                 var modeString = getString(c, "mode").toUpperCase();
-                CONFIG.client.extra.autoDrop.mode = Config.Client.AutoDrop.Mode.valueOf(modeString);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.mode = Config.Client.AutoDrop.Mode.valueOf(modeString));
                 c.getSource().getEmbed()
                     .title("Mode Set");
             })))
@@ -78,7 +78,7 @@ public class AutoDropCommand extends Command {
                 var item = getItem(c, "item");
                 var itemName = item.name();
                 if (!CONFIG.client.extra.autoDrop.items.contains(itemName)) {
-                    CONFIG.client.extra.autoDrop.items.add(itemName);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.items.add(itemName));
                 }
                 Collections.sort(CONFIG.client.extra.autoDrop.items);
                 c.getSource().getEmbed()
@@ -88,8 +88,8 @@ public class AutoDropCommand extends Command {
             .then(literal("del").then(argument("item", item()).executes(c -> {
                 var item = getItem(c, "item");
                 var itemName = item.name();
-                CONFIG.client.extra.autoDrop.items.removeIf(i -> i.equals(itemName));
-                CONFIG.client.extra.autoDrop.items.removeIf(i -> ItemRegistry.REGISTRY.get(i) == null);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.items.removeIf(i -> i.equals(itemName)));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.items.removeIf(i -> ItemRegistry.REGISTRY.get(i) == null));
                 c.getSource().getEmbed()
                     .title("Item Removed")
                     .description(itemsListToString());
@@ -104,7 +104,7 @@ public class AutoDropCommand extends Command {
                         continue;
                     }
                     if (CONFIG.client.extra.autoDrop.items.contains(itemData.name())) continue;
-                    CONFIG.client.extra.autoDrop.items.add(itemData.name());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.items.add(itemData.name()));
                 }
                 Collections.sort(CONFIG.client.extra.autoDrop.items);
                 c.getSource().getEmbed()
@@ -122,38 +122,38 @@ public class AutoDropCommand extends Command {
                     .description(itemsListToString());
             }))
             .then(literal("clear").executes(c -> {
-                CONFIG.client.extra.autoDrop.items.clear();
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.items.clear());
                 c.getSource().getEmbed()
                     .title("Items List Cleared")
                     .description(itemsListToString());
             }))
             .then(literal("delay").then(argument("ticks", time(0)).executes(c -> {
-                CONFIG.client.extra.autoDrop.delayTicks = getInteger(c, "ticks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.delayTicks = getInteger(c, "ticks"));
                 c.getSource().getEmbed()
                     .title("Delay Set");
             })))
             .then(literal("dropStack").then(argument("toggle", toggle()).executes(c -> {;
-                CONFIG.client.extra.autoDrop.dropStack = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.dropStack = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Drop Stack " + toggleStrCaps(CONFIG.client.extra.autoDrop.dropStack));
             })))
             .then(literal("rotation")
                       .then(argument("toggle", toggle()).executes(c -> {;
-                              CONFIG.client.extra.autoDrop.requiresRotation = getToggle(c, "toggle");
+                              com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.requiresRotation = getToggle(c, "toggle"));
                               c.getSource().getEmbed()
                                   .title("Rotation " + toggleStrCaps(CONFIG.client.extra.autoDrop.requiresRotation));
                       }))
                       .then(literal("sync").executes(c -> {
                             // normalize yaw and pitch to -180 to 180 and -90 to 90
-                            CONFIG.client.extra.autoDrop.yaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw());
-                            CONFIG.client.extra.autoDrop.pitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch());
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.yaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw()));
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.pitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch()));
                             c.getSource().getEmbed()
                                 .title("Rotation Set");
                       }))
                       .then(argument("rotation", rotation()).executes(c -> {
                             var rotation = getRotation(c, "rotation");
-                            CONFIG.client.extra.autoDrop.yaw = (float) rotation.getX();
-                            CONFIG.client.extra.autoDrop.pitch = (float) rotation.getY();
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.yaw = (float) rotation.getX());
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.pitch = (float) rotation.getY());
                             c.getSource().getEmbed()
                                 .title("Rotation Set");
                         })));

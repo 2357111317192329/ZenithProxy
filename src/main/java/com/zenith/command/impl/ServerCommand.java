@@ -45,8 +45,8 @@ public class ServerCommand extends Command {
                 .then(argument("port", integer(1, 65535)).executes(c -> {
                     final String ip = StringArgumentType.getString(c, "ip");
                     final int port = IntegerArgumentType.getInteger(c, "port");
-                    CONFIG.client.server.address = ip;
-                    CONFIG.client.server.port = port;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.address = ip);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.port = port);
                     c.getSource().getEmbed()
                         .title("Server Updated!");
                     pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
@@ -70,8 +70,8 @@ public class ServerCommand extends Command {
                                 .description("Invalid IP format.");
                             return OK;
                         }
-                        CONFIG.client.server.address = ipExtracted;
-                        CONFIG.client.server.port = p;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.address = ipExtracted);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.port = p);
                         c.getSource().getEmbed()
                             .title("Server Updated!");
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
@@ -92,22 +92,22 @@ public class ServerCommand extends Command {
                                 .description("Invalid IP format.");
                             return OK;
                         }
-                        CONFIG.client.server.address = ipExtracted;
-                        CONFIG.client.server.port = p;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.address = ipExtracted);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.port = p);
                         c.getSource().getEmbed()
                             .title("Server Updated!");
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                         return OK;
                     } else if (ipv6Pattern.matcher(ip).matches()) {
-                        CONFIG.client.server.address = ip;
-                        CONFIG.client.server.port = 25565;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.address = ip);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.port = 25565);
                         c.getSource().getEmbed()
                             .title("Server Updated!");
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);
                         return OK;
                     } else if (domainPattern.matcher(ip).matches()) {
-                        CONFIG.client.server.address = ip;
-                        CONFIG.client.server.port = 25565;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.address = ip);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.server.port = 25565);
                         c.getSource().getEmbed()
                             .title("Server Updated!");
                         pingServer(c.getSource(), CONFIG.client.server.address, CONFIG.client.server.port);

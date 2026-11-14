@@ -49,7 +49,7 @@ public class PacketLogCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("packetLog").requires(Command::validateAccountOwner)
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.packetLog.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.enabled = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Packet Log " + toggleStrCaps(CONFIG.debug.packetLog.enabled));
             }))
@@ -57,14 +57,14 @@ public class PacketLogCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     var toggle = getToggle(c, "toggle");
                     if (toggle) {
-                        CONFIG.debug.packetLog.clientPacketLog.received = true;
-                        CONFIG.debug.packetLog.clientPacketLog.receivedBody = true;
-                        CONFIG.debug.packetLog.clientPacketLog.postSent = true;
-                        CONFIG.debug.packetLog.clientPacketLog.postSentBody = true;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.received = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.receivedBody = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.postSent = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.postSentBody = true);
                     } else {
-                        CONFIG.debug.packetLog.clientPacketLog.received = false;
-                        CONFIG.debug.packetLog.clientPacketLog.postSent = false;
-                        CONFIG.debug.packetLog.clientPacketLog.preSent = false;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.received = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.postSent = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.clientPacketLog.preSent = false);
                     }
                     c.getSource().getEmbed()
                         .title("Client Packet Log " + toggleStrCaps(toggle));
@@ -73,26 +73,26 @@ public class PacketLogCommand extends Command {
                 .then(argument("toggle", toggle()).executes(c -> {
                     var toggle = getToggle(c, "toggle");
                     if (toggle) {
-                        CONFIG.debug.packetLog.serverPacketLog.received = true;
-                        CONFIG.debug.packetLog.serverPacketLog.receivedBody = true;
-                        CONFIG.debug.packetLog.serverPacketLog.postSent = true;
-                        CONFIG.debug.packetLog.serverPacketLog.postSentBody = true;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.received = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.receivedBody = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.postSent = true);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.postSentBody = true);
                     } else {
-                        CONFIG.debug.packetLog.serverPacketLog.received = false;
-                        CONFIG.debug.packetLog.serverPacketLog.postSent = false;
-                        CONFIG.debug.packetLog.serverPacketLog.preSent = false;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.received = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.postSent = false);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.serverPacketLog.preSent = false);
                     }
                     c.getSource().getEmbed()
                         .title("Server Packet Log " + toggleStrCaps(toggle));
                 })))
             .then(literal("filter")
                 .then(literal("add").then(argument("filter", wordWithChars()).executes(c -> {
-                    CONFIG.debug.packetLog.packetFilterList.add(c.getArgument("filter", String.class).toLowerCase());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.packetFilterList.add(c.getArgument("filter", String.class).toLowerCase()));
                     c.getSource().getEmbed()
                         .title("Packet Log Filter Added");
                 })))
                 .then(literal("del").then(argument("filter", wordWithChars()).executes(c -> {
-                    CONFIG.debug.packetLog.packetFilterList.remove(c.getArgument("filter", String.class).toLowerCase());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.packetFilterList.remove(c.getArgument("filter", String.class).toLowerCase()));
                     c.getSource().getEmbed()
                         .title("Packet Log Filter Removed");
                 })))
@@ -101,12 +101,12 @@ public class PacketLogCommand extends Command {
                         .title("Packet Log Filter List");
                 }))
                 .then(literal("clear").executes(c -> {
-                    CONFIG.debug.packetLog.packetFilterList.clear();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.packetFilterList.clear());
                     c.getSource().getEmbed()
                         .title("Packet Log Filter Cleared");
                 })))
             .then(literal("logLevelDebug").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.packetLog.logLevelDebug = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.packetLog.logLevelDebug = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log Level Debug " + toggleStrCaps(CONFIG.debug.packetLog.logLevelDebug));
             })));

@@ -55,7 +55,7 @@ public class DatabaseCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("database")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.database.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.enabled = getToggle(c, "toggle"));
                 if (CONFIG.database.enabled) DATABASE.start();
                 else DATABASE.stop();
                 c.getSource().getEmbed()
@@ -63,7 +63,7 @@ public class DatabaseCommand extends Command {
                 return OK;
             }))
             .then(literal("host").then(argument("hostArg", wordWithChars()).executes(c -> {
-                CONFIG.database.host = getString(c , "hostArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.host = getString(c , "hostArg"));
                 if (CONFIG.database.enabled) {
                     DATABASE.stop();
                     DATABASE.start();
@@ -72,7 +72,7 @@ public class DatabaseCommand extends Command {
                     .title("Host Set");
             })))
             .then(literal("port").then(argument("portArg", integer(1, 65535)).executes(c -> {
-                CONFIG.database.port = getInteger(c, "portArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.port = getInteger(c, "portArg"));
                 if (CONFIG.database.enabled) {
                     DATABASE.stop();
                     DATABASE.start();
@@ -81,7 +81,7 @@ public class DatabaseCommand extends Command {
                     .title("Port Set");
             })))
             .then(literal("username").then(argument("usernameArg", wordWithChars()).executes(c -> {
-                CONFIG.database.username = getString(c, "usernameArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.username = getString(c, "usernameArg"));
                 if (CONFIG.database.enabled) {
                     DATABASE.stop();
                     DATABASE.start();
@@ -90,7 +90,7 @@ public class DatabaseCommand extends Command {
                     .title("Username Set");
             })))
             .then(literal("password").then(argument("passwordArg", wordWithChars()).executes(c -> {
-                CONFIG.database.password = getString(c, "passwordArg");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.password = getString(c, "passwordArg"));
                 if (CONFIG.database.enabled) {
                     DATABASE.stop();
                     DATABASE.start();
@@ -101,7 +101,7 @@ public class DatabaseCommand extends Command {
             })))
             .then(literal("redis")
                 .then(literal("address").then(argument("redisAddress", wordWithChars()).executes(c -> {
-                    CONFIG.database.lock.redisAddress = getString(c, "redisAddress");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.lock.redisAddress = getString(c, "redisAddress"));
                     if (CONFIG.database.enabled) {
                         DATABASE.stop();
                         DATABASE.start();
@@ -110,7 +110,7 @@ public class DatabaseCommand extends Command {
                         .title("Redis Address Set");
                 })))
                 .then(literal("username").then(argument("redisUsername", wordWithChars()).executes(c -> {
-                    CONFIG.database.lock.redisUsername = getString(c, "redisUsername");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.lock.redisUsername = getString(c, "redisUsername"));
                     if (CONFIG.database.enabled) {
                         DATABASE.stop();
                         DATABASE.start();
@@ -119,7 +119,7 @@ public class DatabaseCommand extends Command {
                         .title("Redis Username Set");
                 })))
                 .then(literal("password").then(argument("redisPassword", wordWithChars()).executes(c -> {
-                    CONFIG.database.lock.redisPassword = getString(c, "redisPassword");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.lock.redisPassword = getString(c, "redisPassword"));
                     if (CONFIG.database.enabled) {
                         DATABASE.stop();
                         DATABASE.start();
@@ -130,7 +130,7 @@ public class DatabaseCommand extends Command {
                 }))))
             .then(literal("queueWait")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.queueWaitEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.queueWaitEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.queueWaitEnabled) DATABASE.startQueueWaitDatabase();
                           else DATABASE.stopQueueWaitDatabase();
                           c.getSource().getEmbed()
@@ -139,7 +139,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("queueLength")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.queueLengthEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.queueLengthEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.queueLengthEnabled) DATABASE.startQueueLengthDatabase();
                           else DATABASE.stopQueueLengthDatabase();
                           c.getSource().getEmbed()
@@ -148,7 +148,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("publicChat")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.chatsEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.chatsEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.chatsEnabled) DATABASE.startChatsDatabase();
                           else DATABASE.stopChatsDatabase();
                           c.getSource().getEmbed()
@@ -157,7 +157,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("joinLeave")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.connectionsEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.connectionsEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.connectionsEnabled) DATABASE.startConnectionsDatabase();
                           else DATABASE.stopConnectionsDatabase();
                           c.getSource().getEmbed()
@@ -166,7 +166,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("deathMessages")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.deathsEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.deathsEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.deathsEnabled) DATABASE.startDeathsDatabase();
                           else DATABASE.stopDeathsDatabase();
                           c.getSource().getEmbed()
@@ -175,7 +175,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("restarts")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.restartsEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.restartsEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.restartsEnabled) DATABASE.startRestartsDatabase();
                           else DATABASE.stopRestartsDatabase();
                           c.getSource().getEmbed()
@@ -184,7 +184,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("playerCount")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.playerCountEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.playerCountEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.playerCountEnabled) DATABASE.startPlayerCountDatabase();
                           else DATABASE.stopPlayerCountDatabase();
                           c.getSource().getEmbed()
@@ -193,7 +193,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("tablist")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.tablistEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.tablistEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.tablistEnabled) DATABASE.startTablistDatabase();
                           else DATABASE.stopTablistDatabase();
                           c.getSource().getEmbed()
@@ -202,7 +202,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("playtime")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.database.playtimeEnabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.playtimeEnabled = getToggle(c, "toggle"));
                           if (CONFIG.database.playtimeEnabled) DATABASE.startPlaytimeDatabase();
                           else DATABASE.stopPlaytimeDatabase();
                           c.getSource().getEmbed()
@@ -211,7 +211,7 @@ public class DatabaseCommand extends Command {
                       })))
             .then(literal("time")
                       .then(argument("toggle", toggle()).executes(c -> {
-                            CONFIG.database.timeEnabled = getToggle(c, "toggle");
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.database.timeEnabled = getToggle(c, "toggle"));
                             if (CONFIG.database.timeEnabled) DATABASE.startTimeDatabase();
                             else DATABASE.stopTimeDatabase();
                             c.getSource().getEmbed()

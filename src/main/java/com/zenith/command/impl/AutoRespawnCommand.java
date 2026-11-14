@@ -35,14 +35,14 @@ public class AutoRespawnCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoRespawn")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoRespawn.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoRespawn.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoRespawn.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoRespawn " + toggleStrCaps(CONFIG.client.extra.autoRespawn.enabled));
                 return OK;
             }))
             .then(literal("delay").then(argument("delay", integer(0)).executes(c -> {
-                CONFIG.client.extra.autoRespawn.delayMillis = IntegerArgumentType.getInteger(c, "delay");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoRespawn.delayMillis = IntegerArgumentType.getInteger(c, "delay"));
                 c.getSource().getEmbed()
                     .title("AutoRespawn Delay Updated!");
                 return OK;

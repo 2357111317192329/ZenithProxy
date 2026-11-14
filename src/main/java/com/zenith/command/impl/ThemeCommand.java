@@ -56,7 +56,7 @@ public class ThemeCommand extends Command {
             .then(literal("primary").then(argument("color", enumStrings(ConfigColor.values())).executes(c -> {
                 var colorStr = getString(c, "color").toUpperCase();
                 try {
-                    CONFIG.theme.primary = ConfigColor.valueOf(colorStr);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.theme.primary = ConfigColor.valueOf(colorStr));
                     c.getSource().getEmbed()
                         .title("Primary Color Set!");
                     return OK;
@@ -70,7 +70,7 @@ public class ThemeCommand extends Command {
             .then(literal("success").then(argument("color", enumStrings(ConfigColor.values())).executes(c -> {
                 var colorStr = getString(c, "color").toUpperCase();
                 try {
-                    CONFIG.theme.success = ConfigColor.valueOf(colorStr);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.theme.success = ConfigColor.valueOf(colorStr));
                     c.getSource().getEmbed()
                         .title("Success Color Set!");
                     return OK;
@@ -84,7 +84,7 @@ public class ThemeCommand extends Command {
             .then(literal("error").then(argument("color", enumStrings(ConfigColor.values())).executes(c -> {
                 var colorStr = getString(c, "color").toUpperCase();
                 try {
-                    CONFIG.theme.error = ConfigColor.valueOf(colorStr);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.theme.error = ConfigColor.valueOf(colorStr));
                     c.getSource().getEmbed()
                         .title("Error Color Set!");
                     return OK;
@@ -98,7 +98,7 @@ public class ThemeCommand extends Command {
             .then(literal("inQueue").then(argument("color", enumStrings(ConfigColor.values())).executes(c -> {
                 var colorStr = getString(c, "color").toUpperCase();
                 try {
-                    CONFIG.theme.inQueue = ConfigColor.valueOf(colorStr);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.theme.inQueue = ConfigColor.valueOf(colorStr));
                     c.getSource().getEmbed()
                         .title("In Queue Color Set!");
                     return OK;

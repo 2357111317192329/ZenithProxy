@@ -35,7 +35,7 @@ public class TickRateCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("tickRate")
             .then(argument("rate", doubleArg(0)).executes(c -> {
-                CONFIG.client.tickRate = getDouble(c, "rate");;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.tickRate = getDouble(c, "rate"));
                 c.getSource().getEmbed()
                     .title("Tick Rate Set");
             }));

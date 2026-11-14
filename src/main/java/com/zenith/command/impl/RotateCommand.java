@@ -15,6 +15,7 @@ import static com.zenith.Globals.BOT;
 import static com.zenith.Globals.INPUTS;
 
 public class RotateCommand extends Command {
+
     private static final int MOVE_PRIORITY = 1000000;
 
     @Override

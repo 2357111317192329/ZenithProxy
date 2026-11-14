@@ -47,47 +47,47 @@ public class ExtraChatCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("extraChat")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.enabled = getToggle(c, "toggle"));
                 MODULE.get(ExtraChat.class).syncEnabledFromConfig();
                 c.getSource().getEmbed().title("ExtraChat " + toggleStrCaps(CONFIG.client.extra.chat.enabled));
             }))
             .then(literal("hideChat").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.hideChat = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.hideChat = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Hide Chat " + toggleStrCaps(CONFIG.client.extra.chat.hideChat));
             })))
             .then(literal("hideWhispers").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.hideWhispers = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.hideWhispers = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Hide Whispers " + toggleStrCaps(CONFIG.client.extra.chat.hideWhispers));
             })))
             .then(literal("hideDeathMessages").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.hideDeathMessages = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.hideDeathMessages = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Hide Death Messages " + toggleStrCaps(CONFIG.client.extra.chat.hideDeathMessages));
             })))
             .then(literal("showConnectionMessages").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.showConnectionMessages = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.showConnectionMessages = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Show Connection Messages " + toggleStrCaps(CONFIG.client.extra.chat.showConnectionMessages));
             })))
             .then(literal("insertClickableLinks").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.insertClickableLinks = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.insertClickableLinks = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Insert Clickable Links " + toggleStrCaps(CONFIG.client.extra.chat.insertClickableLinks));
             })))
             .then(literal("hide2b2tActionBarText").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.hide2b2tActionBarText = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.hide2b2tActionBarText = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Hide 2b2t Action Bar Text " + toggleStrCaps(CONFIG.client.extra.chat.hide2b2tActionBarText));
             })))
             .then(literal("logChatMessages").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.logChatMessages = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.logChatMessages = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log Chat Messages " + toggleStrCaps(CONFIG.client.extra.logChatMessages));
             })))
             .then(literal("logOnlyQueuePositionUpdates").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.logOnlyQueuePositionUpdates = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.logOnlyQueuePositionUpdates = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log Only Queue Pos Updates " + toggleStrCaps(CONFIG.client.extra.logOnlyQueuePositionUpdates));
             })))
@@ -98,45 +98,45 @@ public class ExtraChatCommand extends Command {
                         .title("Invalid Whisper Command");
                     return ERROR;
                 }
-                CONFIG.client.extra.whisperCommand = cmd;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.whisperCommand = cmd);
                 c.getSource().getEmbed()
                     .title("Whisper Command Set");
                 return OK;
             })))
             .then(literal("replace2b2tChatCommands").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.replace2b2tChatCommands = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.replace2b2tChatCommands = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Replace 2b2t Chat Commands " + toggleStrCaps(CONFIG.client.extra.chat.replace2b2tChatCommands));
             })))
             .then(literal("ignoreReplace2b2tChatCommandWhileDatabaseOn").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.chat.ignoreReplace2b2tChatCommandWhileDatabaseOn = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.ignoreReplace2b2tChatCommandWhileDatabaseOn = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Ignore Replace 2b2t Chat Commands While Database On " + toggleStrCaps(CONFIG.client.extra.chat.ignoreReplace2b2tChatCommandWhileDatabaseOn));
             })))
             .then(literal("prefix")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.chat.prefixChats = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.prefixChats = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Prefix Chats " + toggleStrCaps(CONFIG.client.extra.chat.prefixChats));
                 }))
                 .then(literal("set").then(argument("prefix", wordWithChars()).executes(c -> {
-                    CONFIG.client.extra.chat.prefix = getString(c, "prefix");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.prefix = getString(c, "prefix"));
                     c.getSource().getEmbed()
                         .title("Prefix Set");
                 }))))
             .then(literal("suffix")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.chat.suffixChats = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.suffixChats = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Suffix Chats " + toggleStrCaps(CONFIG.client.extra.chat.suffixChats));
                 }))
                 .then(literal("set").then(argument("suffix", wordWithChars()).executes(c -> {
-                    CONFIG.client.extra.chat.suffix = getString(c, "suffix");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.suffix = getString(c, "suffix"));
                     c.getSource().getEmbed()
                         .title("Suffix Set");
                 })))
                 .then(literal("random").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.chat.randomSuffix = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.chat.randomSuffix = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Random Suffix " + toggleStrCaps(CONFIG.client.extra.chat.randomSuffix));
                 }))));

@@ -59,45 +59,45 @@ public class AutoEatCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoEat")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoEat.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoEat.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoEat " + toggleStrCaps(CONFIG.client.extra.autoEat.enabled));
                 return OK;
             }))
             .then(literal("health").then(argument("health", integer(-1)).executes(c -> {
-                CONFIG.client.extra.autoEat.healthThreshold = IntegerArgumentType.getInteger(c, "health");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.healthThreshold = IntegerArgumentType.getInteger(c, "health"));
                 c.getSource().getEmbed()
                     .title("AutoEat Health Threshold Set");
                 return OK;
             })))
             .then(literal("hunger").then(argument("hunger", integer(-1)).executes(c -> {
-                CONFIG.client.extra.autoEat.hungerThreshold = IntegerArgumentType.getInteger(c, "hunger");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.hungerThreshold = IntegerArgumentType.getInteger(c, "hunger"));
                 c.getSource().getEmbed()
                     .title("AutoEat Hunger Threshold Set");
                 return OK;
             })))
             .then(literal("warning").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoEat.warning = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.warning = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoEat Warning " + toggleStrCaps(CONFIG.client.extra.autoEat.warning));
                 return OK;
             })))
             .then(literal("allowUnsafeFood").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoEat.allowUnsafeFood = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.allowUnsafeFood = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoEat Allow Unsafe Food " + toggleStrCaps(CONFIG.client.extra.autoEat.allowUnsafeFood));
             })))
             .then(literal("mode").then(argument("mode", enumStrings("all", "whitelist", "blacklist")).executes(c -> {
                 var modeString = getString(c, "mode").toUpperCase();
-                CONFIG.client.extra.autoEat.mode = Config.Client.Extra.AutoEat.Mode.valueOf(modeString);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.mode = Config.Client.Extra.AutoEat.Mode.valueOf(modeString));
                 c.getSource().getEmbed()
                     .title("Mode Set");
             })))
             .then(literal("add").then(argument("food", food()).executes(c -> {
                 var food = getFood(c, "food");
-                CONFIG.client.extra.autoEat.foods.add(food.name());
-                CONFIG.client.extra.autoEat.foods.removeIf(i -> FoodRegistry.REGISTRY.get(i) == null);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.add(food.name()));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.removeIf(i -> FoodRegistry.REGISTRY.get(i) == null));
                 c.getSource().getEmbed()
                     .title("Food Added")
                     .description(foodList());
@@ -111,7 +111,7 @@ public class AutoEatCommand extends Command {
                         invalidFoods.add(food);
                         continue;
                     }
-                    CONFIG.client.extra.autoEat.foods.add(foodData.name());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.add(foodData.name()));
                 }
                 c.getSource().getEmbed()
                     .title("Foods Added")
@@ -124,20 +124,20 @@ public class AutoEatCommand extends Command {
             })))
             .then(literal("del").then(argument("food", item()).executes(c -> {
                 var food = getFood(c, "food");
-                CONFIG.client.extra.autoEat.foods.remove(food.name());
-                CONFIG.client.extra.autoEat.foods.removeIf(i -> FoodRegistry.REGISTRY.get(i) == null);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.remove(food.name()));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.removeIf(i -> FoodRegistry.REGISTRY.get(i) == null));
                 c.getSource().getEmbed()
                     .title("Food Deleted")
                     .description(foodList());
             })))
             .then(literal("list").executes(c -> {
-                CONFIG.client.extra.autoEat.foods.removeIf(i -> FoodRegistry.REGISTRY.get(i) == null);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.removeIf(i -> FoodRegistry.REGISTRY.get(i) == null));
                 c.getSource().getEmbed()
                     .title("Food Blacklist")
                     .description(foodList());
             }))
             .then(literal("clear").executes(c -> {
-                CONFIG.client.extra.autoEat.foods.clear();
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.foods.clear());
                 c.getSource().getEmbed()
                     .title("Food Blacklist Cleared")
                     .description(foodList());

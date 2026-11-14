@@ -23,6 +23,7 @@ import static com.zenith.Globals.*;
 import static java.util.Objects.nonNull;
 
 public class StatusCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

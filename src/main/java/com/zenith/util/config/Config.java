@@ -854,6 +854,8 @@ public final class Config {
         public final LoginRateLimiter loginRateLimiter = new LoginRateLimiter();
         public boolean connectionTestOnStart = true;
         public final PacketRateLimiter packetRateLimiter = new PacketRateLimiter();
+        public final PasswordLogin passwordLogin = new PasswordLogin();
+        public final NameProtection nameProtection = new NameProtection();
         public boolean upnp = false;
         public boolean injectTablistFooter = true;
         public boolean welcomeMessages = true;
@@ -893,6 +895,60 @@ public final class Config {
             public boolean playerCamOnJoin = false;
             public boolean whitelistEnabled = true;
             public ArrayList<PlayerEntry> whitelist = new ArrayList<>();
+        }
+
+        public static final class PasswordLogin {
+            // Require clients to enter a password before they are allowed into the game.
+            // - 1.21.6+ clients get a native login dialog during the configuration phase.
+            // - Older clients fall back to a blank "login lobby" world where they must type /login <password>.
+            // Until the password is verified, no real server data is sent to the client.
+            // Only active when the whitelist is disabled.
+            public boolean enabled = true;
+            // SHA-256 hex digest of the password. Never store the plaintext password.
+            public String passwordHash = "";
+            // Seconds to wait for the password before disconnecting.
+            public int timeoutSeconds = 60;
+            // Allow clients 1.20.2-1.20.4 to use the login lobby even though they cannot do the
+            // pure-encryption handshake (added in 1.20.5). Their password is then sent in plaintext
+            // and is vulnerable to man-in-the-middle interception. Defaults to false.
+            public boolean allowUnencryptedLegacy = false;
+            // Temporary passwords with a validity window. May be many at once.
+            public java.util.ArrayList<com.zenith.feature.passwordlogin.TemporaryPassword> tempPasswords = new java.util.ArrayList<>();
+            // Commands (root command name or alias, lowercase) that temporary-password accounts are
+            // forbidden from executing entirely (info leaks / high-risk actions).
+            // Other commands are allowed but any config.json modification they attempt is rolled back.
+            public java.util.ArrayList<String> tempPasswordDeniedCommands = new java.util.ArrayList<>(java.util.List.of(
+                // info-sensitive
+                "coordobf", "dualaccounttp", "dualtp", "enemy", "e", "friend", "f", "ignore",
+                "jvmargs", "pearlloader", "pl", "spawnpatrol", "spectator", "stalk", "waypoints",
+                "whitelist", "wl",
+                // high-risk behavior
+                "dc", "debug", "disconnect", "reconnect", "exit", "kick", "reboot", "requeue",
+                "replay", "restart", "shutdown", "update", "connect", "c", "serverSwitcher"
+            ));
+            // Brute-force protection: after N wrong passwords from the same IP, the next attempt must
+            // wait, with the wait time tripling per further failure (capped). A correct password (main
+            // password only, not temporary passwords) resets the IP; changing the password resets all IPs.
+            public boolean lockoutEnabled = true;
+            // wrong-password count after which the lockout begins (fail #4 with threshold 3)
+            public int lockoutThreshold = 3;
+            // cooldown for the first locked attempt, in seconds
+            public long lockoutBaseDelaySeconds = 60;
+            // cooldown multiplier per additional failure
+            public double lockoutMultiplier = 3.0;
+            // maximum cooldown, in seconds (1 day)
+            public long lockoutMaxDelaySeconds = 86400;
+            // ip -> attempt record (fail count + cooldown expiry)
+            public java.util.HashMap<String, com.zenith.feature.passwordlogin.LoginAttemptRecord> failedLoginAttempts =
+                new java.util.HashMap<>();
+        }
+
+        public static final class NameProtection {
+            // Require the connecting client's username to match the proxy account's username.
+            // - Offline/cracked clients: the claimed username must equal CONFIG.authentication.username.
+            // - Premium clients: the Mojang-verified profile name must equal CONFIG.authentication.username.
+            // This is independent of verifyUsers (online-mode session verification) and the whitelist.
+            public boolean enable = true;
         }
 
         public static final class Bind {

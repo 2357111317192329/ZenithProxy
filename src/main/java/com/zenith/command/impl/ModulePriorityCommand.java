@@ -59,144 +59,144 @@ public class ModulePriorityCommand extends Command {
         return command("modulePriority")
             .then(literal("autoTotem")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoTotem.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoTotem.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoTotem Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoTotem.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoTotem.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoTotem Priority Reset");
                 })))
             .then(literal("autoArmor")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoArmor.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoArmor.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoArmor Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoArmor.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoArmor.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoArmor Priority Reset");
                 })))
             .then(literal("autoEat")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoEat.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoEat Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoEat.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoEat.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoEat Priority Reset");
                 })))
             .then(literal("autoOmen")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoOmen.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoOmen Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoOmen.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoOmen Priority Reset");
                 })))
             .then(literal("click")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.click.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("Click Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.click.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.click.priority = null);
                     c.getSource().getEmbed()
                         .title("Click Priority Reset");
                 })))
             .then(literal("killAura")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.killAura.actionPriority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.actionPriority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("KillAura Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.killAura.actionPriority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.actionPriority = null);
                     c.getSource().getEmbed()
                         .title("KillAura Priority Reset");
                 })))
             .then(literal("pathfinder")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.pathfinder.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("Pathfinder Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.pathfinder.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pathfinder.priority = null);
                     c.getSource().getEmbed()
                         .title("Pathfinder Priority Reset");
                 })))
             .then(literal("spawnPatrol")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.spawnPatrol.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("SpawnPatrol Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.spawnPatrol.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spawnPatrol.priority = null);
                     c.getSource().getEmbed()
                         .title("SpawnPatrol Priority Reset");
                 })))
             .then(literal("antiAfk")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.antiafk.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiafk.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AntiAFK Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.antiafk.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiafk.priority = null);
                     c.getSource().getEmbed()
                         .title("AntiAFK Priority Reset");
                 })))
             .then(literal("autoMend")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoMend.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoMend.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoMend Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoMend.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoMend.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoMend Priority Reset");
                 })))
             .then(literal("autoDrop")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoDrop.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoDrop Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoDrop.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoDrop.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoDrop Priority Reset");
                 })))
             .then(literal("autoFish")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.autoFish.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("AutoFish Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.autoFish.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.priority = null);
                     c.getSource().getEmbed()
                         .title("AutoFish Priority Reset");
                 })))
             .then(literal("spook")
                 .then(argument("priority", integer()).executes(c -> {
-                    CONFIG.client.extra.spook.priority = getInteger(c, "priority");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spook.priority = getInteger(c, "priority"));
                     c.getSource().getEmbed()
                         .title("Spook Priority Set");
                 }))
                 .then(literal("default").executes(c -> {
-                    CONFIG.client.extra.spook.priority = null;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spook.priority = null);
                     c.getSource().getEmbed()
                         .title("Spook Priority Reset");
                 })))

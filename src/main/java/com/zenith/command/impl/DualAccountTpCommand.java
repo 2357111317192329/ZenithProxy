@@ -82,7 +82,7 @@ public class DualAccountTpCommand extends Command {
         return command("dualAccountTp")
             .executes(c -> OK)
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.enabled = getToggle(c, "toggle"));
                 MODULE.get(DualAccountTp.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("DualAccountTp " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.enabled));
@@ -90,28 +90,28 @@ public class DualAccountTpCommand extends Command {
             }))
             .then(literal("mode").then(argument("mode", enumStrings(Mode.values())).executes(c -> {
                 var mode = Mode.valueOf(getString(c, "mode").toUpperCase(Locale.ROOT));
-                CONFIG.client.extra.dualAccountTp.mode = mode;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.mode = mode);
                 c.getSource().getEmbed()
                     .title("DualAccountTp Mode Set")
                     .addField("Mode", mode.name().toLowerCase(Locale.ROOT));
                 return OK;
             })))
             .then(literal("peer").then(argument("name", wordWithChars()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.peerName = getString(c, "name");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.peerName = getString(c, "name"));
                 c.getSource().getEmbed()
                     .title("DualAccountTp Peer Set")
                     .addField("Peer", CONFIG.client.extra.dualAccountTp.peerName);
                 return OK;
             })))
             .then(literal("key").then(argument("secret", wordWithChars()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.secretKey = getString(c, "secret");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.secretKey = getString(c, "secret"));
                 c.getSource().getEmbed()
                     .title("DualAccountTp Secret Key Set")
                     .description("The key is not displayed.");
                 return OK;
             })))
             .then(literal("keyClear").executes(c -> {
-                CONFIG.client.extra.dualAccountTp.secretKey = "";
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.secretKey = "");
                 c.getSource().getEmbed()
                     .title("DualAccountTp Secret Key Cleared");
                 return OK;
@@ -161,7 +161,7 @@ public class DualAccountTpCommand extends Command {
                 return OK;
             }))
             .then(literal("cooldown").then(argument("seconds", integer(0, 3600)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.cooldownSeconds = getInteger(c, "seconds");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.cooldownSeconds = getInteger(c, "seconds"));
                 c.getSource().getEmbed()
                     .title("Cooldown Set")
                     .addField("Seconds", CONFIG.client.extra.dualAccountTp.cooldownSeconds);
@@ -169,7 +169,7 @@ public class DualAccountTpCommand extends Command {
             })))
             .then(literal("movement").then(argument("mode", enumStrings(MovementMode.values())).executes(c -> {
                 var mode = MovementMode.valueOf(getString(c, "mode").toUpperCase(Locale.ROOT));
-                CONFIG.client.extra.dualAccountTp.movementMode = mode;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.movementMode = mode);
                 c.getSource().getEmbed()
                     .title("Movement Mode Set")
                     .addField("Mode", mode.name().toLowerCase(Locale.ROOT));
@@ -177,42 +177,42 @@ public class DualAccountTpCommand extends Command {
             })))
             .then(literal("targetState").then(argument("state", enumStrings(TargetState.values())).executes(c -> {
                 var state = TargetState.valueOf(getString(c, "state").toUpperCase(Locale.ROOT));
-                CONFIG.client.extra.dualAccountTp.targetState = state;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.targetState = state);
                 c.getSource().getEmbed()
                     .title("Target State Set")
                     .addField("State", state.name().toLowerCase(Locale.ROOT));
                 return OK;
             })))
             .then(literal("retries").then(argument("count", integer(1, 10)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.clickRetries = getInteger(c, "count");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.clickRetries = getInteger(c, "count"));
                 c.getSource().getEmbed()
                     .title("Click Retries Set")
                     .addField("Retries", CONFIG.client.extra.dualAccountTp.clickRetries);
                 return OK;
             })))
             .then(literal("retryDelay").then(argument("ticks", integer(1, 50)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.clickRetryDelayTicks = getInteger(c, "ticks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.clickRetryDelayTicks = getInteger(c, "ticks"));
                 c.getSource().getEmbed()
                     .title("Click Retry Delay Set")
                     .addField("Ticks", CONFIG.client.extra.dualAccountTp.clickRetryDelayTicks);
                 return OK;
             })))
             .then(literal("verifyDelay").then(argument("ticks", integer(1, 20)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.clickVerifyDelayTicks = getInteger(c, "ticks");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.clickVerifyDelayTicks = getInteger(c, "ticks"));
                 c.getSource().getEmbed()
                     .title("Click Verify Delay Set")
                     .addField("Ticks", CONFIG.client.extra.dualAccountTp.clickVerifyDelayTicks);
                 return OK;
             })))
             .then(literal("clickPriority").then(argument("priority", integer(1, 1000000)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.clickPriority = getInteger(c, "priority");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.clickPriority = getInteger(c, "priority"));
                 c.getSource().getEmbed()
                     .title("Click Priority Set")
                     .addField("Priority", CONFIG.client.extra.dualAccountTp.clickPriority);
                 return OK;
             })))
             .then(literal("scanRadiusChunks").then(argument("radius", integer(0, 8)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.chamberScanChunkRadius = getInteger(c, "radius");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.chamberScanChunkRadius = getInteger(c, "radius"));
                 MODULE.get(DualAccountTp.class).resetChambers();
                 c.getSource().getEmbed()
                     .title("Scan Radius Set")
@@ -220,7 +220,7 @@ public class DualAccountTpCommand extends Command {
                 return OK;
             })))
             .then(literal("indexTtl").then(argument("seconds", integer(0, 3600)).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.chamberIndexTtlSeconds = getInteger(c, "seconds");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.chamberIndexTtlSeconds = getInteger(c, "seconds"));
                 MODULE.get(DualAccountTp.class).resetChambers();
                 c.getSource().getEmbed()
                     .title("Chamber Index TTL Set")
@@ -229,52 +229,52 @@ public class DualAccountTpCommand extends Command {
             })))
             .then(literal("health")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.healthTrigger = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.healthTrigger = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Health Trigger " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.healthTrigger));
                     return OK;
                 }))
                 .then(literal("threshold").then(argument("level", integer(0, 20)).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.healthThreshold = getInteger(c, "level");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.healthThreshold = getInteger(c, "level"));
                     c.getSource().getEmbed()
                         .title("Health Threshold Set")
                         .addField("Level", CONFIG.client.extra.dualAccountTp.healthThreshold);
                     return OK;
                 }))))
             .then(literal("thunder").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.thunderTrigger = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.thunderTrigger = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Thunder Trigger " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.thunderTrigger));
                 return OK;
             })))
             .then(literal("unknownPlayer")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.onUnknownPlayerInVisualRange = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.onUnknownPlayerInVisualRange = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Unknown Player Trigger " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.onUnknownPlayerInVisualRange));
                     return OK;
                 }))
                 .then(literal("enemyListMode").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.enemyListMode = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.enemyListMode = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Unknown Player Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.enemyListMode));
                     return OK;
                 })))
                 .then(literal("disablein3C3Ulobby").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.disablein3C3Ulobby = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.disablein3C3Ulobby = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Disable in 3C3U Lobby " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.disablein3C3Ulobby));
                     return OK;
                 }))))
             .then(literal("totemPop")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.onTotemPop = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.onTotemPop = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Totem Pop Trigger " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.onTotemPop));
                     return OK;
                 }))
                 .then(literal("minTotemsRemaining").then(argument("count", integer(1)).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.minTotemsRemaining = getInteger(c, "count");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.minTotemsRemaining = getInteger(c, "count"));
                     c.getSource().getEmbed()
                         .title("Min Totems Remaining Set")
                         .addField("Count", CONFIG.client.extra.dualAccountTp.minTotemsRemaining);
@@ -282,38 +282,38 @@ public class DualAccountTpCommand extends Command {
                 }))))
             .then(literal("lowY")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.lowYTrigger = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.lowYTrigger = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Low Y Trigger " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.lowYTrigger));
                     return OK;
                 }))
                 .then(literal("threshold").then(argument("y", integer(-128, 320)).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.lowYThreshold = getInteger(c, "y");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.lowYThreshold = getInteger(c, "y"));
                     c.getSource().getEmbed()
                         .title("Low Y Threshold Set")
                         .addField("Y", CONFIG.client.extra.dualAccountTp.lowYThreshold);
                     return OK;
                 })))
                 .then(literal("endOnly").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.dualAccountTp.lowYEndOnly = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.lowYEndOnly = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Low Y End Only " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.lowYEndOnly));
                     return OK;
                 }))))
             .then(literal("whilePlayerConnected").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.whilePlayerConnected = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.whilePlayerConnected = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("While Player Connected " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.whilePlayerConnected));
                 return OK;
             })))
             .then(literal("sendAck").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.sendAck = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.sendAck = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Send Ack " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.sendAck));
                 return OK;
             })))
             .then(literal("replyOnFailure").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.dualAccountTp.replyOnFailure = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.dualAccountTp.replyOnFailure = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Reply On Failure " + toggleStrCaps(CONFIG.client.extra.dualAccountTp.replyOnFailure));
                 return OK;

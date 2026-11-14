@@ -12,6 +12,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.string;
 import static com.zenith.Globals.COMMAND;
 
 public class HelpCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

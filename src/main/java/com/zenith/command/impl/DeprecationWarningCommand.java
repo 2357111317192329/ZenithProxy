@@ -30,7 +30,7 @@ public class DeprecationWarningCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("deprecationWarning")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.deprecationWarning_26_1_2 = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.deprecationWarning_26_1_2 = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Deprecation Warning " + toggleStrCaps(CONFIG.deprecationWarning_26_1_2));
             }));

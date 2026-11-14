@@ -46,13 +46,13 @@ public class RateLimiterCommand extends Command {
         return command("rateLimiter")
             .then(literal("login")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.server.loginRateLimiter.enabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.loginRateLimiter.enabled = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("Login Rate Limiter " + toggleStrCaps(CONFIG.server.loginRateLimiter.enabled));
                           return OK;
                       }))
                       .then(literal("rateLimit").then(argument("seconds", integer(0, 1000)).executes(c -> {
-                          CONFIG.server.loginRateLimiter.rateLimitSeconds = getInteger( c, "seconds");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.loginRateLimiter.rateLimitSeconds = getInteger( c, "seconds"));
                           c.getSource().getEmbed()
                               .title("Login Rate Limit Set")
                               .description("Changes will take effect on next ZenithProxy restart.");
@@ -60,20 +60,20 @@ public class RateLimiterCommand extends Command {
                       }))))
             .then(literal("packet")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.server.packetRateLimiter.enabled = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.packetRateLimiter.enabled = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("Packet Rate Limiter " + toggleStrCaps(CONFIG.server.packetRateLimiter.enabled));
                           return OK;
                       }))
                       .then(literal("interval").then(argument("packetInterval", doubleArg(0.05, 1000)).executes(c -> {
-                          CONFIG.server.packetRateLimiter.intervalSeconds = getDouble(c, "packetInterval");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.packetRateLimiter.intervalSeconds = getDouble(c, "packetInterval"));
                           c.getSource().getEmbed()
                               .title("Packet Interval Set")
                               .description("Changes will take effect on next ZenithProxy restart.");
                           return OK;
                       })))
                       .then(literal("rateLimit").then(argument("rateLimitSeconds", integer(1, 1_000_000)).executes(c -> {
-                          CONFIG.server.packetRateLimiter.maxPacketsPerInterval = getInteger( c, "rateLimitSeconds");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.packetRateLimiter.maxPacketsPerInterval = getInteger( c, "rateLimitSeconds"));
                           c.getSource().getEmbed()
                               .title("Packet Rate Limit Set");
                           return OK;

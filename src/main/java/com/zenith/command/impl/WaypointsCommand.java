@@ -72,12 +72,12 @@ public class WaypointsCommand extends Command {
                 }))))
             .then(literal("del").then(argument("id", wordWithChars()).executes(c -> {
                 String id = getString(c, "id");
-                CONFIG.client.extra.waypoints.waypoints.removeIf(wp -> wp.id().equalsIgnoreCase(id));
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.waypoints.waypoints.removeIf(wp -> wp.id().equalsIgnoreCase(id)));
                 c.getSource().getEmbed()
                     .title("Waypoint Removed");
             })))
             .then(literal("clear").executes(c -> {
-                CONFIG.client.extra.waypoints.waypoints.clear();
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.waypoints.waypoints.clear());
                 c.getSource().getEmbed()
                     .title("Waypoints Cleared");
             }))

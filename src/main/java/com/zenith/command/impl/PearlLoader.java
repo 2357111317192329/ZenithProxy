@@ -143,7 +143,7 @@ public class PearlLoader extends Command {
                 return OK;
             })))
             .then(literal("returnToStartPos").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.pearlLoader.returnToStartPos = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.pearlLoader.returnToStartPos = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Return to Start Pos Set")
                     .primaryColor();

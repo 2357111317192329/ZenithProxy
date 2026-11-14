@@ -28,7 +28,7 @@ public class DisplayCoordsCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("displayCoords").requires(Command::validateAccountOwner)
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.reportCoords = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.reportCoords = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Coordinates " + toggleStrCaps(CONFIG.discord.reportCoords))
                     .primaryColor();

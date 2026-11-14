@@ -43,7 +43,7 @@ public class AntiLeakCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("antiLeak")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.antiLeak.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiLeak.enabled = getToggle(c, "toggle"));
                 MODULE.get(AntiLeak.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AntiLeak " + toggleStrCaps(CONFIG.client.extra.antiLeak.enabled));
@@ -51,14 +51,14 @@ public class AntiLeakCommand extends Command {
             }))
             .then(literal("rangeCheck")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.client.extra.antiLeak.rangeCheck = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiLeak.rangeCheck = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("RangeCheck " + toggleStrCaps(CONFIG.client.extra.antiLeak.rangeCheck));
                           return OK;
                       })))
             .then(literal("rangeFactor")
                       .then(argument("factor", doubleArg(0.1, 1000.0)).executes(c -> {
-                          CONFIG.client.extra.antiLeak.rangeFactor = getDouble(c, "factor");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiLeak.rangeFactor = getDouble(c, "factor"));
                           c.getSource().getEmbed()
                               .title("RangeFactor set to " + CONFIG.client.extra.antiLeak.rangeFactor);
                           return OK;

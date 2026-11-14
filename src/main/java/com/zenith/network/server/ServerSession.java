@@ -91,6 +91,20 @@ public class ServerSession extends TcpServerSession {
     protected boolean isPlayer = false;
     protected boolean isLoggedIn = false;
     protected boolean isSpectator = false;
+    // password login: true once the client has entered the correct password
+    protected boolean passwordAuthenticated = false;
+    // password login via a temporary password: bound to the temp password id until disconnect
+    protected boolean tempPasswordAuthenticated = false;
+    protected String tempPasswordId = null;
+    // password login: true while the client is sitting in the fallback "login lobby" (pre-1.21.6 clients)
+    protected boolean inLoginLobby = false;
+    // scheduled disconnect that fires if the password is not provided in time
+    protected java.util.concurrent.ScheduledFuture<?> passwordLoginTimeoutTask = null;
+    // periodic lobby prompt / unencrypted warning tasks
+    protected java.util.concurrent.ScheduledFuture<?> passwordLoginHintTask = null;
+    protected java.util.concurrent.ScheduledFuture<?> passwordLoginWarningTask = null;
+    // true while the lobby client is being bounced back into configuration to join the real game
+    protected boolean passwordLoginUpgrading = false;
     // we have performed the configuration phase at zenith
     // any subsequent configurations should pass through to client
     protected boolean isConfigured = false;
@@ -165,7 +179,7 @@ public class ServerSession extends TcpServerSession {
             Packet p = packet;
             var state = getPacketProtocol().getInboundState(); // storing this before handlers might mutate it on the session
             p = PacketCodecRegistries.SERVER_REGISTRY.handleInbound(p, this);
-            if (p != null && !isSpectator() && (state == ProtocolState.GAME || state == ProtocolState.CONFIGURATION)) {
+            if (p != null && !isSpectator() && !isInLoginLobby() && (state == ProtocolState.GAME || state == ProtocolState.CONFIGURATION)) {
                 if (state == ProtocolState.CONFIGURATION && !isConfigured()) return;
                 Proxy.getInstance().getClient().sendAsync(p);
             }
@@ -283,7 +297,7 @@ public class ServerSession extends TcpServerSession {
         MinecraftProtocol protocol = getPacketProtocol();
         return switch (protocol.getOutboundState()) {
             case LOGIN -> new ClientboundLoginDisconnectPacket(reason);
-            case GAME -> new ClientboundDisconnectPacket(reason);
+            case GAME, CONFIGURATION -> new ClientboundDisconnectPacket(reason);
             case null, default -> null;
         };
     }

@@ -36,7 +36,7 @@ public class SpookCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("spook")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.spook.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spook.enabled = getToggle(c, "toggle"));
                 MODULE.get(Spook.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("Spook " + toggleStrCaps(CONFIG.client.extra.spook.enabled));
@@ -54,7 +54,7 @@ public class SpookCommand extends Command {
                         .title("Invalid mode: " + arg);
                     return ERROR;
                 }
-                CONFIG.client.extra.spook.spookTargetingMode = mode;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.spook.spookTargetingMode = mode);
                 c.getSource().getEmbed()
                     .title("Spook Mode Updated!");
                 return OK;

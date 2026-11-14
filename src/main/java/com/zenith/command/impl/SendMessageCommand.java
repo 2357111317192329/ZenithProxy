@@ -13,6 +13,7 @@ import static com.zenith.discord.DiscordBot.escape;
 import static com.zenith.util.ComponentSerializer.minimessage;
 
 public class SendMessageCommand extends Command {
+
     @Override
     public CommandUsage commandUsage() {
         return CommandUsage.builder()

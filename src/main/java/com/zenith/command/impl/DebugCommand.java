@@ -87,7 +87,7 @@ public class DebugCommand extends Command {
                 c.getSource().getData().put("noDefaultEmbed", true);
             }))
             .then(literal("kickDisconnect").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.kickDisconnect = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.kickDisconnect = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Kick Disconnect " + toggleStrCaps(CONFIG.debug.kickDisconnect));
             })))
@@ -97,22 +97,22 @@ public class DebugCommand extends Command {
                 Proxy.getInstance().kickDisconnect(MANUAL_DISCONNECT, null);
             }))
             .then(literal("debugLogs").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.debugLogs = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.debugLogs = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Debug Logs " + toggleStrCaps(CONFIG.debug.debugLogs));
             })))
             .then(literal("terminalDebugLogs").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.terminalDebugLogs = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.terminalDebugLogs = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Terminal Debug Logs " + toggleStrCaps(CONFIG.debug.terminalDebugLogs));
             })))
             .then(literal("chunkCacheFullbright").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.server.cache.fullbrightChunkBlocklight = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.server.cache.fullbrightChunkBlocklight = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Chunk Cache Fullbright " + toggleStrCaps(CONFIG.debug.server.cache.fullbrightChunkBlocklight));
             })))
             .then(literal("maxCachedMaps").then(argument("count", integer(0)).executes(c -> {
-                CONFIG.debug.server.cache.maxCachedMaps = getInteger(c, "count");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.server.cache.maxCachedMaps = getInteger(c, "count"));
                 c.getSource().getEmbed()
                     .title("Max Cached Maps Set");
             })))
@@ -122,12 +122,12 @@ public class DebugCommand extends Command {
                     .title("Binary NBT Component Serializer " + toggleStrCaps(MinecraftTypes.useBinaryNbtComponentSerializer));
             })))
             .then(literal("defaultClientRenderDistance").then(argument("dist", integer(1, 256)).executes(c -> {
-                CONFIG.client.defaultClientRenderDistance = getInteger(c, "dist");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.defaultClientRenderDistance = getInteger(c, "dist"));
                 c.getSource().getEmbed()
                     .title("Default Client Render Distance Set");
             })))
             .then(literal("inventorySyncOnLogin").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.inventorySyncOnLogin = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.inventorySyncOnLogin = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Inventory Sync On Login " + toggleStrCaps(CONFIG.debug.inventorySyncOnLogin));
             })))
@@ -194,7 +194,7 @@ public class DebugCommand extends Command {
                 c.getSource().getData().put("noDefaultEmbed", true);
             }))
             .then(literal("lockFile").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.lockFile = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.lockFile = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Lock File " + toggleStrCaps(CONFIG.debug.lockFile));
             })))
@@ -208,38 +208,38 @@ public class DebugCommand extends Command {
                 uploadLog(c.getSource(), "log/launcher.log");
             }))
             .then(literal("passthroughResourcePacks").then(argument("toggle", toggle()).executes(c -> {;
-                CONFIG.debug.passthroughResourcePacks = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.passthroughResourcePacks = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Passthrough Resource Packs " + toggleStrCaps(CONFIG.debug.passthroughResourcePacks));
             })))
             .then(literal("inputManagerDebugLogs").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.inputManagerDebugLogs = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.inputManagerDebugLogs = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Input Manager Debug Logs " + toggleStrCaps(CONFIG.debug.inputManagerDebugLogs));
             })))
             .then(literal("botPitchPrecisionClamping").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.botPitchPrecisionClamping = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.botPitchPrecisionClamping = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Bot Pitch Precision Clamping " + toggleStrCaps(CONFIG.debug.botPitchPrecisionClamping));
             })))
             .then(literal("botRotateBeforeInteract").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.botRotateBeforeInteract = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.botRotateBeforeInteract = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Bot Rotate Before Interact " + toggleStrCaps(CONFIG.debug.botRotateBeforeInteract));
             })))
             .then(literal("inventoryRequestServerSyncOnAction").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.inventoryRequestServerSyncOnAction = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.inventoryRequestServerSyncOnAction = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Inventory Request Server Sync On Action " + toggleStrCaps(CONFIG.debug.inventoryRequestServerSyncOnAction));
                 c.getSource().getData().put("noDefaultEmbed", true);
             })))
             .then(literal("chainBreakSpeed2b2tFix").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.chainBreakSpeed2b2tFix = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.chainBreakSpeed2b2tFix = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Chain Break Speed 2b2t Fix " + toggleStrCaps(CONFIG.debug.chainBreakSpeed2b2tFix));
             })))
             .then(literal("entityPushing").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.debug.entityPushing = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.debug.entityPushing = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Entity Pushing " + toggleStrCaps(CONFIG.debug.entityPushing));
             })));

@@ -18,6 +18,10 @@ import static com.zenith.util.ComponentSerializer.minimessage;
 public class LoginPostHandler implements PostOutgoingPacketHandler<ClientboundLoginPacket, ServerSession> {
     @Override
     public void accept(@NonNull ClientboundLoginPacket packet, @NonNull ServerSession session) {
+        if (com.zenith.feature.passwordlogin.PasswordLoginHelper.passwordLoginActive() && !session.isPasswordAuthenticated()) {
+            // login lobby fake world: never send real cache data, never mark the session logged in
+            return;
+        }
         if (!session.isWhitelistChecked()) {
             // we shouldn't be able to get to this point without whitelist checking, but just in case
             session.disconnect("Login without whitelist check?");

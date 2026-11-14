@@ -31,7 +31,7 @@ public class AutoArmorCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoArmor")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoArmor.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoArmor.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoArmor.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoArmor " + toggleStrCaps(CONFIG.client.extra.autoArmor.enabled))

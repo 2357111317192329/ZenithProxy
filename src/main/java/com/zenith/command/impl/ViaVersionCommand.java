@@ -44,21 +44,21 @@ public class ViaVersionCommand extends Command {
         return command("via")
             .then(literal("zenithToServer")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.viaversion.enabled = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.viaversion.enabled = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Zenith To Server ViaVersion " + toggleStrCaps(CONFIG.client.viaversion.enabled));
                     return OK;
                 }))
                 .then(literal("disableOn2b2t")
                     .then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.client.viaversion.disableOn2b2t = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.viaversion.disableOn2b2t = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("Zenith To Server Disable On 2b2t " + toggleStrCaps(CONFIG.client.viaversion.disableOn2b2t));
                         return OK;
                     })))
                 .then(literal("autoConfig")
                     .then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.client.viaversion.autoProtocolVersion = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.viaversion.autoProtocolVersion = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("Zenith To Server ViaVersion AutoConfig " + toggleStrCaps(CONFIG.client.viaversion.autoProtocolVersion));
                         return OK;
@@ -67,7 +67,7 @@ public class ViaVersionCommand extends Command {
                     .then(argument("version", wordWithChars()).executes(c -> {
                         final String version = StringArgumentType.getString(c, "version");
                         if ("auto".equalsIgnoreCase(version)) {
-                            CONFIG.client.viaversion.autoProtocolVersion = true;
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.viaversion.autoProtocolVersion = true);
                         } else {
                             ProtocolVersion closest = ProtocolVersion.getClosest(version);
                             if (closest == null) {
@@ -77,8 +77,8 @@ public class ViaVersionCommand extends Command {
                                     .errorColor();
                                 return OK;
                             } else {
-                                CONFIG.client.viaversion.protocolVersion = closest.getVersion();
-                                CONFIG.client.viaversion.autoProtocolVersion = false;
+                                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.viaversion.protocolVersion = closest.getVersion());
+                                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.viaversion.autoProtocolVersion = false);
                             }
                         }
                         c.getSource().getEmbed()
@@ -87,7 +87,7 @@ public class ViaVersionCommand extends Command {
                     }))))
             .then(literal("playerToZenith")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.viaversion.enabled = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.viaversion.enabled = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Player To Zenith ViaVersion " + toggleStrCaps(CONFIG.server.viaversion.enabled));
                     return OK;

@@ -61,72 +61,72 @@ public class KillAuraCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("killAura")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.killAura.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.enabled = getToggle(c, "toggle"));
                 MODULE.get(KillAura.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("Kill Aura " + toggleStrCaps(CONFIG.client.extra.killAura.enabled));
             }))
             .then(literal("attackDelay").then(argument("ticks", time(0, 1000)).executes(c -> {
-                CONFIG.client.extra.killAura.attackDelayTicks = c.getArgument("ticks", Integer.class);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.attackDelayTicks = c.getArgument("ticks", Integer.class));
                 c.getSource().getEmbed()
                     .title("Attack Delay Ticks Set!");
             })))
             .then(literal("tpsSync").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.killAura.tpsSync = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.tpsSync = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("TPS Sync " + toggleStrCaps(CONFIG.client.extra.killAura.tpsSync));
             })))
             .then(literal("targetPlayers").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.killAura.targetPlayers = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.targetPlayers = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Target Players " + toggleStrCaps(CONFIG.client.extra.killAura.targetPlayers));
             })))
             .then(literal("enemyListMode").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.killAura.enemyListMode = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.enemyListMode = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.killAura.enemyListMode));
             })))
             .then(literal("targetHostileMobs")
                 .then(literal("onlyAggressive").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.killAura.onlyHostileAggressive = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.onlyHostileAggressive = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Target Hostile Mobs Only Aggressive " + toggleStrCaps(CONFIG.client.extra.killAura.onlyHostileAggressive));
                 })))
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.killAura.targetHostileMobs = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.targetHostileMobs = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Target Mobs " + toggleStrCaps(CONFIG.client.extra.killAura.targetHostileMobs));
                 })))
             .then(literal("targetNeutralMobs")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.killAura.targetNeutralMobs = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.targetNeutralMobs = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Target Neutral Mobs " + toggleStrCaps(CONFIG.client.extra.killAura.targetNeutralMobs));
                 }))
                 .then(literal("onlyAggressive")
                     .then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.client.extra.killAura.onlyNeutralAggressive = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.onlyNeutralAggressive = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("Target Neutral Mobs Only Aggressive " + toggleStrCaps(CONFIG.client.extra.killAura.onlyNeutralAggressive));
                     }))))
             .then(literal("weaponSwitch").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.killAura.switchWeapon = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.switchWeapon = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Weapon Switching " + toggleStrCaps(CONFIG.client.extra.killAura.switchWeapon));
             })))
             .then(literal("weaponType").then(argument("type", enumStrings(WeaponType.values())).executes(c -> {
-                CONFIG.client.extra.killAura.weaponType = WeaponType.valueOf(getString(c, "type").toUpperCase());
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.weaponType = WeaponType.valueOf(getString(c, "type").toUpperCase()));
                 c.getSource().getEmbed()
                     .title("Weapon Type Set");
             })))
             .then(literal("weaponMaterial").then(argument("material", enumStrings(WeaponMaterial.values())).executes(c -> {
-                CONFIG.client.extra.killAura.weaponMaterial = WeaponMaterial.valueOf(getString(c, "material").toUpperCase());
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.weaponMaterial = WeaponMaterial.valueOf(getString(c, "material").toUpperCase()));
                 c.getSource().getEmbed()
                     .title("Weapon Material Set");
             })))
             .then(literal("targetCustom")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.killAura.targetCustom = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.targetCustom = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Target Custom " + toggleStrCaps(CONFIG.client.extra.killAura.targetCustom));
                 }))
@@ -134,30 +134,30 @@ public class KillAuraCommand extends Command {
                     var entityData = getEntity(c, "entityType");
                     var type = entityData.mcplType();
                     if (!CONFIG.client.extra.killAura.customTargets.contains(type))
-                        CONFIG.client.extra.killAura.customTargets.add(type);
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.customTargets.add(type));
                     c.getSource().getEmbed()
                         .title("Added " + type);
                 })))
                 .then(literal("del").then(argument("entityType", entity()).executes(c -> {
                     var entityData = getEntity(c, "entityType");
                     var type = entityData.mcplType();
-                    CONFIG.client.extra.killAura.customTargets.remove(type);
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.customTargets.remove(type));
                     c.getSource().getEmbed()
                         .title("Removed " + type);
                 }))))
             .then(literal("raycast").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.killAura.raycast = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.raycast = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Raycast " + toggleStrCaps(CONFIG.client.extra.killAura.raycast));
             })))
             .then(literal("priority")
                 .then(literal("none").executes(c -> {
-                    CONFIG.client.extra.killAura.priority = Config.Client.Extra.KillAura.Priority.NONE;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.priority = Config.Client.Extra.KillAura.Priority.NONE);
                     c.getSource().getEmbed()
                         .title("Priority Set");
                 }))
                 .then(literal("nearest").executes(c -> {
-                    CONFIG.client.extra.killAura.priority = Config.Client.Extra.KillAura.Priority.NEAREST;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.killAura.priority = Config.Client.Extra.KillAura.Priority.NEAREST);
                     c.getSource().getEmbed()
                         .title("Priority Set");
                 })));

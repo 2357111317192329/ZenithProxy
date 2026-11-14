@@ -80,14 +80,14 @@ public class AuthCommand extends Command {
                     .primaryColor();
             }))
             .then(literal("attempts").then(argument("attempts", integer(1)).executes(c -> {
-                CONFIG.authentication.msaLoginAttemptsBeforeCacheWipe = c.getArgument("attempts", Integer.class);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.msaLoginAttemptsBeforeCacheWipe = c.getArgument("attempts", Integer.class));
                 c.getSource().getEmbed()
                     .title("Authentication Max Attempts Set")
                     .primaryColor();
                 return OK;
             })))
             .then(literal("alwaysRefreshOnLogin").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.authentication.alwaysRefreshOnLogin = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.alwaysRefreshOnLogin = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Always Refresh On Login " + toggleStrCaps(CONFIG.authentication.alwaysRefreshOnLogin))
                     .primaryColor();
@@ -109,7 +109,7 @@ public class AuthCommand extends Command {
                             .errorColor();
                         return ERROR;
                     }
-                    CONFIG.authentication.accountType = accountType;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.accountType = accountType);
                     c.getSource().getEmbed()
                         .title("Authentication Type Set")
                         .primaryColor();
@@ -128,7 +128,7 @@ public class AuthCommand extends Command {
                             .errorColor();
                         return OK;
                     }
-                    CONFIG.authentication.email = emailStr;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.email = emailStr);
                     c.getSource().getEmbed()
                         .title("Authentication Email Set")
                         .primaryColor();
@@ -145,7 +145,7 @@ public class AuthCommand extends Command {
                             .errorColor();
                         return OK;
                     }
-                    CONFIG.authentication.password = passwordStr;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.password = passwordStr);
                     c.getSource().getEmbed()
                         .title("Authentication Password Set")
                         .primaryColor();
@@ -153,28 +153,28 @@ public class AuthCommand extends Command {
                 })))
             .then(literal("mention")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.discord.mentionRoleOnDeviceCodeAuth = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnDeviceCodeAuth = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Mention Role " + toggleStrCaps(CONFIG.discord.mentionRoleOnDeviceCodeAuth))
                         .primaryColor();
                     return OK;
                 })))
             .then(literal("openBrowser").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.authentication.openBrowserOnLogin = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.openBrowserOnLogin = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Open Browser On Login " + toggleStrCaps(CONFIG.authentication.openBrowserOnLogin))
                     .primaryColor();
                 return OK;
             })))
             .then(literal("maxRefreshInterval").then(argument("minutes", integer(5, 500)).executes(c -> {
-                CONFIG.authentication.maxRefreshIntervalMins = c.getArgument("minutes", Integer.class);
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.maxRefreshIntervalMins = c.getArgument("minutes", Integer.class));
                 c.getSource().getEmbed()
                     .title("Max Refresh Interval Set")
                     .primaryColor();
                 return OK;
             })))
             .then(literal("useClientConnectionProxy").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.authentication.useClientConnectionProxy = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.useClientConnectionProxy = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Use Client Connection Proxy " + toggleStrCaps(CONFIG.authentication.useClientConnectionProxy))
                     .primaryColor();
@@ -190,7 +190,7 @@ public class AuthCommand extends Command {
                             .errorColor();
                         return ERROR;
                     }
-                    CONFIG.authentication.username = usernameStr;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.username = usernameStr);
                     c.getSource().getEmbed()
                         .title("Username Set")
                         .description("Username set to: " + usernameStr)
@@ -207,7 +207,7 @@ public class AuthCommand extends Command {
                             .errorColor();
                         return ERROR;
                     }
-                    CONFIG.authentication.serverPassword = passStr;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.serverPassword = passStr);
                     c.getSource().getEmbed()
                         .title("Server Password Set")
                         .description("The /login password for the cracked server has been saved")
@@ -215,7 +215,7 @@ public class AuthCommand extends Command {
                     return OK;
                 })))
             .then(literal("serverLoginRequired").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.authentication.serverLoginRequired = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.authentication.serverLoginRequired = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Server Login Required " + toggleStrCaps(CONFIG.authentication.serverLoginRequired))
                     .description("When ON, the bot will wait for /login or /register prompts before marking itself as online")
@@ -224,21 +224,21 @@ public class AuthCommand extends Command {
             })))
             .then(literal("chatSigning")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.chatSigning.enabled = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSigning.enabled = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Chat Signing " + toggleStrCaps(CONFIG.client.chatSigning.enabled))
                         .primaryColor();
                     return OK;
                 }))
                 .then(literal("force").then(argument("forceToggle", toggle()).executes(c -> {
-                    CONFIG.client.chatSigning.force = getToggle(c, "forceToggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSigning.force = getToggle(c, "forceToggle"));
                     c.getSource().getEmbed()
                         .title("Chat Signing Force " + toggleStrCaps(CONFIG.client.chatSigning.force))
                         .primaryColor();
                     return OK;
                 })))
                 .then(literal("commands").then(argument("commandsToggle", toggle()).executes(c -> {
-                    CONFIG.client.chatSigning.signCommands = getToggle(c, "commandsToggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.chatSigning.signCommands = getToggle(c, "commandsToggle"));
                     c.getSource().getEmbed()
                         .title("Chat Signing Commands " + toggleStrCaps(CONFIG.client.chatSigning.signCommands))
                         .primaryColor();

@@ -62,7 +62,7 @@ public class SpectatorCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("spectator").requires(Command::validateAccountOwner)
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.spectator.allowSpectator = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.allowSpectator = getToggle(c, "toggle"));
                 if (!CONFIG.server.spectator.allowSpectator)
                     Proxy.getInstance().getSpectatorConnections()
                         .forEach(connection -> connection.disconnect(CONFIG.server.extra.whitelist.kickmsg));
@@ -143,7 +143,7 @@ public class SpectatorCommand extends Command {
                     final String entityInput = StringArgumentType.getString(c, "entityID");
                     Optional<SpectatorEntity> spectatorEntity = SpectatorEntityRegistry.getSpectatorEntity(entityInput);
                     if (spectatorEntity.isPresent()) {
-                        CONFIG.server.spectator.spectatorEntity = entityInput;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.spectatorEntity = entityInput);
                         c.getSource().getEmbed()
                             .title("Set Entity")
                             .primaryColor();
@@ -156,33 +156,33 @@ public class SpectatorCommand extends Command {
                 })))
             .then(literal("chat")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.spectator.spectatorPublicChatEnabled = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.spectatorPublicChatEnabled = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Spectator Chat " + toggleStrCaps(CONFIG.server.spectator.spectatorPublicChatEnabled))
                         .primaryColor()
                         .description(spectatorWhitelist());
                 })))
             .then(literal("playerCamOnJoin").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.server.spectator.playerCamOnJoin = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.playerCamOnJoin = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Player Cam On Join " + toggleStrCaps(CONFIG.server.spectator.playerCamOnJoin))
                     .primaryColor();
             })))
             .then(literal("fullCommands").requires(Command::validateAccountOwner)
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.spectator.fullCommandsEnabled = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.fullCommandsEnabled = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Full Spectator Commands " + toggleStrCaps(CONFIG.server.spectator.fullCommandsEnabled))
                         .primaryColor();
                 }))
                 .then(literal("slashCommands").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.spectator.fullCommandsAcceptSlashCommands = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.fullCommandsAcceptSlashCommands = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Full Spectator Commands Accept Slash Commands " + toggleStrCaps(CONFIG.server.spectator.fullCommandsAcceptSlashCommands))
                         .primaryColor();
                 })))
                 .then(literal("requireRegularWhitelist").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.spectator.fullCommandsRequireRegularWhitelist = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.spectator.fullCommandsRequireRegularWhitelist = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Full Spectator Commands Require Regular Whitelist " + toggleStrCaps(CONFIG.server.spectator.fullCommandsRequireRegularWhitelist))
                         .primaryColor();

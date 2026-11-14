@@ -34,7 +34,7 @@ public class AutoMendCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoMend")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoMend.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoMend.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoMend.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoMend " + toggleStrCaps(CONFIG.client.extra.autoMend.enabled));

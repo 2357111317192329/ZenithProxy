@@ -81,19 +81,19 @@ public class ReplayCommand extends Command {
                 return OK;
             }))
             .then(literal("discordUpload").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.replayMod.sendRecordingsToDiscord = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.replayMod.sendRecordingsToDiscord = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Discord Upload " + toggleStrCaps(CONFIG.client.extra.replayMod.sendRecordingsToDiscord));
                 return OK;
             })))
             .then(literal("fileIoUpload").requires(Command::validateAccountOwner).then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.replayMod.fileIOUploadIfTooLarge = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.replayMod.fileIOUploadIfTooLarge = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("file.io Upload " + toggleStrCaps(CONFIG.client.extra.replayMod.fileIOUploadIfTooLarge));
                 return OK;
             })))
             .then(literal("maxRecordingTime").then(argument("minutes", integer(0, 60 * 6)).executes(c -> {
-                CONFIG.client.extra.replayMod.maxRecordingTimeMins = getInteger(c, "minutes");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.replayMod.maxRecordingTimeMins = getInteger(c, "minutes"));
                 c.getSource().getEmbed()
                     .title("Max Recording Time Set");
                 return OK;
@@ -111,20 +111,20 @@ public class ReplayCommand extends Command {
                               return OK;
                           } else {
                               MODULE.get(ReplayMod.class).disable();
-                              CONFIG.client.extra.replayMod.autoRecordMode = foundMode.get();
+                              com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.replayMod.autoRecordMode = foundMode.get());
                               c.getSource().getEmbed()
                                   .title("Auto Record Mode Set");
                           }
                           return OK;
                       })))
                       .then(literal("health").then(argument("health", integer(0, 20)).executes(c -> {
-                          CONFIG.client.extra.replayMod.replayRecordingHealthThreshold = getInteger(c, "health");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.replayMod.replayRecordingHealthThreshold = getInteger(c, "health"));
                           c.getSource().getEmbed()
                               .title("Auto Record Health Set");
                           return OK;
                       }))))
             .then(literal("featureFlags").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.replayMod.featureFlags = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.replayMod.featureFlags = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Feature Flags Set");
             })));

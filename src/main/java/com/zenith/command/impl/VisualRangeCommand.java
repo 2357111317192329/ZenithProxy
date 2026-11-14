@@ -70,7 +70,7 @@ public class VisualRangeCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("visualRange")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.visualRange.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enabled = getToggle(c, "toggle"));
                 MODULE.get(VisualRange.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("VisualRange " + toggleStrCaps(CONFIG.client.extra.visualRange.enabled));
@@ -112,80 +112,80 @@ public class VisualRangeCommand extends Command {
             }))
             .then(literal("enter")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.enterAlert = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enterAlert = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("VisualRange Enter Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlert));
                     return OK;
                 }))
                 .then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.enterAlertMention = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enterAlertMention = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("VisualRange Enter Mentions " + toggleStrCaps(CONFIG.client.extra.visualRange.enterAlertMention));
                     return OK;
                 })))
                 .then(literal("whisper")
                     .then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.client.extra.visualRange.enterWhisper = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enterWhisper = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("VisualRange Enter Whisper " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisper));
                         return OK;
                     }))
                     .then(literal("message").then(argument("message", greedyString()).executes(c -> {
                         var msg = getString(c, "message");
-                        CONFIG.client.extra.visualRange.enterWhisperMessage = ChatUtil.sanitizeChatMessage(msg.substring(0, Math.min(msg.length(), 236)));
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enterWhisperMessage = ChatUtil.sanitizeChatMessage(msg.substring(0, Math.min(msg.length(), 236))));
                         c.getSource().getEmbed()
                             .title("VisualRange Enter Whisper Message Set");
                         return OK;
                     })))
                     .then(literal("cooldown").then(argument("seconds", integer(0)).executes(c -> {
-                        CONFIG.client.extra.visualRange.enterWhisperCooldownSeconds = getInteger(c, "seconds");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enterWhisperCooldownSeconds = getInteger(c, "seconds"));
                         c.getSource().getEmbed()
                             .title("VisualRange Enter Whisper Cooldown Set");
                         return OK;
                     })))
                     .then(literal("whilePlayerConnected").then(argument("toggle", toggle()).executes(c -> {
-                        CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected = getToggle(c, "toggle");
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enterWhisperWhilePlayerConnected = getToggle(c, "toggle"));
                         c.getSource().getEmbed()
                             .title("VisualRange Enter Whisper While Player Connected " + toggleStrCaps(CONFIG.client.extra.visualRange.enterWhisperWhilePlayerConnected));
                     })))))
             .then(literal("ignoreFriends")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.ignoreFriends = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.ignoreFriends = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Ignore Friends " + toggleStrCaps(CONFIG.client.extra.visualRange.ignoreFriends));
                     return OK;
                 })))
             .then(literal("disablein3C3Ulobby")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.disablein3C3Ulobby = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.disablein3C3Ulobby = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Disable in 3C3U lobby " + toggleStrCaps(CONFIG.client.extra.visualRange.disablein3C3Ulobby));
                     return OK;
                 })))
             .then(literal("enemyListMode")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.enemyListMode = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.enemyListMode = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Enemy List Mode " + toggleStrCaps(CONFIG.client.extra.visualRange.enemyListMode));
                     return OK;
                 })))
             .then(literal("leave")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.leaveAlert = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.leaveAlert = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Leave Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.leaveAlert));
                     return OK;
                 })))
             .then(literal("logout")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.logoutAlert = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.logoutAlert = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Logout Alerts " + toggleStrCaps(CONFIG.client.extra.visualRange.logoutAlert));
                     return OK;
                 })))
             .then(literal("replayRecording")
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.client.extra.visualRange.replayRecording = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.replayRecording = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Replay Recording " + toggleStrCaps(CONFIG.client.extra.visualRange.replayRecording));
                     return OK;
@@ -202,14 +202,14 @@ public class VisualRangeCommand extends Command {
                             .title("Invalid Replay Recording Mode");
                         return ERROR;
                     } else {
-                        CONFIG.client.extra.visualRange.replayRecordingMode = mode;
+                        com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.replayRecordingMode = mode);
                         c.getSource().getEmbed()
                             .title("Replay Recording Mode Set");
                         return OK;
                     }
                 })))
                 .then(literal("cooldown").then(argument("minutes", integer(0)).executes(c -> {
-                    CONFIG.client.extra.visualRange.replayRecordingCooldownMins = getInteger(c, "minutes");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.visualRange.replayRecordingCooldownMins = getInteger(c, "minutes"));
                     c.getSource().getEmbed()
                         .title("Enemy Replay Recording Cooldown Set");
                     return OK;

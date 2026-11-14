@@ -1,6 +1,7 @@
 package com.zenith.network;
 
 import com.zenith.feature.api.sessionserver.SessionServerApi;
+import com.zenith.feature.passwordlogin.PasswordLoginHelper;
 import com.zenith.network.server.ServerSession;
 import org.geysermc.mcprotocollib.auth.GameProfile;
 import org.geysermc.mcprotocollib.protocol.packet.login.clientbound.ClientboundLoginCompressionPacket;
@@ -25,11 +26,26 @@ public class UserAuthTask implements Runnable {
     @Override
     public void run() {
         GameProfile profile;
-        String expectedUsername = CONFIG.authentication.username;
-        if (CONFIG.authentication.accountType == Config.Authentication.AccountType.OFFLINE) {
-            // verifyUsers = true: only the proxy account owner may connect.
-            // verifyUsers = false (allowOfflinePlayers): accept any username, like an offline-mode server.
-            if (CONFIG.server.verifyUsers && !session.getUsername().equals(expectedUsername)) {
+        final String expectedUsername = CONFIG.authentication.username;
+        final boolean nameProtection = PasswordLoginHelper.nameProtectionActive();
+        if (PasswordLoginHelper.passwordLoginActive() && !session.isPasswordAuthenticated()) {
+            // password login mode: the client has not passed the password check yet.
+            // build an offline profile from the claimed username (no Mojang session verification)
+            // so the client can proceed to the configuration phase where the login dialog / lobby happens.
+            // the name protection can still be layered on top.
+            if (nameProtection && !session.getUsername().equals(expectedUsername)) {
+                this.session.disconnect("Failed to verify username.");
+                System.out.println("[ZenithProxy] 登入失敗：名稱不匹配！預期: " + expectedUsername + "，收到: " + session.getUsername());
+                return;
+            }
+
+            UUID offlineUUID = Config.Authentication.generateOfflineUUID(session.getUsername());
+            String displayName = session.getUsername();
+            profile = new GameProfile(offlineUUID, displayName);
+            System.out.println("[ZenithProxy] 等待密碼驗證 - Username: " + displayName);
+        } else if (CONFIG.authentication.accountType == Config.Authentication.AccountType.OFFLINE) {
+            // name protection: only the proxy account owner (by username) may connect.
+            if (nameProtection && !session.getUsername().equals(expectedUsername)) {
                 this.session.disconnect("Failed to verify username.");
                 System.out.println("[ZenithProxy] 登入失敗：名稱不匹配！預期: " + expectedUsername + "，收到: " + session.getUsername());
                 return;
@@ -54,10 +70,22 @@ public class UserAuthTask implements Runnable {
                 return;
             }
             profile = response.get();
+            // premium clients: the Mojang-verified profile name must match the proxy account name
+            // (this fixes the case where name protection was skipped for premium accounts)
+            if (nameProtection && !profile.getName().equals(expectedUsername)) {
+                this.session.disconnect("Failed to verify username.");
+                System.out.println("[ZenithProxy] 登入失敗：名稱不匹配！預期: " + expectedUsername + "，收到: " + profile.getName());
+                return;
+            }
         } 
         else {
             if (CONFIG.server.verifyUsers) {
                 this.session.disconnect("No encryption key!");
+                return;
+            }
+            if (nameProtection && !session.getUsername().equals(expectedUsername)) {
+                this.session.disconnect("Failed to verify username.");
+                System.out.println("[ZenithProxy] 登入失敗：名稱不匹配！預期: " + expectedUsername + "，收到: " + session.getUsername());
                 return;
             }
 

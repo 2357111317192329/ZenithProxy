@@ -63,7 +63,7 @@ public class PluginsCommand extends Command {
                     // todo: consider blocking discord source by default, overridable by config
                     && Command.validateCommandSource(c, List.of(CommandSources.TERMINAL, CommandSources.DISCORD)))
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.plugins.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.plugins.enabled = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Plugins " + toggleStrCaps(CONFIG.plugins.enabled))
                     .addField("Plugins", toggleStr(CONFIG.plugins.enabled), false)

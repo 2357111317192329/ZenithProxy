@@ -39,7 +39,7 @@ public class AutoFishCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoFish")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoFish.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoFish.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoFish " + toggleStr(CONFIG.client.extra.autoFish.enabled));
@@ -48,15 +48,15 @@ public class AutoFishCommand extends Command {
             .then(literal("rotation")
                 .then(literal("sync").executes(c -> {
                     // normalize yaw and pitch to -180 to 180 and -90 to 90
-                    CONFIG.client.extra.autoFish.yaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw());
-                    CONFIG.client.extra.autoFish.pitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.yaw = MathHelper.wrapYaw(CACHE.getPlayerCache().getYaw()));
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.pitch = MathHelper.wrapPitch(CACHE.getPlayerCache().getPitch()));
                     c.getSource().getEmbed()
                         .title("Rotation synced to player!");
                 }))
                 .then(argument("rot", rotation()).executes(c -> {
                     Vector2d rot = getRotation(c, "rot");
-                    CONFIG.client.extra.autoFish.yaw = (float) rot.getX();
-                    CONFIG.client.extra.autoFish.pitch = (float) rot.getY();
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.yaw = (float) rot.getX());
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoFish.pitch = (float) rot.getY());
                     c.getSource().getEmbed()
                         .title("Rotation set to " + CONFIG.client.extra.autoFish.yaw + " " + CONFIG.client.extra.autoFish.pitch);
                 })));

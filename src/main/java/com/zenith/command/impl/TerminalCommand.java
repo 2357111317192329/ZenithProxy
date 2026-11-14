@@ -31,23 +31,23 @@ public class TerminalCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("terminal").requires(ctx -> Command.validateCommandSource(ctx, CommandSources.TERMINAL))
             .then(literal("autoCompletions").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.interactiveTerminal.alwaysOnCompletions = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.interactiveTerminal.alwaysOnCompletions = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoCompletions " + toggleStrCaps(CONFIG.interactiveTerminal.alwaysOnCompletions))
                     .addField("Info", "Changes will take effect on next `restart`");
             })))
             .then(literal("logToDiscord").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.interactiveTerminal.logToDiscord = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.interactiveTerminal.logToDiscord = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log To Discord " + toggleStrCaps(CONFIG.interactiveTerminal.logToDiscord));
             })))
             .then(literal("logChatMessages").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.logChatMessages = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.logChatMessages = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log Chat Messages " + toggleStrCaps(CONFIG.client.extra.logChatMessages));
             })))
             .then(literal("logOnlyQueuePositionUpdates").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.logOnlyQueuePositionUpdates = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.logOnlyQueuePositionUpdates = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Log Only Queue Pos Updates " + toggleStrCaps(CONFIG.client.extra.logOnlyQueuePositionUpdates));
             })));

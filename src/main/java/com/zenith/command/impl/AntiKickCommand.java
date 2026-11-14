@@ -38,7 +38,7 @@ public class AntiKickCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("antiKick")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.antiKick.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiKick.enabled = getToggle(c, "toggle"));
                 MODULE.get(AntiKick.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AntiKick " + toggleStrCaps(CONFIG.client.extra.antiKick.enabled));
@@ -46,14 +46,14 @@ public class AntiKickCommand extends Command {
             }))
             .then(literal("playerInactivityKickMins")
                       .then(argument("minutes", integer(1, 30)).executes(c -> {
-                          CONFIG.client.extra.antiKick.playerInactivityKickMins = getInteger(c, "minutes");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiKick.playerInactivityKickMins = getInteger(c, "minutes"));
                           c.getSource().getEmbed()
                               .title("Inactivity Time Set!");
                           return OK;
                       })))
             .then(literal("minWalkDistance")
                       .then(argument("blocks", integer(1, 100)).executes(c -> {
-                          CONFIG.client.extra.antiKick.minWalkDistance = getInteger(c, "blocks");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.antiKick.minWalkDistance = getInteger(c, "blocks"));
                           c.getSource().getEmbed()
                               .title("Min Walk Distance Set!");
                           return OK;

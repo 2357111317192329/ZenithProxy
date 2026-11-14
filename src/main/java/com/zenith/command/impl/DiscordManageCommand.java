@@ -56,7 +56,7 @@ public class DiscordManageCommand extends Command {
             .requires(Command::validateAccountOwner)
             .requires(c -> Command.validateCommandSource(c, asList(CommandSources.DISCORD, CommandSources.TERMINAL)))
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.enable = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.enable = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Discord Bot " + toggleStrCaps(CONFIG.discord.enable));
                 if (CONFIG.discord.enable) {
@@ -85,7 +85,8 @@ public class DiscordManageCommand extends Command {
                         .description("Cannot use the same channel ID for both the relay and main channel");
                     return OK;
                 }
-                CONFIG.discord.channelId = channelId;
+                final String finalChannelId = channelId;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.channelId = finalChannelId);
                 c.getSource().getEmbed()
                     .title("Channel set!")
                     .description("Discord bot will now restart if enabled");
@@ -112,7 +113,8 @@ public class DiscordManageCommand extends Command {
                         .description("Cannot use the same channel ID for both the relay and main channel");
                     return OK;
                 }
-                CONFIG.discord.chatRelay.channelId = channelId;
+                final String finalRelayChannelId = channelId;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.chatRelay.channelId = finalRelayChannelId);
                 c.getSource().getEmbed()
                     .title("Relay Channel set!")
                     .description("Discord bot will now restart if enabled");
@@ -130,7 +132,7 @@ public class DiscordManageCommand extends Command {
                         .description("Discord API returned an error during test login\n\n" + escape(result.error()));
                     return ERROR;
                 }
-                CONFIG.discord.token = token;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.token = token);
                 c.getSource().getEmbed()
                     .title("Token set!")
                     .description("Discord bot will now restart if enabled");
@@ -150,43 +152,43 @@ public class DiscordManageCommand extends Command {
                         .description("The role ID provided is invalid");
                     return OK;
                 }
-                CONFIG.discord.accountOwnerRoleId = roleId;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.accountOwnerRoleId = roleId);
                 c.getSource().getEmbed()
                     .title("Role set!");
                 return OK;
             })))
             .then(literal("manageProfileImage").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.manageProfileImage = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.manageProfileImage = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Manage Profile Image " + toggleStrCaps(CONFIG.discord.manageProfileImage));
             })))
             .then(literal("manageNickname").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.manageNickname = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.manageNickname = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Manage Nickname " + toggleStrCaps(CONFIG.discord.manageNickname));
             })))
             .then(literal("manageDescription").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.manageDescription = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.manageDescription = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Manage Description " + toggleStrCaps(CONFIG.discord.manageDescription));
             })))
             .then(literal("managePresence").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.managePresence = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.managePresence = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Manage Presence " + toggleStrCaps(CONFIG.discord.managePresence));
             })))
             .then(literal("showNonWhitelistIP").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.showNonWhitelistLoginIP = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.showNonWhitelistLoginIP = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Show Non-Whitelist IP " + toggleStrCaps(CONFIG.discord.showNonWhitelistLoginIP));
             })))
             .then(literal("ignoreOtherBots").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.ignoreOtherBots = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.ignoreOtherBots = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Ignore Other Bots " + toggleStrCaps(CONFIG.discord.ignoreOtherBots));
             })))
             .then(literal("ignoreWebhooks").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.ignoreWebhooks = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.ignoreWebhooks = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Ignore Webhooks " + toggleStrCaps(CONFIG.discord.ignoreWebhooks));
             })));

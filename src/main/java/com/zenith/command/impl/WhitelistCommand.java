@@ -6,6 +6,7 @@ import com.zenith.Proxy;
 import com.zenith.command.api.Command;
 import com.zenith.command.api.CommandCategory;
 import com.zenith.command.api.CommandContext;
+import com.zenith.command.api.CommandSources;
 import com.zenith.command.api.CommandUsage;
 import com.zenith.discord.Embed;
 
@@ -37,6 +38,7 @@ public class WhitelistCommand extends Command {
             Blacklist is only used and shown if the whitelist or spectator whitelist is disabled (see the `unsupported` command`)
             """)
             .usageLines(
+                "on/off",
                 "add/del <player>",
                 "addAll <player 1>,<player 2>...",
                 "list",
@@ -101,9 +103,40 @@ public class WhitelistCommand extends Command {
                     .title("Whitelist Cleared");
                 Proxy.getInstance().kickNonWhitelistedPlayers();
             }))
+            .then(literal("on")
+                .requires(c -> Command.validateCommandSource(c, CommandSources.TERMINAL))
+                .executes(c -> {
+                    final boolean wasEnabled = CONFIG.server.extra.whitelist.enable;
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.whitelist.enable = true);
+                    c.getSource().getEmbed()
+                        .title("Whitelist On!")
+                        .primaryColor();
+                    // tighten: kick currently connected players that are not whitelisted,
+                    // but only if whitelist actually transitioned from off to on
+                    if (!wasEnabled) {
+                        Proxy.getInstance().kickNonWhitelistedPlayers();
+                        c.getSource().getEmbed()
+                            .description("Kicked all non-whitelisted connected players.");
+                    }
+                    return OK;
+                }))
+            .then(literal("off")
+                .requires(c -> Command.validateCommandSource(c, CommandSources.TERMINAL))
+                .executes(c -> {
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.whitelist.enable = false);
+                    final StringBuilder desc = new StringBuilder("Whitelist disabled. Connecting players are authenticated via name protection and/or password login.");
+                    if (CONFIG.server.passwordLogin.enabled && CONFIG.server.passwordLogin.passwordHash.isEmpty()) {
+                        desc.append("\n\nWARNING: password login is enabled but no password is set - all clients will be rejected until you run `clientConnection passwordLogin set <password>`.");
+                    }
+                    c.getSource().getEmbed()
+                        .title("Whitelist Off!")
+                        .description(desc.toString())
+                        .primaryColor();
+                    return OK;
+                }))
             .then(literal("autoAddZenithAccount").requires(Command::validateAccountOwner)
                 .then(argument("toggle", toggle()).executes(c -> {
-                    CONFIG.server.extra.whitelist.autoAddClient = getToggle(c, "toggle");
+                    com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.extra.whitelist.autoAddClient = getToggle(c, "toggle"));
                     c.getSource().getEmbed()
                         .title("Auto Add Zenith Account " + toggleStrCaps(CONFIG.server.extra.whitelist.autoAddClient));
                 })))
@@ -139,6 +172,7 @@ public class WhitelistCommand extends Command {
         }
         builder
             .description(listStr)
+            .addField("Enabled", toggleStr(CONFIG.server.extra.whitelist.enable))
             .addField("Auto Add Zenith Account", toggleStr(CONFIG.server.extra.whitelist.autoAddClient))
             .primaryColor();
     }

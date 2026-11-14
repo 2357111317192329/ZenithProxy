@@ -144,6 +144,8 @@ Blacklist is only used and shown if the whitelist or spectator whitelist is disa
 
 **Usage**
 
+  ```whitelist on/off```
+
   ```whitelist add/del <player>```
 
   ```whitelist addAll <player 1>,<player 2>...```
@@ -395,6 +397,42 @@ Manages the connection configuration from ZenithProxy to the destination MC serv
   ```clientConnection keepAlive mode <passthrough/independent>```
 
   ```clientConnection keepAlive queueTimeout <ms>```
+
+  ```clientConnection passwordLogin on/off```
+
+  ```clientConnection passwordLogin set <password>```
+
+  ```clientConnection passwordLogin allowUnencrypted on/off```
+
+  ```clientConnection passwordLogin status```
+
+  ```clientConnection passwordLogin lockout on/off```
+
+  ```clientConnection passwordLogin lockout threshold <count>```
+
+  ```clientConnection passwordLogin lockout baseDelay <seconds>```
+
+  ```clientConnection passwordLogin lockout multiplier <factor>```
+
+  ```clientConnection passwordLogin lockout maxDelay <seconds>```
+
+  ```clientConnection passwordLogin lockout status```
+
+  ```clientConnection passwordLogin lockout clear```
+
+  ```clientConnection tempPassword add <minutes>```
+
+  ```clientConnection tempPassword list```
+
+  ```clientConnection tempPassword remove <id>```
+
+  ```clientConnection tempPassword denied add <command>```
+
+  ```clientConnection tempPassword denied remove <command>```
+
+  ```clientConnection tempPassword denied list```
+
+  ```clientConnection nameProtection on/off```
 
 
 ### commandConfig
@@ -922,8 +960,6 @@ No user support will be provided if you modify any of these settings.
 All subcommands are only usable from the terminal.
 
 **Usage**
-
-  ```unsupported whitelist on/off```
 
   ```unsupported spectatorWhitelist on/off```
 
@@ -1848,6 +1884,93 @@ and impact of the offset being discovered.
   ```coordObf blockOffsetsDisconnect on/off```
 
   ```coordObf validateSetup on/off```
+
+
+### dualAccountTp
+
+Dual-account ender pearl teleport helper.
+
+
+
+CLIENT mode sends `/msg <peer> <triggerPrefix> <secretKey>` when an emergency trigger fires.
+
+SERVER mode reads signs near the bot and pulls the trapdoor belonging to the requesting player.
+
+The sign must stand on top of a block, and the player's trapdoor must be adjacent to that block.
+
+
+
+Both instances must use the same triggerPrefix and secretKey.
+
+Requests from players without a matching sign are ignored.
+
+**Aliases:** `dualTp`
+
+**Usage**
+
+  ```dualAccountTp on/off```
+
+  ```dualAccountTp mode <client/server>```
+
+  ```dualAccountTp peer <serverAccountName>```
+
+  ```dualAccountTp key <secret>```
+
+  ```dualAccountTp keyClear```
+
+  ```dualAccountTp trigger```
+
+  ```dualAccountTp test <playerName>```
+
+  ```dualAccountTp chambers```
+
+  ```dualAccountTp rescan```
+
+  ```dualAccountTp cooldown <seconds>```
+
+  ```dualAccountTp movement <stand/walk>```
+
+  ```dualAccountTp targetState <toggle/close/open>```
+
+  ```dualAccountTp retries <1-10>```
+
+  ```dualAccountTp retryDelay <1-50>```
+
+  ```dualAccountTp verifyDelay <1-20>```
+
+  ```dualAccountTp clickPriority <1-1000000>```
+
+  ```dualAccountTp scanRadiusChunks <radius>```
+
+  ```dualAccountTp indexTtl <seconds>```
+
+  ```dualAccountTp health on/off```
+
+  ```dualAccountTp health threshold <0-20>```
+
+  ```dualAccountTp thunder on/off```
+
+  ```dualAccountTp unknownPlayer on/off```
+
+  ```dualAccountTp unknownPlayer enemyListMode on/off```
+
+  ```dualAccountTp unknownPlayer disablein3C3Ulobby on/off```
+
+  ```dualAccountTp totemPop on/off```
+
+  ```dualAccountTp totemPop minTotemsRemaining <count>```
+
+  ```dualAccountTp lowY on/off```
+
+  ```dualAccountTp lowY threshold <y>```
+
+  ```dualAccountTp lowY endOnly on/off```
+
+  ```dualAccountTp whilePlayerConnected on/off```
+
+  ```dualAccountTp sendAck on/off```
+
+  ```dualAccountTp replyOnFailure on/off```
 
 
 ### extraChat

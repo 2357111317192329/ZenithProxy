@@ -39,7 +39,7 @@ public class AutoReplyCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoReply")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoReply.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoReply.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoReply.class).syncEnabledFromConfig();
                 c.getSource().getEmbed()
                     .title("AutoReply " + toggleStrCaps(CONFIG.client.extra.autoReply.enabled));
@@ -56,7 +56,8 @@ public class AutoReplyCommand extends Command {
                 String message = ChatUtil.sanitizeChatMessage(StringArgumentType.getString(c, "messageStr"));
                 if (message.length() > 236)
                     message = message.substring(0, 236);
-                CONFIG.client.extra.autoReply.message = message;
+                final String trimmedMessage = message;
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoReply.message = trimmedMessage);
                 c.getSource().getEmbed()
                     .title("AutoReply Message Updated!");
                 return OK;

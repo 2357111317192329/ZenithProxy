@@ -68,7 +68,7 @@ This project is also used by the [2b2t.vc API](https://api.2b2t.vc) and [Discord
 https://wiki.2b2t.vc/Setup/
 
 ## 離線模式使用
-auth type offline  (使用離線模式，正常模式為deviceCode)
+auth type offline  (使用離線模式，正常模式為 deviceCode / emailAndPassword / prism)
 
 auth username \<username\>    (玩家名稱，需注意此指令也會更改正常模式的玩家名稱)
 
@@ -76,7 +76,15 @@ auth serverPassword \<password\>   (離線模式所用的密碼，會在進服�
 
 auth serverLoginRequired on   (離線模式需要開啟這個，但正常模式時可以保持這個為on沒關係，程式會自己限制只在離線模式時啟用)
 
-unsupported whitelist off     (必須將白名單模式關閉才能使客戶端能夠正常接管)
+whitelist off     (必須將白名單模式關閉才能使客戶端能夠正常接管；此指令僅限控制台使用)
+
+clientConnection passwordLogin on/off   (白名單關閉後，客戶端連線需輸入密碼驗證。可透過 clientConnection passwordLogin set \<password\> 設定密碼；
+   若不想要求客戶端輸入密碼，直接設為 off 即可)
+
+clientConnection nameProtection on/off   (白名單關閉後，客戶端必須使用與 bot 相同的玩家名稱連線才能接管；預設為 on)
+
+clientConnection passwordLogin lockout on/off   (密碼保護的防暴力破解，可調整 threshold/baseDelay/multiplier/maxDelay，
+   詳見 clientConnection passwordLogin lockout status)
 
 autoUpdate off    (關閉自動更新以避免ZenithProxy.jar被覆蓋)
 

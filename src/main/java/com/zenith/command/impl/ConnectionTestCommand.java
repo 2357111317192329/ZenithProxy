@@ -131,7 +131,7 @@ public class ConnectionTestCommand extends Command {
             }))
             .then(literal("testOnStart")
                       .then(argument("toggle", toggle()).executes(c -> {
-                          CONFIG.server.connectionTestOnStart = getToggle(c, "toggle");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.server.connectionTestOnStart = getToggle(c, "toggle"));
                           c.getSource().getEmbed()
                               .title("Connection Test On Start " + toggleStrCaps(CONFIG.server.connectionTestOnStart))
                               .primaryColor();

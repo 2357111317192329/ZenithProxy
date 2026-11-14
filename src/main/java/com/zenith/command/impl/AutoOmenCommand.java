@@ -38,28 +38,28 @@ public class AutoOmenCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoOmen")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoOmen.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.enabled = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoOmen " + toggleStrCaps(CONFIG.client.extra.autoOmen.enabled));
                 MODULE.get(AutoOmen.class).syncEnabledFromConfig();
             }))
             .then(literal("whileRaidActive").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoOmen.whileRaidActive = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.whileRaidActive = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoOmen While Raid Active " + toggleStrCaps(CONFIG.client.extra.autoOmen.whileRaidActive));
             })))
             .then(literal("whileOmenActive").then(argument("toggle", toggle()).executes(c -> {;
-                CONFIG.client.extra.autoOmen.whileOmenActive = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.whileOmenActive = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("AutoOmen While Omen Active " + toggleStrCaps(CONFIG.client.extra.autoOmen.whileOmenActive));
             })))
             .then(literal("raidCooldown").then(argument("ms", integer(1)).executes(c -> {
-                CONFIG.client.extra.autoOmen.raidCooldownMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.raidCooldownMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Raid Cooldown Set");
             })))
             .then(literal("omenCooldown").then(argument("ms", integer(1)).executes(c -> {
-                CONFIG.client.extra.autoOmen.omenCooldownMs = getInteger(c, "ms");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoOmen.omenCooldownMs = getInteger(c, "ms"));
                 c.getSource().getEmbed()
                     .title("Omen Cooldown Set");
             })));

@@ -36,7 +36,7 @@ public class AutoReconnectCommand extends Command {
     public LiteralArgumentBuilder<CommandContext> register() {
         return command("autoReconnect")
             .then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.client.extra.autoReconnect.enabled = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoReconnect.enabled = getToggle(c, "toggle"));
                 MODULE.get(AutoReconnect.class).syncEnabledFromConfig();
                 MODULE.get(AutoReconnect.class).cancelAutoReconnect();
                 c.getSource().getEmbed()
@@ -45,14 +45,14 @@ public class AutoReconnectCommand extends Command {
             }))
             .then(literal("delay")
                       .then(argument("delaySec", integer(0, 1000)).executes(c -> {
-                          CONFIG.client.extra.autoReconnect.delaySeconds = IntegerArgumentType.getInteger(c, "delaySec");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoReconnect.delaySeconds = IntegerArgumentType.getInteger(c, "delaySec"));
                           c.getSource().getEmbed()
                               .title("AutoReconnect Delay Updated!");
                           return OK;
                       })))
             .then(literal("maxAttempts")
                       .then(argument("maxAttempts", integer(1)).executes(c -> {
-                          CONFIG.client.extra.autoReconnect.maxAttempts = IntegerArgumentType.getInteger(c, "maxAttempts");
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.client.extra.autoReconnect.maxAttempts = IntegerArgumentType.getInteger(c, "maxAttempts"));
                           c.getSource().getEmbed()
                               .title("AutoReconnect Max Attempts Updated!");
                           return OK;

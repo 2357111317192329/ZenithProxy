@@ -69,91 +69,92 @@ public class DiscordNotificationsCommand extends Command {
                                   .title("Invalid role ID");
                               return OK;
                           }
-                          CONFIG.discord.notificationMentionRoleId = roleStr;
+                          final String finalRoleStr = roleStr;
+                          com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.notificationMentionRoleId = finalRoleStr);
                           c.getSource().getEmbed()
                               .title("Notification Role Set");
                           return OK;
                       })))
                       .then(literal("reset").executes(c -> {
-                            CONFIG.discord.notificationMentionRoleId = "";
+                            com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.notificationMentionRoleId = "");
                             c.getSource().getEmbed()
                                 .title("Notification Role Reset");
                             return OK;
                       })))
             .then(literal("connect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnConnect = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnConnect = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Connect Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnConnect));
                 return OK;
             }))))
             .then(literal("online").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnPlayerOnline = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnPlayerOnline = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Online Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnPlayerOnline));
                 return OK;
             }))))
             .then(literal("disconnect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnDisconnect = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnDisconnect = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Disconnect Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnDisconnect));
                 return OK;
             }))))
             .then(literal("startQueue").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnStartQueue = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnStartQueue = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Start Queue Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnStartQueue));
                 return OK;
             }))))
             .then(literal("death").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnDeath = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnDeath = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Death Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnDeath));
                 return OK;
             }))))
             .then(literal("serverRestart").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnServerRestart = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnServerRestart = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Server Restart Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnServerRestart));
                 return OK;
             }))))
             .then(literal("loginFailed").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionRoleOnLoginFailed = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionRoleOnLoginFailed = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Login Failed Mention " + toggleStrCaps(CONFIG.discord.mentionRoleOnLoginFailed));
                 return OK;
             }))))
             .then(literal("clientConnect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionOnClientConnected = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionOnClientConnected = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Client Connect Mention " + toggleStrCaps(CONFIG.discord.mentionOnClientConnected));
                 return OK;
             }))))
             .then(literal("clientDisconnect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionOnClientDisconnected = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionOnClientDisconnected = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Client Disconnect Mention " + toggleStrCaps(CONFIG.discord.mentionOnClientDisconnected));
                 return OK;
             }))))
             .then(literal("spectatorConnect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionOnSpectatorConnected = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionOnSpectatorConnected = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Spectator Connect Mention " + toggleStrCaps(CONFIG.discord.mentionOnSpectatorConnected));
                 return OK;
             }))))
             .then(literal("spectatorDisconnect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionOnSpectatorDisconnected = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionOnSpectatorDisconnected = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Spectator Disconnect Mention " + toggleStrCaps(CONFIG.discord.mentionOnSpectatorDisconnected));
                 return OK;
             }))))
             .then(literal("nonWhitelistedConnect").then(literal("mention").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mentionOnNonWhitelistedClientConnected = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mentionOnNonWhitelistedClientConnected = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("Non Whitelisted Connect Mention " + toggleStrCaps(CONFIG.discord.mentionOnNonWhitelistedClientConnected));
                 return OK;
             }))))
             .then(literal("mcVersionMismatchWarning").then(argument("toggle", toggle()).executes(c -> {
-                CONFIG.discord.mcVersionMismatchWarning = getToggle(c, "toggle");
+                com.zenith.util.config.ConfigManager.modify(cfg -> cfg.discord.mcVersionMismatchWarning = getToggle(c, "toggle"));
                 c.getSource().getEmbed()
                     .title("MC Version Mismatch Warning " + toggleStrCaps(CONFIG.discord.mcVersionMismatchWarning));
                 return OK;

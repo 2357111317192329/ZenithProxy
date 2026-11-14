@@ -27,6 +27,7 @@ import org.geysermc.mcprotocollib.protocol.codec.MinecraftPacket;
 import org.geysermc.mcprotocollib.protocol.data.ProtocolState;
 import org.geysermc.mcprotocollib.protocol.packet.common.clientbound.*;
 import org.geysermc.mcprotocollib.protocol.packet.common.serverbound.ServerboundClientInformationPacket;
+import org.geysermc.mcprotocollib.protocol.packet.common.serverbound.ServerboundCustomClickActionPacket;
 import org.geysermc.mcprotocollib.protocol.packet.common.serverbound.ServerboundKeepAlivePacket;
 import org.geysermc.mcprotocollib.protocol.packet.common.serverbound.ServerboundPongPacket;
 import org.geysermc.mcprotocollib.protocol.packet.configuration.clientbound.*;
@@ -304,6 +305,7 @@ public final class PacketCodecRegistries {
             .state(ProtocolState.CONFIGURATION, PacketHandlerStateCodec.serverBuilder()
                 .inbound(ServerboundFinishConfigurationPacket.class, new FinishConfigurationHandler())
                 .inbound(ServerboundClientInformationPacket.class, SClientInformationHandler.INSTANCE)
+                .inbound(ServerboundCustomClickActionPacket.class, new SLoginCustomClickActionHandler())
                 .outbound(ClientboundKeepAlivePacket.class, KeepAliveOutgoingHandler.INSTANCE)
                 .postOutbound(ClientboundFinishConfigurationPacket.class, new ClientFinishConfigurationPostOutgoingHandler())
                 .build())
@@ -339,6 +341,17 @@ public final class PacketCodecRegistries {
                 .build())
             .build();
 
+        final PacketHandlerCodec SERVER_LOBBY_CODEC = PacketHandlerCodec.serverBuilder()
+            .setId("server-lobby")
+            .setPriority(3)
+            .setActivePredicate(ServerSession::isInLoginLobby)
+            .state(ProtocolState.GAME, PacketHandlerStateCodec.serverBuilder()
+                .inbound(ServerboundChatCommandPacket.class, new SLoginChatCommandHandler())
+                .inbound(ServerboundChatCommandSignedPacket.class, new SLoginChatCommandSignedHandler())
+                .inbound(ServerboundChatPacket.class, new SLoginLobbyChatIgnoreHandler())
+                .build())
+            .build();
+
         final PacketHandlerCodec CLIENT_PACKETLOG = new PacketLogPacketHandlerCodec(
             "client-packet-log",
             CLIENT_LOG,
@@ -356,6 +369,7 @@ public final class PacketCodecRegistries {
         SERVER_REGISTRY.register(SERVER_PLAYER_CODEC);
         SERVER_REGISTRY.register(SERVER_SPECTATOR_CODEC);
         SERVER_REGISTRY.register(SERVER_SHARED_CODEC);
+        SERVER_REGISTRY.register(SERVER_LOBBY_CODEC);
         SERVER_REGISTRY.register(SERVER_PACKETLOG);
     }
 }

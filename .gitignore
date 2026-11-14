@@ -38,3 +38,6 @@ buildSrc/build
 .python-version
 src/launcher/uv.lock
 src/launcher/pyproject.toml
+
+#agent
+AGENTS.md
