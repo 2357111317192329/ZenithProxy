@@ -47,13 +47,24 @@ public class DebugCommand extends Command {
                 "kickDisconnect on/off",
                 "dc",
                 "debugLogs on/off",
+                "terminalDebugLogs on/off",
                 "chunkCacheFullbright on/off",
+                "maxCachedMaps <count>",
+                "binaryNbtComponentSerializer on/off",
                 "defaultClientRenderDistance <int>",
+                "inventorySyncOnLogin on/off",
+                "gui",
                 "lockFile on/off",
                 "uploadLog",
                 "uploadDebugLog",
                 "uploadLauncherLog",
-                "passthroughResourcePacks on/off"
+                "passthroughResourcePacks on/off",
+                "inputManagerDebugLogs on/off",
+                "botPitchPrecisionClamping on/off",
+                "botRotateBeforeInteract on/off",
+                "inventoryRequestServerSyncOnAction on/off",
+                "chainBreakSpeed2b2tFix on/off",
+                "entityPushing on/off"
             )
             .build();
     }

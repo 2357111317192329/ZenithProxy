@@ -17,6 +17,7 @@ public class ShutdownCommand extends Command {
             .description("""
                 Shuts down ZenithProxy, without letting the launcher restart it.
                 """)
+            .usageLines("")
             .aliases("exit")
             .build();
     }

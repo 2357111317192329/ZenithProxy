@@ -18,6 +18,7 @@ public class SpectatorPlayerCamCommand extends Command {
             .name("playerCam")
             .category(CommandCategory.MANAGE)
             .description("Toggles spectators between player and entity cameras. Only usable by spectators")
+            .usageLines("")
             .build();
     }
 

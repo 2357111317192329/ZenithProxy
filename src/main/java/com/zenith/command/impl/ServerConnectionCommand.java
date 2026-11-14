@@ -56,6 +56,8 @@ public class ServerConnectionCommand extends Command {
                 "timeout on/off",
                 "timeout <seconds>",
                 "autoConnectOnLogin on/off",
+                "injectTablistFooter on/off",
+                "welcomeMessages on/off",
                 "updateServerIcon on/off",
                 "chatSigning mode <disguised/passthrough/system>",
                 "preferLoginAsController on/off"

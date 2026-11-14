@@ -29,7 +29,9 @@ public class AutoOmenCommand extends Command {
             .usageLines(
                 "on/off",
                 "whileRaidActive on/off",
-                "whileOmenActive on/off"
+                "whileOmenActive on/off",
+                "raidCooldown <ms>",
+                "omenCooldown <ms>"
             )
             .build();
     }

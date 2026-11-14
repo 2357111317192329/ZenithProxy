@@ -48,6 +48,7 @@ public class ClientConnectionCommand extends Command {
                 "timeout on/off",
                 "timeout <seconds>",
                 "ping packetInterval <seconds>",
+                "reconfiguringNotification on/off",
                 "keepAlive mode <passthrough/independent>",
                 "keepAlive queueTimeout <ms>",
                 "passwordLogin on/off",

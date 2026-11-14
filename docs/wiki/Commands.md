@@ -123,6 +123,8 @@ Restarts and updates ZenithProxy if `autoUpdate` is enabled
 
   ```update```
 
+  ```update c```
+
 
 ### whitelist
 
@@ -228,7 +230,7 @@ Then use `connect` to join.
 
   ```auth openBrowser on/off```
 
-  ```auth maxRefreshIntervalMins <minutes>```
+  ```auth maxRefreshInterval <minutes>```
 
   ```auth useClientConnectionProxy on/off```
 
@@ -394,6 +396,8 @@ Manages the connection configuration from ZenithProxy to the destination MC serv
 
   ```clientConnection ping packetInterval <seconds>```
 
+  ```clientConnection reconfiguringNotification on/off```
+
   ```clientConnection keepAlive mode <passthrough/independent>```
 
   ```clientConnection keepAlive queueTimeout <ms>```
@@ -523,9 +527,19 @@ Debug settings for features in testing or for use in development.
 
   ```debug debugLogs on/off```
 
+  ```debug terminalDebugLogs on/off```
+
   ```debug chunkCacheFullbright on/off```
 
+  ```debug maxCachedMaps <count>```
+
+  ```debug binaryNbtComponentSerializer on/off```
+
   ```debug defaultClientRenderDistance <int>```
+
+  ```debug inventorySyncOnLogin on/off```
+
+  ```debug gui```
 
   ```debug lockFile on/off```
 
@@ -536,6 +550,18 @@ Debug settings for features in testing or for use in development.
   ```debug uploadLauncherLog```
 
   ```debug passthroughResourcePacks on/off```
+
+  ```debug inputManagerDebugLogs on/off```
+
+  ```debug botPitchPrecisionClamping on/off```
+
+  ```debug botRotateBeforeInteract on/off```
+
+  ```debug inventoryRequestServerSyncOnAction on/off```
+
+  ```debug chainBreakSpeed2b2tFix on/off```
+
+  ```debug entityPushing on/off```
 
 
 ### deprecationWarning
@@ -741,7 +767,11 @@ The release channel is a combination of a platform (java or linux) and a Minecra
 
   ```channel set <platform> <minecraft version>```
 
+  ```channel set <platform> <minecraft version> force```
+
   ```channel set <platform> <minecraft version> pre```
+
+  ```channel set <platform> <minecraft version> pre force```
 
 
 ### server
@@ -816,6 +846,10 @@ The `timeout` arguments configures how long until players are kicked due no pack
   ```serverConnection timeout <seconds>```
 
   ```serverConnection autoConnectOnLogin on/off```
+
+  ```serverConnection injectTablistFooter on/off```
+
+  ```serverConnection welcomeMessages on/off```
 
   ```serverConnection updateServerIcon on/off```
 
@@ -1231,6 +1265,10 @@ Debug testing command. Gets the block or entity the player is currently looking 
 
   ```raycast```
 
+  ```raycast e (entity only)```
+
+  ```raycast b (block only)```
+
 
 ### seen
 
@@ -1263,6 +1301,8 @@ Prints the current MC server's player list
   ```tablist```
 
   ```tablist header```
+
+  ```tablist footer```
 
 
 ### waypoints
@@ -1688,6 +1728,10 @@ Useful for raid farms on MC 1.21+ servers.
 
   ```autoOmen whileOmenActive on/off```
 
+  ```autoOmen raidCooldown <ms>```
+
+  ```autoOmen omenCooldown <ms>```
+
 
 ### autoReconnect
 
@@ -1885,6 +1929,10 @@ and impact of the offset being discovered.
 
   ```coordObf validateSetup on/off```
 
+  ```coordObf exemptProxyAccount on/off```
+
+  ```coordObf debugPacketLog on/off```
+
 
 ### dualAccountTp
 
@@ -1993,9 +2041,15 @@ Extra chat features and modifications.
 
   ```extraChat hide2b2tActionBarText on/off```
 
+  ```extraChat logChatMessages on/off```
+
+  ```extraChat logOnlyQueuePositionUpdates on/off```
+
   ```extraChat whisperCommand <command>```
 
   ```extraChat replace2b2tChatCommands on/off```
+
+  ```extraChat ignoreReplace2b2tChatCommandWhileDatabaseOn on/off```
 
   ```extraChat prefix on/off```
 
@@ -2189,6 +2243,118 @@ Baritone pathfinder
   ```pathfinder status```
 
   ```pathfinder settings```
+
+  ```pathfinder radius <blocks>```
+
+  ```pathfinder allowBreak on/off```
+
+  ```pathfinder blockBreakAdditionalCost <cost>```
+
+  ```pathfinder blockPlacementPenalty <cost>```
+
+  ```pathfinder jumpPenalty <cost>```
+
+  ```pathfinder allowSprint on/off```
+
+  ```pathfinder allowPlace on/off```
+
+  ```pathfinder allowInventory on/off```
+
+  ```pathfinder allowDownward on/off```
+
+  ```pathfinder allowParkour on/off```
+
+  ```pathfinder allowParkourPlace on/off```
+
+  ```pathfinder allowParkourAscend on/off```
+
+  ```pathfinder allowDiagonalDescend on/off```
+
+  ```pathfinder allowDiagonalAscend on/off```
+
+  ```pathfinder maxFallHeightNoWater <blocks>```
+
+  ```pathfinder allowLongFall on/off```
+
+  ```pathfinder longFallCostMultiplier <multiplier>```
+
+  ```pathfinder longFallCostAddCost <cost>```
+
+  ```pathfinder primaryTimeoutMs <ms>```
+
+  ```pathfinder failureTimeoutMs <ms>```
+
+  ```pathfinder planAheadPrimaryTimeoutMs <ms>```
+
+  ```pathfinder planAheadFailureTimeoutMs <ms>```
+
+  ```pathfinder failedPathSearchCooldownMs <ms>```
+
+  ```pathfinder renderPath on/off```
+
+  ```pathfinder renderPathIntervalTicks <ticks>```
+
+  ```pathfinder renderPathDetailed on/off```
+
+  ```pathfinder teleportDelay <ticks>```
+
+  ```pathfinder getToBlockExploreForBlocks on/off```
+
+  ```pathfinder getToBlockBlacklistClosestOnFailure on/off```
+
+  ```pathfinder placeBlockVerifyAbleToPlace on/off```
+
+  ```pathfinder placeBlockSneak on/off```
+
+  ```pathfinder interactWithProcessMaxPathTries <count>```
+
+  ```pathfinder avoidUpdatingFallingBlocks on/off```
+
+  ```pathfinder pauseMiningForFallingBlocks on/off```
+
+  ```pathfinder acceptableThrowawayItems list```
+
+  ```pathfinder acceptableThrowawayItems add <item>```
+
+  ```pathfinder acceptableThrowawayItems del <item>```
+
+  ```pathfinder acceptableThrowawayItems clear```
+
+  ```pathfinder allowBreakAnyway list```
+
+  ```pathfinder allowBreakAnyway add <block>```
+
+  ```pathfinder allowBreakAnyway del <block>```
+
+  ```pathfinder allowBreakAnyway clear```
+
+  ```pathfinder blocksToDisallowBreaking list```
+
+  ```pathfinder blocksToDisallowBreaking add <block>```
+
+  ```pathfinder blocksToDisallowBreaking del <block>```
+
+  ```pathfinder blocksToDisallowBreaking clear```
+
+  ```pathfinder blocksToAvoid list```
+
+  ```pathfinder blocksToAvoid add <block>```
+
+  ```pathfinder blocksToAvoid del <block>```
+
+  ```pathfinder blocksToAvoid clear```
+
+  ```pathfinder autoTool on/off```
+
+  ```pathfinder assumeExternalAutoTool on/off```
+
+  ```pathfinder itemSaver on/off```
+
+  ```pathfinder itemSaverThreshold <threshold>```
+
+  ```pathfinder preferSilkTouch on/off```
+
+  ```pathfinder lavaWalkCost <cost>```
 
 
 ### pearlLoader
@@ -2610,11 +2776,15 @@ Configure the integrated ViaVersion module.
 
   ```via zenithToServer disableOn2b2t on/off```
 
+  ```via zenithToServer autoConfig on/off```
+
   ```via zenithToServer version auto```
 
   ```via zenithToServer version <MC version>```
 
   ```via playerToZenith on/off```
+
+  ```via c <via command args>```
 
 
 ### visualRange

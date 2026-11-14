@@ -156,9 +156,19 @@ public abstract class Command {
             context.getEmbed()
                 .title("Invalid command usage");
         }
-        context.getEmbed()
-                .addField("Usage", commandUsage().serialize(context.getSource()), false)
+        var pages = commandUsage().serializeAll(context.getSource());
+        if (!pages.isEmpty()) {
+            context.getEmbed()
+                .addField("Usage", pages.get(0), false)
                 .errorColor();
+            // remaining pages are sent as separate messages (multi-line output channel)
+            for (int i = 1; i < pages.size(); i++) {
+                context.getMultiLineOutput().add(pages.get(i));
+            }
+        } else {
+            context.getEmbed()
+                .errorColor();
+        }
     }
 
     public void defaultExecutionErrorHandler(CommandContext commandContext) {

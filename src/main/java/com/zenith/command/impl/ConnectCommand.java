@@ -18,6 +18,7 @@ public class ConnectCommand extends Command {
             .description("""
              Connects ZenithProxy to the destination MC server
              """)
+            .usageLines("")
             .aliases("c")
             .build();
     }

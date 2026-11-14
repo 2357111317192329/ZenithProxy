@@ -55,7 +55,7 @@ public class AuthCommand extends Command {
                 "serverLoginRequired on/off",
                 "mention on/off",
                 "openBrowser on/off",
-                "maxRefreshIntervalMins <minutes>",
+                "maxRefreshInterval <minutes>",
                 "useClientConnectionProxy on/off",
                 "chatSigning on/off",
                 "chatSigning force on/off",

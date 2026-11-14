@@ -18,6 +18,7 @@ public class DisconnectCommand extends Command {
             .name("disconnect")
             .category(CommandCategory.CORE)
             .description("Disconnects ZenithProxy from the destination MC server")
+            .usageLines("")
             .aliases("dc")
             .build();
     }

@@ -32,9 +32,11 @@ public class ViaVersionCommand extends Command {
             .usageLines(
                 "zenithToServer on/off",
                 "zenithToServer disableOn2b2t on/off",
+                "zenithToServer autoConfig on/off",
                 "zenithToServer version auto",
                 "zenithToServer version <MC version>",
-                "playerToZenith on/off"
+                "playerToZenith on/off",
+                "c <via command args>"
             )
             .build();
     }

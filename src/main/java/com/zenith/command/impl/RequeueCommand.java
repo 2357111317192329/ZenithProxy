@@ -23,6 +23,7 @@ public class RequeueCommand extends Command {
                  
                  Can be useful for resetting player state without having to do a full reconnect
                  """)
+            .usageLines("")
             .build();
     }
 

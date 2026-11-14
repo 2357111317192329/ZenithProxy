@@ -31,7 +31,8 @@ public class TablistCommand extends Command {
             .description("Prints the current MC server's player list")
             .usageLines(
                 "",
-                "header"
+                "header",
+                "footer"
             )
             .aliases("tab")
             .build();

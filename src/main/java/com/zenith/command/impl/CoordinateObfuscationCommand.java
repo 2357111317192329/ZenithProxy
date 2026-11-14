@@ -65,7 +65,9 @@ public class CoordinateObfuscationCommand extends Command {
                 "obfuscateLighting on/off",
                 "eyeOfEnderDisconnect on/off",
                 "blockOffsetsDisconnect on/off",
-                "validateSetup on/off"
+                "validateSetup on/off",
+                "exemptProxyAccount on/off",
+                "debugPacketLog on/off"
             )
             .build();
     }

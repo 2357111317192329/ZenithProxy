@@ -56,7 +56,9 @@ public class ReleaseChannelCommand extends Command {
             .usageLines(
                 "list",
                 "set <platform> <minecraft version>",
-                "set <platform> <minecraft version> pre"
+                "set <platform> <minecraft version> force",
+                "set <platform> <minecraft version> pre",
+                "set <platform> <minecraft version> pre force"
             )
             .aliases(
                 "release",

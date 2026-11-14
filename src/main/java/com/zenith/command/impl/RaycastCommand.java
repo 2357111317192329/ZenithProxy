@@ -20,6 +20,11 @@ public class RaycastCommand extends Command {
             .name("raycast")
             .category(CommandCategory.INFO)
             .description("Debug testing command. Gets the block or entity the player is currently looking at.")
+            .usageLines(
+                "",
+                "e (entity only)",
+                "b (block only)"
+            )
             .build();
     }
 

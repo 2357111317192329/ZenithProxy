@@ -13,6 +13,7 @@ public class SpectatorEntityToggleCommand extends Command {
             .name("entityToggle")
             .category(CommandCategory.MANAGE)
             .description("Toggles the visibility of spectator entities. Only usable by spectators.")
+            .usageLines("")
             .aliases("etoggle")
             .build();
     }

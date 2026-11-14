@@ -90,7 +90,16 @@ public class HelpCommand extends Command {
                 || command.commandUsage().getAliases().stream().anyMatch(a -> a.equalsIgnoreCase(commandName)))
             .findFirst();
         if (foundCommand.isPresent()) {
-            c.getEmbed().description(foundCommand.get().commandUsage().serialize(c.getSource()));
+            final var pages = foundCommand.get().commandUsage().serializeAll(c.getSource());
+            if (pages.isEmpty()) {
+                c.getEmbed().description("Unknown command or category");
+                return;
+            }
+            c.getEmbed().description(pages.get(0));
+            // remaining pages are sent as separate messages (multi-line output channel)
+            for (int i = 1; i < pages.size(); i++) {
+                c.getMultiLineOutput().add(pages.get(i));
+            }
         } else {
             c.getEmbed().description("Unknown command or category");
         }

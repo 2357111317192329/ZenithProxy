@@ -15,6 +15,7 @@ public class LicenseCommand extends Command {
             .name("license")
             .category(CommandCategory.INFO)
             .description("Displays the software license and information about your legal rights")
+            .usageLines("")
             .build();
     }
 

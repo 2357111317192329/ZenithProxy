@@ -24,6 +24,7 @@ public class ReconnectCommand extends Command {
             
             Can be used to perform a reconnect "queue skip" on 2b2t
             """)
+            .usageLines("")
             .build();
     }
 

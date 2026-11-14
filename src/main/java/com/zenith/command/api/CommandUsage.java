@@ -121,6 +121,38 @@ public class CommandUsage {
         return result;
     }
 
+    /**
+     * Full usage serialized as a list of pages. Unlike {@link #serialize(CommandSource)} this never
+     * degrades to the bare command name: long usage lists are split into multiple pages (each page
+     * fits within Discord's 2000-char message limit and the 4096-char embed description limit).
+     * Intended for the "Invalid command usage" output and `help <command>`.
+     */
+    public List<String> serializeAll(CommandSource commandSource) {
+        List<String> lines = new java.util.ArrayList<>();
+        lines.add(this.description);
+        lines.add("**Commands**");
+        for (var usageLine : usageLines) {
+            lines.add(commandSource.commandPrefix() + name + " " + usageLine);
+        }
+        lines.add("");
+        lines.add("[Commands Wiki](https://link.2b2t.vc/0)");
+        final int pageLimit = 1900; // Discord message limit is 2000 chars
+        final List<String> pages = new java.util.ArrayList<>();
+        final StringBuilder current = new StringBuilder();
+        for (final String line : lines) {
+            final String addition = current.length() == 0 ? line : "\n" + line;
+            if (current.length() > 0 && current.length() + addition.length() > pageLimit) {
+                pages.add(current.toString());
+                current.setLength(0);
+                current.append("**Commands**\n").append(line); // continuation page header
+            } else {
+                current.append(addition);
+            }
+        }
+        if (current.length() > 0) pages.add(current.toString());
+        return pages;
+    }
+
     // serializes usage lines only
     public String mediumSerialize(CommandSource commandSource) {
         var result = "**Commands**"
@@ -159,7 +191,11 @@ public class CommandUsage {
         return result;
     }
 
+    // Discord embed description limit is 4096 characters, not 1024.
+    // Using 1024 caused long usage lists (e.g. clientConnection with 33 usage lines) to
+    // degrade all the way down to the bare command name in `help <command>` and in the
+    // "Invalid command usage" output, making the usage impossible to discover without tab-completion.
     private boolean isTooLongForDiscordDescription(String str) {
-        return str.length() > 1024;
+        return str.length() > 4096;
     }
 }

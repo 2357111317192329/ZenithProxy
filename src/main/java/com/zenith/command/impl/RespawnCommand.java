@@ -22,6 +22,7 @@ public class RespawnCommand extends Command {
             .name("respawn")
             .category(CommandCategory.MODULE)
             .description("Performs a respawn")
+            .usageLines("")
             .build();
     }
 
